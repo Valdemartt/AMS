@@ -1,0 +1,426 @@
+
+GraphicalDisplay.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800200  00800200  000002e2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000028e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  000002e2  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000314  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000a8  00000000  00000000  00000354  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000013a5  00000000  00000000  000003fc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000db1  00000000  00000000  000017a1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000653  00000000  00000000  00002552  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000128  00000000  00000000  00002ba8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000694  00000000  00000000  00002cd0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000204  00000000  00000000  00003364  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000088  00000000  00000000  00003568  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	71 c0       	rjmp	.+226    	; 0xe4 <__ctors_end>
+   2:	00 00       	nop
+   4:	79 c0       	rjmp	.+242    	; 0xf8 <__bad_interrupt>
+   6:	00 00       	nop
+   8:	77 c0       	rjmp	.+238    	; 0xf8 <__bad_interrupt>
+   a:	00 00       	nop
+   c:	75 c0       	rjmp	.+234    	; 0xf8 <__bad_interrupt>
+   e:	00 00       	nop
+  10:	73 c0       	rjmp	.+230    	; 0xf8 <__bad_interrupt>
+  12:	00 00       	nop
+  14:	71 c0       	rjmp	.+226    	; 0xf8 <__bad_interrupt>
+  16:	00 00       	nop
+  18:	6f c0       	rjmp	.+222    	; 0xf8 <__bad_interrupt>
+  1a:	00 00       	nop
+  1c:	6d c0       	rjmp	.+218    	; 0xf8 <__bad_interrupt>
+  1e:	00 00       	nop
+  20:	6b c0       	rjmp	.+214    	; 0xf8 <__bad_interrupt>
+  22:	00 00       	nop
+  24:	69 c0       	rjmp	.+210    	; 0xf8 <__bad_interrupt>
+  26:	00 00       	nop
+  28:	67 c0       	rjmp	.+206    	; 0xf8 <__bad_interrupt>
+  2a:	00 00       	nop
+  2c:	65 c0       	rjmp	.+202    	; 0xf8 <__bad_interrupt>
+  2e:	00 00       	nop
+  30:	63 c0       	rjmp	.+198    	; 0xf8 <__bad_interrupt>
+  32:	00 00       	nop
+  34:	61 c0       	rjmp	.+194    	; 0xf8 <__bad_interrupt>
+  36:	00 00       	nop
+  38:	5f c0       	rjmp	.+190    	; 0xf8 <__bad_interrupt>
+  3a:	00 00       	nop
+  3c:	5d c0       	rjmp	.+186    	; 0xf8 <__bad_interrupt>
+  3e:	00 00       	nop
+  40:	5b c0       	rjmp	.+182    	; 0xf8 <__bad_interrupt>
+  42:	00 00       	nop
+  44:	59 c0       	rjmp	.+178    	; 0xf8 <__bad_interrupt>
+  46:	00 00       	nop
+  48:	57 c0       	rjmp	.+174    	; 0xf8 <__bad_interrupt>
+  4a:	00 00       	nop
+  4c:	55 c0       	rjmp	.+170    	; 0xf8 <__bad_interrupt>
+  4e:	00 00       	nop
+  50:	53 c0       	rjmp	.+166    	; 0xf8 <__bad_interrupt>
+  52:	00 00       	nop
+  54:	51 c0       	rjmp	.+162    	; 0xf8 <__bad_interrupt>
+  56:	00 00       	nop
+  58:	4f c0       	rjmp	.+158    	; 0xf8 <__bad_interrupt>
+  5a:	00 00       	nop
+  5c:	4d c0       	rjmp	.+154    	; 0xf8 <__bad_interrupt>
+  5e:	00 00       	nop
+  60:	4b c0       	rjmp	.+150    	; 0xf8 <__bad_interrupt>
+  62:	00 00       	nop
+  64:	49 c0       	rjmp	.+146    	; 0xf8 <__bad_interrupt>
+  66:	00 00       	nop
+  68:	47 c0       	rjmp	.+142    	; 0xf8 <__bad_interrupt>
+  6a:	00 00       	nop
+  6c:	45 c0       	rjmp	.+138    	; 0xf8 <__bad_interrupt>
+  6e:	00 00       	nop
+  70:	43 c0       	rjmp	.+134    	; 0xf8 <__bad_interrupt>
+  72:	00 00       	nop
+  74:	41 c0       	rjmp	.+130    	; 0xf8 <__bad_interrupt>
+  76:	00 00       	nop
+  78:	3f c0       	rjmp	.+126    	; 0xf8 <__bad_interrupt>
+  7a:	00 00       	nop
+  7c:	3d c0       	rjmp	.+122    	; 0xf8 <__bad_interrupt>
+  7e:	00 00       	nop
+  80:	3b c0       	rjmp	.+118    	; 0xf8 <__bad_interrupt>
+  82:	00 00       	nop
+  84:	39 c0       	rjmp	.+114    	; 0xf8 <__bad_interrupt>
+  86:	00 00       	nop
+  88:	37 c0       	rjmp	.+110    	; 0xf8 <__bad_interrupt>
+  8a:	00 00       	nop
+  8c:	35 c0       	rjmp	.+106    	; 0xf8 <__bad_interrupt>
+  8e:	00 00       	nop
+  90:	33 c0       	rjmp	.+102    	; 0xf8 <__bad_interrupt>
+  92:	00 00       	nop
+  94:	31 c0       	rjmp	.+98     	; 0xf8 <__bad_interrupt>
+  96:	00 00       	nop
+  98:	2f c0       	rjmp	.+94     	; 0xf8 <__bad_interrupt>
+  9a:	00 00       	nop
+  9c:	2d c0       	rjmp	.+90     	; 0xf8 <__bad_interrupt>
+  9e:	00 00       	nop
+  a0:	2b c0       	rjmp	.+86     	; 0xf8 <__bad_interrupt>
+  a2:	00 00       	nop
+  a4:	29 c0       	rjmp	.+82     	; 0xf8 <__bad_interrupt>
+  a6:	00 00       	nop
+  a8:	27 c0       	rjmp	.+78     	; 0xf8 <__bad_interrupt>
+  aa:	00 00       	nop
+  ac:	25 c0       	rjmp	.+74     	; 0xf8 <__bad_interrupt>
+  ae:	00 00       	nop
+  b0:	23 c0       	rjmp	.+70     	; 0xf8 <__bad_interrupt>
+  b2:	00 00       	nop
+  b4:	21 c0       	rjmp	.+66     	; 0xf8 <__bad_interrupt>
+  b6:	00 00       	nop
+  b8:	1f c0       	rjmp	.+62     	; 0xf8 <__bad_interrupt>
+  ba:	00 00       	nop
+  bc:	1d c0       	rjmp	.+58     	; 0xf8 <__bad_interrupt>
+  be:	00 00       	nop
+  c0:	1b c0       	rjmp	.+54     	; 0xf8 <__bad_interrupt>
+  c2:	00 00       	nop
+  c4:	19 c0       	rjmp	.+50     	; 0xf8 <__bad_interrupt>
+  c6:	00 00       	nop
+  c8:	17 c0       	rjmp	.+46     	; 0xf8 <__bad_interrupt>
+  ca:	00 00       	nop
+  cc:	15 c0       	rjmp	.+42     	; 0xf8 <__bad_interrupt>
+  ce:	00 00       	nop
+  d0:	13 c0       	rjmp	.+38     	; 0xf8 <__bad_interrupt>
+  d2:	00 00       	nop
+  d4:	11 c0       	rjmp	.+34     	; 0xf8 <__bad_interrupt>
+  d6:	00 00       	nop
+  d8:	0f c0       	rjmp	.+30     	; 0xf8 <__bad_interrupt>
+  da:	00 00       	nop
+  dc:	0d c0       	rjmp	.+26     	; 0xf8 <__bad_interrupt>
+  de:	00 00       	nop
+  e0:	0b c0       	rjmp	.+22     	; 0xf8 <__bad_interrupt>
+	...
+
+000000e4 <__ctors_end>:
+  e4:	11 24       	eor	r1, r1
+  e6:	1f be       	out	0x3f, r1	; 63
+  e8:	cf ef       	ldi	r28, 0xFF	; 255
+  ea:	d1 e2       	ldi	r29, 0x21	; 33
+  ec:	de bf       	out	0x3e, r29	; 62
+  ee:	cd bf       	out	0x3d, r28	; 61
+  f0:	00 e0       	ldi	r16, 0x00	; 0
+  f2:	0c bf       	out	0x3c, r16	; 60
+  f4:	7c d0       	rcall	.+248    	; 0x1ee <main>
+  f6:	c9 c0       	rjmp	.+402    	; 0x28a <_exit>
+
+000000f8 <__bad_interrupt>:
+  f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
+
+000000fa <WriteCommand>:
+{
+}
+
+// Set Page Address (0-319), Start > End
+void SetPageAddress(unsigned int Start, unsigned int End)
+{
+  fa:	5f 98       	cbi	0x0b, 7	; 11
+  fc:	88 b9       	out	0x08, r24	; 8
+  fe:	a2 98       	cbi	0x14, 2	; 20
+ 100:	00 00       	nop
+ 102:	a2 9a       	sbi	0x14, 2	; 20
+ 104:	00 00       	nop
+ 106:	08 95       	ret
+
+00000108 <WriteData>:
+ 108:	5f 9a       	sbi	0x0b, 7	; 11
+ 10a:	12 b8       	out	0x02, r1	; 2
+ 10c:	88 b9       	out	0x08, r24	; 8
+ 10e:	a2 98       	cbi	0x14, 2	; 20
+ 110:	00 00       	nop
+ 112:	a2 9a       	sbi	0x14, 2	; 20
+ 114:	00 00       	nop
+ 116:	08 95       	ret
+
+00000118 <DisplayOff>:
+ 118:	88 e2       	ldi	r24, 0x28	; 40
+ 11a:	90 e0       	ldi	r25, 0x00	; 0
+ 11c:	ee cf       	rjmp	.-36     	; 0xfa <WriteCommand>
+ 11e:	08 95       	ret
+
+00000120 <DisplayOn>:
+ 120:	89 e2       	ldi	r24, 0x29	; 41
+ 122:	90 e0       	ldi	r25, 0x00	; 0
+ 124:	ea cf       	rjmp	.-44     	; 0xfa <WriteCommand>
+ 126:	08 95       	ret
+
+00000128 <SleepOut>:
+ 128:	81 e1       	ldi	r24, 0x11	; 17
+ 12a:	90 e0       	ldi	r25, 0x00	; 0
+ 12c:	e6 df       	rcall	.-52     	; 0xfa <WriteCommand>
+ 12e:	8f e3       	ldi	r24, 0x3F	; 63
+ 130:	9c e9       	ldi	r25, 0x9C	; 156
+ 132:	01 97       	sbiw	r24, 0x01	; 1
+ 134:	f1 f7       	brne	.-4      	; 0x132 <SleepOut+0xa>
+ 136:	00 c0       	rjmp	.+0      	; 0x138 <SleepOut+0x10>
+ 138:	00 00       	nop
+ 13a:	08 95       	ret
+
+0000013c <Reset>:
+ 13c:	24 b3       	in	r18, 0x14	; 20
+ 13e:	44 b3       	in	r20, 0x14	; 20
+ 140:	81 e0       	ldi	r24, 0x01	; 1
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	bc 01       	movw	r22, r24
+ 146:	02 c0       	rjmp	.+4      	; 0x14c <Reset+0x10>
+ 148:	66 0f       	add	r22, r22
+ 14a:	77 1f       	adc	r23, r23
+ 14c:	2a 95       	dec	r18
+ 14e:	e2 f7       	brpl	.-8      	; 0x148 <Reset+0xc>
+ 150:	9b 01       	movw	r18, r22
+ 152:	20 95       	com	r18
+ 154:	30 95       	com	r19
+ 156:	24 23       	and	r18, r20
+ 158:	24 bb       	out	0x14, r18	; 20
+ 15a:	7f ef       	ldi	r23, 0xFF	; 255
+ 15c:	29 e6       	ldi	r18, 0x69	; 105
+ 15e:	38 e1       	ldi	r19, 0x18	; 24
+ 160:	71 50       	subi	r23, 0x01	; 1
+ 162:	20 40       	sbci	r18, 0x00	; 0
+ 164:	30 40       	sbci	r19, 0x00	; 0
+ 166:	e1 f7       	brne	.-8      	; 0x160 <Reset+0x24>
+ 168:	00 c0       	rjmp	.+0      	; 0x16a <Reset+0x2e>
+ 16a:	00 00       	nop
+ 16c:	34 b3       	in	r19, 0x14	; 20
+ 16e:	24 b3       	in	r18, 0x14	; 20
+ 170:	02 c0       	rjmp	.+4      	; 0x176 <Reset+0x3a>
+ 172:	88 0f       	add	r24, r24
+ 174:	99 1f       	adc	r25, r25
+ 176:	3a 95       	dec	r19
+ 178:	e2 f7       	brpl	.-8      	; 0x172 <Reset+0x36>
+ 17a:	82 2b       	or	r24, r18
+ 17c:	84 bb       	out	0x14, r24	; 20
+ 17e:	4f ef       	ldi	r20, 0xFF	; 255
+ 180:	61 ee       	ldi	r22, 0xE1	; 225
+ 182:	74 e0       	ldi	r23, 0x04	; 4
+ 184:	41 50       	subi	r20, 0x01	; 1
+ 186:	60 40       	sbci	r22, 0x00	; 0
+ 188:	70 40       	sbci	r23, 0x00	; 0
+ 18a:	e1 f7       	brne	.-8      	; 0x184 <Reset+0x48>
+ 18c:	00 c0       	rjmp	.+0      	; 0x18e <Reset+0x52>
+ 18e:	00 00       	nop
+ 190:	08 95       	ret
+
+00000192 <MemoryAccessControl>:
+ 192:	cf 93       	push	r28
+ 194:	c8 2f       	mov	r28, r24
+ 196:	86 e3       	ldi	r24, 0x36	; 54
+ 198:	90 e0       	ldi	r25, 0x00	; 0
+ 19a:	af df       	rcall	.-162    	; 0xfa <WriteCommand>
+ 19c:	8c 2f       	mov	r24, r28
+ 19e:	90 e0       	ldi	r25, 0x00	; 0
+ 1a0:	b3 df       	rcall	.-154    	; 0x108 <WriteData>
+ 1a2:	cf 91       	pop	r28
+ 1a4:	08 95       	ret
+
+000001a6 <InterfacePixelFormat>:
+ 1a6:	cf 93       	push	r28
+ 1a8:	c8 2f       	mov	r28, r24
+ 1aa:	8a e3       	ldi	r24, 0x3A	; 58
+ 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 1ae:	a5 df       	rcall	.-182    	; 0xfa <WriteCommand>
+ 1b0:	8c 2f       	mov	r24, r28
+ 1b2:	90 e0       	ldi	r25, 0x00	; 0
+ 1b4:	a9 df       	rcall	.-174    	; 0x108 <WriteData>
+ 1b6:	cf 91       	pop	r28
+ 1b8:	08 95       	ret
+
+000001ba <DisplayInit>:
+ 1ba:	57 9a       	sbi	0x0a, 7	; 10
+ 1bc:	8f ef       	ldi	r24, 0xFF	; 255
+ 1be:	81 b9       	out	0x01, r24	; 1
+ 1c0:	87 b9       	out	0x07, r24	; 7
+ 1c2:	9a 9a       	sbi	0x13, 2	; 19
+ 1c4:	99 9a       	sbi	0x13, 1	; 19
+ 1c6:	98 9a       	sbi	0x13, 0	; 19
+ 1c8:	5f 9a       	sbi	0x0b, 7	; 11
+ 1ca:	a2 9a       	sbi	0x14, 2	; 20
+ 1cc:	a1 9a       	sbi	0x14, 1	; 20
+ 1ce:	a0 9a       	sbi	0x14, 0	; 20
+ 1d0:	b5 df       	rcall	.-150    	; 0x13c <Reset>
+ 1d2:	aa df       	rcall	.-172    	; 0x128 <SleepOut>
+ 1d4:	a5 df       	rcall	.-182    	; 0x120 <DisplayOn>
+ 1d6:	8f e1       	ldi	r24, 0x1F	; 31
+ 1d8:	9e e4       	ldi	r25, 0x4E	; 78
+ 1da:	01 97       	sbiw	r24, 0x01	; 1
+ 1dc:	f1 f7       	brne	.-4      	; 0x1da <DisplayInit+0x20>
+ 1de:	00 c0       	rjmp	.+0      	; 0x1e0 <DisplayInit+0x26>
+ 1e0:	00 00       	nop
+ 1e2:	88 e0       	ldi	r24, 0x08	; 8
+ 1e4:	d6 df       	rcall	.-84     	; 0x192 <MemoryAccessControl>
+ 1e6:	85 e0       	ldi	r24, 0x05	; 5
+ 1e8:	de cf       	rjmp	.-68     	; 0x1a6 <InterfacePixelFormat>
+ 1ea:	08 95       	ret
+
+000001ec <FillRectangle>:
+// Fills rectangle with specified color
+// (StartX,StartY) = Upper left corner. X horizontal (0-319) , Y vertical (0-239).
+// Height (1-240) is vertical. Width (1-320) is horizontal.
+// R-G-B = 5-6-5 bits.
+void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue)
+{
+ 1ec:	08 95       	ret
+
+000001ee <main>:
+#include "TFTdriver.h"
+
+int main(void)
+{
+  // Initialize the display
+  DisplayInit();
+ 1ee:	e5 df       	rcall	.-54     	; 0x1ba <DisplayInit>
+  // All pixels white (background)
+  FillRectangle(0,0,320,240,31,63,31);
+ 1f0:	0f 2e       	mov	r0, r31
+ 1f2:	ff e1       	ldi	r31, 0x1F	; 31
+ 1f4:	cf 2e       	mov	r12, r31
+ 1f6:	f0 2d       	mov	r31, r0
+ 1f8:	0f 2e       	mov	r0, r31
+ 1fa:	ff e3       	ldi	r31, 0x3F	; 63
+ 1fc:	ef 2e       	mov	r14, r31
+ 1fe:	f0 2d       	mov	r31, r0
+ 200:	0f e1       	ldi	r16, 0x1F	; 31
+ 202:	20 ef       	ldi	r18, 0xF0	; 240
+ 204:	30 e0       	ldi	r19, 0x00	; 0
+ 206:	40 e4       	ldi	r20, 0x40	; 64
+ 208:	51 e0       	ldi	r21, 0x01	; 1
+ 20a:	60 e0       	ldi	r22, 0x00	; 0
+ 20c:	70 e0       	ldi	r23, 0x00	; 0
+ 20e:	80 e0       	ldi	r24, 0x00	; 0
+ 210:	90 e0       	ldi	r25, 0x00	; 0
+ 212:	ec df       	rcall	.-40     	; 0x1ec <FillRectangle>
+  // Draw red parts of danish flag
+  FillRectangle(0,140,100,100,31,0,0);
+ 214:	c1 2c       	mov	r12, r1
+ 216:	e1 2c       	mov	r14, r1
+ 218:	24 e6       	ldi	r18, 0x64	; 100
+ 21a:	30 e0       	ldi	r19, 0x00	; 0
+ 21c:	44 e6       	ldi	r20, 0x64	; 100
+ 21e:	50 e0       	ldi	r21, 0x00	; 0
+ 220:	6c e8       	ldi	r22, 0x8C	; 140
+ 222:	70 e0       	ldi	r23, 0x00	; 0
+ 224:	80 e0       	ldi	r24, 0x00	; 0
+ 226:	90 e0       	ldi	r25, 0x00	; 0
+ 228:	e1 df       	rcall	.-62     	; 0x1ec <FillRectangle>
+  FillRectangle(0,0,100,100,31,0,0);
+ 22a:	24 e6       	ldi	r18, 0x64	; 100
+ 22c:	30 e0       	ldi	r19, 0x00	; 0
+ 22e:	44 e6       	ldi	r20, 0x64	; 100
+ 230:	50 e0       	ldi	r21, 0x00	; 0
+ 232:	60 e0       	ldi	r22, 0x00	; 0
+ 234:	70 e0       	ldi	r23, 0x00	; 0
+ 236:	80 e0       	ldi	r24, 0x00	; 0
+ 238:	90 e0       	ldi	r25, 0x00	; 0
+ 23a:	d8 df       	rcall	.-80     	; 0x1ec <FillRectangle>
+  FillRectangle(140,0,320-140,100,31,0,0);
+ 23c:	24 e6       	ldi	r18, 0x64	; 100
+ 23e:	30 e0       	ldi	r19, 0x00	; 0
+ 240:	44 eb       	ldi	r20, 0xB4	; 180
+ 242:	50 e0       	ldi	r21, 0x00	; 0
+ 244:	60 e0       	ldi	r22, 0x00	; 0
+ 246:	70 e0       	ldi	r23, 0x00	; 0
+ 248:	8c e8       	ldi	r24, 0x8C	; 140
+ 24a:	90 e0       	ldi	r25, 0x00	; 0
+ 24c:	cf df       	rcall	.-98     	; 0x1ec <FillRectangle>
+  FillRectangle(140,140,320-140,100,31,0,0);      
+ 24e:	24 e6       	ldi	r18, 0x64	; 100
+ 250:	30 e0       	ldi	r19, 0x00	; 0
+ 252:	44 eb       	ldi	r20, 0xB4	; 180
+ 254:	50 e0       	ldi	r21, 0x00	; 0
+ 256:	6c e8       	ldi	r22, 0x8C	; 140
+ 258:	70 e0       	ldi	r23, 0x00	; 0
+ 25a:	8c e8       	ldi	r24, 0x8C	; 140
+ 25c:	90 e0       	ldi	r25, 0x00	; 0
+  while(1)
+  {
+    DisplayOn();
+ 25e:	c6 df       	rcall	.-116    	; 0x1ec <FillRectangle>
+ 260:	5f df       	rcall	.-322    	; 0x120 <DisplayOn>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 262:	2f ef       	ldi	r18, 0xFF	; 255
+ 264:	83 ed       	ldi	r24, 0xD3	; 211
+ 266:	90 e3       	ldi	r25, 0x30	; 48
+ 268:	21 50       	subi	r18, 0x01	; 1
+ 26a:	80 40       	sbci	r24, 0x00	; 0
+ 26c:	90 40       	sbci	r25, 0x00	; 0
+ 26e:	e1 f7       	brne	.-8      	; 0x268 <main+0x7a>
+ 270:	00 c0       	rjmp	.+0      	; 0x272 <main+0x84>
+    _delay_ms(1000);
+    DisplayOff();
+ 272:	00 00       	nop
+ 274:	51 df       	rcall	.-350    	; 0x118 <DisplayOff>
+ 276:	2f ef       	ldi	r18, 0xFF	; 255
+ 278:	83 ed       	ldi	r24, 0xD3	; 211
+ 27a:	90 e3       	ldi	r25, 0x30	; 48
+ 27c:	21 50       	subi	r18, 0x01	; 1
+ 27e:	80 40       	sbci	r24, 0x00	; 0
+ 280:	90 40       	sbci	r25, 0x00	; 0
+ 282:	e1 f7       	brne	.-8      	; 0x27c <main+0x8e>
+ 284:	00 c0       	rjmp	.+0      	; 0x286 <main+0x98>
+ 286:	00 00       	nop
+ 288:	eb cf       	rjmp	.-42     	; 0x260 <main+0x72>
+
+0000028a <_exit>:
+ 28a:	f8 94       	cli
+
+0000028c <__stop_program>:
+ 28c:	ff cf       	rjmp	.-2      	; 0x28c <__stop_program>

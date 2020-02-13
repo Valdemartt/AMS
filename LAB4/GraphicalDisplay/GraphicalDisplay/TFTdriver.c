@@ -43,11 +43,36 @@
 // ILI 9341 data sheet, page 238
 void WriteCommand(unsigned int command)
 {
+	//Set command mode
+	DC_PORT &= ~(1<<DC_BIT);
+	//Setup command data
+	DATA_PORT_LOW = command;
+	//Set write to 0 (active)
+	WR_PORT &= ~(1<<WR_BIT);
+	//Wait for cycle 
+	_NOP();
+	//Set to 1 - triggers on rising edge
+	WR_PORT |= (1<<WR_BIT);
+	//Wait for cycle
+	_NOP();
+	
 }
 
 // ILI 9341 data sheet, page 238
 void WriteData(unsigned int data)
 {
+	DC_PORT |= (1<<DC_BIT);
+	//Setup data
+	DATA_PORT_HIGH = (data & 0xFF00);
+	DATA_PORT_LOW = (data & 0xFF);
+	//Enable write port
+	WR_PORT &= ~(1<<WR_BIT);
+	//Cycle
+	_NOP();
+	//Disable write port
+	WR_PORT |= (1<<WR_BIT);
+	//Cycle
+	_NOP();
 }
 
 // PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////
@@ -55,26 +80,70 @@ void WriteData(unsigned int data)
 // Initializes (resets) the display
 void DisplayInit()
 {
+
+	//Set DC pin as output
+	DDRD |= (1<<DC_BIT);
+	//Set port A and C as output for data pins
+	DDRA = 0xff;
+	DDRC = 0xff;
+	//Set write pin as output
+	DDRG |= (1<<WR_BIT);
+	//Set CS bit
+	DDRG |= (1<<CS_BIT);
+	//Set reset pin as output
+	DDRG |= (1<<RST_BIT);
+		
+	DC_PORT |= (1<<DC_BIT);
+	WR_PORT |= (1<<WR_BIT);
+	CS_PORT |= (1<<CS_BIT);
+	RST_PORT |= (1<<RST_BIT);
+	//Set CS to 0 (enable)
+	//CS_PORT &= ~(1<<CS_BIT);
+
+	//Reset and init
+	Reset();
+	SleepOut();
+	DisplayOn();
+	_delay_ms(5);
+	MemoryAccessControl(0b00001000);
+	InterfacePixelFormat(0b00000101);	
+	
 }
 
 void DisplayOff()
 {
+	WriteCommand(0b00101000);
 }
 
 void DisplayOn()
 {
+	WriteCommand(0b00101001);
 }
 
 void SleepOut()
 {
+	WriteCommand(0b00010001);
+	_delay_ms(10);
+}
+
+void Reset()
+{
+	RST_PORT &= ~(1<<RST_PORT);
+	_delay_ms(500);
+	RST_PORT |= (1<<RST_PORT);
+	_delay_ms(100);
 }
 
 void MemoryAccessControl(unsigned char parameter)
 {
+	WriteCommand(0b00110110);
+	WriteData(parameter);
 }
 
 void InterfacePixelFormat(unsigned char parameter)
 {
+	WriteCommand(0b00111010);
+	WriteData(parameter);
 }
 
 void MemoryWrite()

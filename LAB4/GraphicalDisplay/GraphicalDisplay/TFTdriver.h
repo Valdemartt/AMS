@@ -19,6 +19,7 @@
   Henning Hargaard, February 15, 2018
 ************************************************************/  
 void DisplayInit();
+void Reset();
 void DisplayOff();
 void DisplayOn();
 void SleepOut();

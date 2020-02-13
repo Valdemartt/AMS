@@ -202,7 +202,7 @@ void LCDLoadUDC(unsigned char UDCNo, const unsigned char *UDCTab)
 	{
 		sendData(UDCTab[i]);
 	}
-	LCDGotoXY();
+	LCDGotoXY(0,0);
 }
 
 // Selects, if the cursor has to be visible, and if the character at

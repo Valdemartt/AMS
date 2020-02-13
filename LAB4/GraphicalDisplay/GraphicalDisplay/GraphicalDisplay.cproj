@@ -122,7 +122,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.c">
+    <Compile Include="TFTdriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TFTdriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TFTtest.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

@@ -63,7 +63,7 @@ void WriteData(unsigned int data)
 {
 	DC_PORT |= (1<<DC_BIT);
 	//Setup data
-	DATA_PORT_HIGH = (data & 0xFF00);
+	DATA_PORT_HIGH = ((data & 0xFF00)>>8);
 	DATA_PORT_LOW = (data & 0xFF);
 	//Enable write port
 	WR_PORT &= ~(1<<WR_BIT);
@@ -95,7 +95,7 @@ void DisplayInit()
 		
 	DC_PORT |= (1<<DC_BIT);
 	WR_PORT |= (1<<WR_BIT);
-	CS_PORT |= (1<<CS_BIT);
+	CS_PORT &= ~(1<<CS_BIT);
 	RST_PORT |= (1<<RST_BIT);
 	//Set CS to 0 (enable)
 	//CS_PORT &= ~(1<<CS_BIT);
@@ -131,7 +131,7 @@ void Reset()
 	RST_PORT &= ~(1<<RST_PORT);
 	_delay_ms(500);
 	RST_PORT |= (1<<RST_PORT);
-	_delay_ms(100);
+	_delay_ms(130);
 }
 
 void MemoryAccessControl(unsigned char parameter)
@@ -148,21 +148,41 @@ void InterfacePixelFormat(unsigned char parameter)
 
 void MemoryWrite()
 {
+	WriteCommand(0b00101100);
 }
 
 // Red 0-31, Green 0-63, Blue 0-31
 void WritePixel(unsigned char Red, unsigned char Green, unsigned char Blue)
 {
+	unsigned int blue = (0b00011111 & Blue);
+	unsigned int green = (0b00111111 & Green);
+	unsigned int red = (0b00011111 & Red);
+	
+	unsigned int color = 0;
+	color |= blue;
+	color |= (green<<6);
+	color |= (red<<12);
+	WriteData(color);
 }
 
 // Set Column Address (0-239), Start > End
 void SetColumnAddress(unsigned int Start, unsigned int End)
 {
+	WriteCommand(0b00101010);
+	WriteData(Start>>8);
+	WriteData(Start);
+	WriteData(End>>8);
+	WriteData(End);
 }
 
 // Set Page Address (0-319), Start > End
 void SetPageAddress(unsigned int Start, unsigned int End)
 {
+	WriteCommand(0b00101011);
+	WriteData(Start>>8);
+	WriteData(Start);
+	WriteData(End>>8);
+	WriteData(End);
 }
 
 // Fills rectangle with specified color
@@ -171,4 +191,23 @@ void SetPageAddress(unsigned int Start, unsigned int End)
 // R-G-B = 5-6-5 bits.
 void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue)
 {
+	SetPageAddress(StartX, (StartX + Width) - 1);
+	SetColumnAddress(StartY, (StartY + Height) - 1);
+	MemoryWrite();
+	for(int i = 0; i < (Width * Height); ++i)
+	{
+		WritePixel(Red, Green, Blue);	
+	}
+	//Dummy command
+	DisplayInversionOff();
+}
+
+void DisplayInversionOn()
+{
+	WriteCommand(0b00100001);
+}
+
+void DisplayInversionOff()
+{
+	WriteCommand(0b00100000);
 }

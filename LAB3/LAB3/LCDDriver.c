@@ -45,7 +45,6 @@ static void waitBusy(long us)
 static void pulse_E()
 {
   PORTH = (PORTH | 0b01000000); 
-  //waitBusy(0.27);
   _NOP();
   _NOP();
   _NOP();
@@ -90,6 +89,20 @@ static void sendData(unsigned char data)
   _delay_us(50);
 }
 
+static void Timer_2_Init()
+{
+	TCCR2A = 0b10000011;
+	TCCR2B = 0b00000111;
+	OCR2A = 255/4;
+	DDRB |= (1<<4);
+}
+
+static void ADC_Init()
+{
+	ADMUX = 0b01000000;
+	ADCSRA = 0b11100111;
+	ADCSRB = 0;
+}
 //*********************** PUBLIC functions *****************************
 
 // Initializes the display, blanks it and sets "current display position"
@@ -135,6 +148,8 @@ void LCDInit()
   sendInstruction( 0b00000110 );
   // Display ON, cursor and blinking ON
   sendInstruction( 0b00001111 );
+  Timer_2_Init();
+  ADC_Init();
 }
 
 // Blanks the display and sets "current display position" to
@@ -182,12 +197,12 @@ void LCDDispInteger(int i)
 void LCDLoadUDC(unsigned char UDCNo, const unsigned char *UDCTab)
 {
 	int charAddress = UDCNo<<3;		
+	sendInstruction(0b01000000 | charAddress);
 	for(int i = 0; i < 8; ++i)
 	{
-		charAddress += i;
-		sendInstruction(0b01000000 | charAddress);
 		sendData(UDCTab[i]);
 	}
+	LCDGotoXY();
 }
 
 // Selects, if the cursor has to be visible, and if the character at
@@ -233,12 +248,25 @@ void LCDShiftRight()
 // Sets the backlight intensity to "percent" (0-100)
 void setBacklight(unsigned char percent)
 {
-  
+  if(percent <= 100){
+	  OCR2A = (percent*255)/100;
+  }
 }
 
 // Reads the status for the 5 on board keys
 // Returns 0, if no key pressed
 unsigned char readKeys()
 {
-  // To be implemented
+  if(ADCW < 50)
+	return 1;
+  if(ADCW < 195)
+	return 2;
+  if(ADCW < 380)
+	return 3;
+  if(ADCW < 555)
+	return 4;
+  if(ADCW < 790)
+	return 5;
+	
+  return 0;
 }

@@ -89,6 +89,7 @@ static void sendData(unsigned char data)
   _delay_us(50);
 }
 
+
 static void Timer_2_Init()
 {
 	TCCR2A = 0b10000011;
@@ -96,6 +97,7 @@ static void Timer_2_Init()
 	OCR2A = 255/4;
 	DDRB |= (1<<4);
 }
+
 
 static void ADC_Init()
 {
@@ -148,6 +150,7 @@ void LCDInit()
   sendInstruction( 0b00000110 );
   // Display ON, cursor and blinking ON
   sendInstruction( 0b00001111 );
+
   Timer_2_Init();
   ADC_Init();
 }
@@ -196,11 +199,10 @@ void LCDDispInteger(int i)
 // pre-defined in an 8 byte array in FLASH memory
 void LCDLoadUDC(unsigned char UDCNo, const unsigned char *UDCTab)
 {
-	int charAddress = UDCNo<<3;		
-	sendInstruction(0b01000000 | charAddress);
+	sendInstruction(0b01000000 | (UDCNo<<3));
 	for(int i = 0; i < 8; ++i)
 	{
-		sendData(UDCTab[i]);
+		sendData(*UDCTab++);
 	}
 	LCDGotoXY(0,0);
 }
@@ -248,7 +250,8 @@ void LCDShiftRight()
 // Sets the backlight intensity to "percent" (0-100)
 void setBacklight(unsigned char percent)
 {
-  if(percent <= 100){
+  if(percent <= 100)
+  {
 	  OCR2A = (percent*255)/100;
   }
 }

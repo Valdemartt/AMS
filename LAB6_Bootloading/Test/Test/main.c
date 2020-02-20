@@ -6,13 +6,19 @@
  */ 
 
 #include <avr/io.h>
-
+#define F_CPU 16000000
+#include <util/delay.h>
+#include "uart.h"
 
 int main(void)
 {
     /* Replace with your application code */
-    while (1) 
-    {
-    }
+    InitUART(9600, 8, 'N');
+	while(1)
+	{
+		SendString("Oskar er lang");
+		_delay_ms(1000);
+		
+	}
 }
 

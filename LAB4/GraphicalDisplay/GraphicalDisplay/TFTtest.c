@@ -16,8 +16,7 @@ int main(void)
   // Initialize the display
   DisplayInit();
   // All pixels white (background)
-  FillRectangle(0,0,340,180,31,63,31);
-  FillRectangle(0,180,340,60,31,63,31);
+  FillRectangle(0,0,340,240,31,63,31);
   // Draw red parts of danish flag
   FillRectangle(0,140,100,100,31,0,0);
   FillRectangle(0,0,100,100,31,0,0);

@@ -194,7 +194,7 @@ void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width,
 	SetPageAddress(StartX, (StartX + Width) - 1);
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
-	for(int i = 0; i < (Width * Height); ++i)
+	for(long int i = 0; i < (Width * Height); ++i)
 	{
 		WritePixel(Red, Green, Blue);	
 	}

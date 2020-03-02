@@ -8,7 +8,7 @@
 
 void copy_SRAM_To_Flash()
 {
-	
+	asm volatile("ldi r31, 0x1C"); 
 }
 
 void copy_Flash_To_SRAM()

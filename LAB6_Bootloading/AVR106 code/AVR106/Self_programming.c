@@ -124,39 +124,15 @@ unsigned char ReadFlashPage(MyAddressType flashStartAdr, unsigned char *dataPage
 unsigned char WriteFlashByte(MyAddressType flashAddr, unsigned char data)
 {
 	MyAddressType  pageAdr;
-    unsigned char eepromInterruptSettings;
-    if( AddressCheck( flashAddr & ~(PAGESIZE-1) ))
-	{
-		eepromInterruptSettings= EECR & (1<<EERIE); // Stores EEPROM interrupt mask
-        EECR &= ~(1<<EERIE);                        // Disable EEPROM interrupt
-		while(EECR & (1<<EEPROM_program_enable));   // Wait if ongoing EEPROM write
 
-		pageAdr=flashAddr & ~(PAGESIZE-1);          // Gets Flash page address from byte address
 
-		#ifdef __FLASH_RECOVER
-		FlashBackup.status=0;    // Indicate that Flash buffer does not contain data for writing
-		while(EECR & (1<<EEPROM_program_enable));
-		LpmReplaceSpm(flashAddr, data);         // Fills Flash write buffer
-		WriteBufToFlash(ADR_FLASH_BUFFER);      // Writes to Flash recovery buffer
-		FlashBackup.pageNumber = (unsigned int) (pageAdr/PAGESIZE); //Stores page address of data
-		FlashBackup.status = FLASH_BUFFER_FULL_ID; // Indicates that Flash recovery buffer
-                                               // contains unwritten data
-		while(EECR & (1<<EEPROM_program_enable));
-		#endif
+	pageAdr=flashAddr & ~(PAGESIZE-1);          // Gets Flash page address from byte address
+
     LpmReplaceSpm(flashAddr, data);         // Fills Flash write buffer
 	WriteBufToFlash(pageAdr);               // Writes to Flash
-
-    #ifdef __FLASH_RECOVER
-	FlashBackup.status = 0;//Indicates that Flash recovery buffer does not contain unwritten data
-                                           
-		while(EECR & (1<<EEPROM_program_enable));
-    #endif
-
-		EECR |= eepromInterruptSettings;        // Restore EEPROM interrupt mask
 		return TRUE;                            // Return TRUE if address valid for writing
-	}
-  else
-    return FALSE;                           // Return FALSE if address not valid for writing
+
+
 }
 
 /*

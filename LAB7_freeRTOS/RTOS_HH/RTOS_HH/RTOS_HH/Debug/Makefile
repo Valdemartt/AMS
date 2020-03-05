@@ -47,6 +47,7 @@ C_SRCS +=  \
 ../Drivers/led.c \
 ../Drivers/switch.c \
 ../Drivers/uart.c \
+../Process3.c \
 ../RTOS_HH.c \
 ../Source/croutine.c \
 ../Source/list.c \
@@ -67,6 +68,7 @@ OBJS +=  \
 Drivers/led.o \
 Drivers/switch.o \
 Drivers/uart.o \
+Process3.o \
 RTOS_HH.o \
 Source/croutine.o \
 Source/list.o \
@@ -80,6 +82,7 @@ OBJS_AS_ARGS +=  \
 Drivers/led.o \
 Drivers/switch.o \
 Drivers/uart.o \
+Process3.o \
 RTOS_HH.o \
 Source/croutine.o \
 Source/list.o \
@@ -93,6 +96,7 @@ C_DEPS +=  \
 Drivers/led.d \
 Drivers/switch.d \
 Drivers/uart.d \
+Process3.d \
 RTOS_HH.d \
 Source/croutine.d \
 Source/list.d \
@@ -106,6 +110,7 @@ C_DEPS_AS_ARGS +=  \
 Drivers/led.d \
 Drivers/switch.d \
 Drivers/uart.d \
+Process3.d \
 RTOS_HH.d \
 Source/croutine.d \
 Source/list.d \
@@ -144,6 +149,13 @@ Drivers/switch.o: ../Drivers/switch.c
 	
 
 Drivers/uart.o: ../Drivers/uart.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"../Source/include" -I"../Source/portable/GCC/ATMega2560" -I"../Drivers" -I".." -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./Process3.o: .././Process3.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -I"../Source/include" -I"../Source/portable/GCC/ATMega2560" -I"../Drivers" -I".." -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

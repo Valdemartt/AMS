@@ -8,6 +8,8 @@ Drivers\switch.c
 
 Drivers\uart.c
 
+Process3.c
+
 RTOS_HH.c
 
 Source\croutine.c

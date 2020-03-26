@@ -12,7 +12,11 @@
 class Position
 {
 public:
-	void Position(int x, int y)
+	Position()
+	{
+		
+	}
+	Position(int x, int y)
 	{
 		setX(x);
 		setY(y);

@@ -9,20 +9,50 @@
 #ifndef TOUCHDRIVER_H_
 #define TOUCHDRIVER_H_
 
-#include "TouchDriver/Position.h"
+#include "Position.h"
+#include <avr/io.h>
 
+#define sbi_one(b,n) ((b) |= (1<<(n)))			// Set bit number n in byte b
+#define cbi_one(b,n) ((b) &= (~(1<<(n))))		// Clear bit number n in byte b
+#define rbi_ne(b,n) ((b) & (1<<(n)))			// Read bit number n in byte b
+#define cbi(b, n) b &= ~n						// Clear bits from n in byte b
+#define sbi(b, n) b |= n						// Set bits from n in byte b
+#define rbi(b, n) ((b) & n)					// Read bits from n in byte b
+
+#define CLK_PORT PORTH
+#define CLK_PIN 3
+#define CLK_DDR DDRH
+#define CS_PORT PORTE
+#define CS_PIN 3
+#define CS_DDR DDRE
+#define DIN_PORT PORTG
+#define DIN_PIN 5
+#define DIN_DDR DDRG
+#define DOUT_PORT PORTE
+#define DOUT_PIN 5
+#define DOUT_DDR DDRE
+#define IRQ_PORT PORTE
+#define IRQ_PIN 4
+#define IRQ_DDR DDRE
+
+#define ADC_RES_MAX 4096
+#define ADC_RES_MIN 0
 
 class TouchDriver
 {
 public:
+	TouchDriver();
 	void InitTouch();
 	void Calibrate();
 	Position getPosition();
-	
+	void Read();
+private:
+	bool ScreenTouched();
+	void WriteData(unsigned char data);
+	int16_t ReadData();
+	void ClockPulse();
+	void ClearClock();
+	int16_t X,Y;
+	Position position;
 };
-
-
-
-
-
 #endif /* TOUCHDRIVER_H_ */

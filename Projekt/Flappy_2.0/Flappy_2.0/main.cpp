@@ -5,24 +5,46 @@
  * Author : math0
  */ 
 
+
+#define F_CPU 16000000
+
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include "TouchDriver/TouchDriver.h"
+#include "UARTDriver/uart.c"
+#include "TouchDriver/Position.h"
+#include <util/delay.h>
+
+TouchDriver touchDriver;
 
 
 int main(void)
 {
+	
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
+	
+	InitUART(9600,8,'N');
+	
+	touchDriver.InitTouch();
+	
+	SendString("Started");
+	
     while (1) 
     {
-		//spørg om data klar
-		
-		
-		
-		//timer interrupt får skærmen opdateret. (Beslut antal frames.)
-		
-		
-		//
+		_delay_ms(1);
 		
     }
+}
+
+ISR (INT4_vect)
+{
+	touchDriver.Read();
+	
+	Position pos = touchDriver.getPosition();
+	
+	SendInteger(pos.getX());
+	SendInteger(pos.getY());
+	
 }
 

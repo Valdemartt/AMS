@@ -4,3 +4,9 @@
 
 main.cpp
 
+TouchDriver\CalibrationSettings.cpp
+
+TouchDriver\TouchDriver.cpp
+
+uart.c
+

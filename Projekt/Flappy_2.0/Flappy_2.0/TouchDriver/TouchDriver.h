@@ -12,12 +12,9 @@
 #include "Position.h"
 #include <avr/io.h>
 
-#define sbi_one(b,n) ((b) |= (1<<(n)))			// Set bit number n in byte b
-#define cbi_one(b,n) ((b) &= (~(1<<(n))))		// Clear bit number n in byte b
-#define rbi_ne(b,n) ((b) & (1<<(n)))			// Read bit number n in byte b
-#define cbi(b, n) b &= ~n						// Clear bits from n in byte b
-#define sbi(b, n) b |= n						// Set bits from n in byte b
-#define rbi(b, n) ((b) & n)					// Read bits from n in byte b
+#define sbi(b,n) ((b) |= (1<<(n)))			// Set bit number n in byte b
+#define cbi(b,n) ((b) &= (~(1<<(n))))		// Clear bit number n in byte b
+#define rbi(b,n) ((b) & (1<<(n)))			// Read bit number n in byte b
 
 #define CLK_PORT PORTH
 #define CLK_PIN 3
@@ -48,7 +45,7 @@ public:
 	void Read();
 	void WriteData(unsigned char data);
 	int16_t ReadData();
-	bool ScreenTouched();
+	bool ScreenTouched();	
 	void ClockPulse();
 	void ClearClock();
 private:

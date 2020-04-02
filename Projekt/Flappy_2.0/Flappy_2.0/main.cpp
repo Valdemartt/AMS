@@ -32,13 +32,16 @@ int main(void)
 	
     while (1) 
     {
-		_delay_ms(1);
-		
+	    SendInteger(IRQ_PORT);
+		_delay_ms(1000);
+		touchDriver.Read();
+		SendInteger(touchDriver.getPosition().getX());
     }
 }
 
 ISR (INT4_vect)
 {
+	SendString("Interrupted.");
 	touchDriver.Read();
 	
 	Position pos = touchDriver.getPosition();

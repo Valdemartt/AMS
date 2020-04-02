@@ -7,6 +7,7 @@
 
 #include <avr/interrupt.h>
 #include "TouchDriver.h"
+#include <avr/cpufunc.h>
 
 #define CAL_X 0x00378F66UL
 #define CAL_Y 0x03C34155UL
@@ -24,14 +25,20 @@ void TouchDriver::InitTouch()
 	CS_DDR |= 1<<(CS_PIN);
 	DIN_DDR |= 1<<(DIN_PIN);
 	DOUT_DDR &= ~1<<(DOUT_PIN);
-	IRQ_DDR |= 1<<(IRQ_PIN);
+	IRQ_DDR &= ~1<<(IRQ_PIN);
 	
 	//INT setup for INT4
 	EIMSK |= 1<<(4);
-	EICRB |= 3;
+	EICRB |= 2;
 	
 	sei();
-	
+	cbi(CS_PORT,CS_PIN);
+	_NOP();
+	_NOP();
+	WriteData(0x90);
+	ClockPulse();
+	unsigned long temp_x = ReadData();
+	sbi(CS_PORT,CS_PIN);
 	
 	position = Position(0,0);
 	
@@ -45,26 +52,24 @@ void TouchDriver::Read()
 	cbi(CS_PORT,CS_PIN);
 	
 	//disables interrupt
-	IRQ_DDR &= ~1<<(IRQ_PIN);
+	IRQ_DDR |= 1<<(IRQ_PIN);
 	
 	if(ScreenTouched())
 	{
 		WriteData(0x90);
-		ClockPulse();
 		temp_x = ReadData();
+		sbi(CS_PORT,CS_PIN);
 		
 		if(ScreenTouched())
 		{
+			cbi(CS_PORT,CS_PIN);
 			WriteData(0xD0);
-			ClockPulse();
 			temp_y = ReadData();
 			
 			/*if((temp_x>ADC_RES_MIN) && (temp_x<ADC_RES_MAX) && (temp_y>ADC_RES_MIN) && (temp_y<ADC_RES_MAX))
 			{
 				
 			}*/
-			
-			
 			
 			position.setX(temp_x);
 			position.setY(temp_y);
@@ -73,9 +78,11 @@ void TouchDriver::Read()
 	}
 	
 	sbi(CS_PORT,CS_PIN);
+	_NOP();
+	ClockPulse();
 	
 	//Enables interrupt
-	IRQ_DDR |= 1<<(IRQ_PIN);
+	IRQ_DDR &= ~1<<(IRQ_PIN);
 }
 
 Position TouchDriver::getPosition()
@@ -104,8 +111,15 @@ void TouchDriver::WriteData(unsigned char data)
 			cbi(DIN_PORT,DIN_PIN);	
 		}
 		temp = temp <<(1);
+		_NOP();
 		ClockPulse();
 	}
+	cbi(DIN_PORT,DIN_PIN);
+	_NOP();
+	_NOP();
+	_NOP();
+	ClockPulse();
+	
 }
 
 int16_t TouchDriver::ReadData()
@@ -121,13 +135,28 @@ int16_t TouchDriver::ReadData()
 			data++;
 		}
 	}
-	
+	for (int i=0; i<3;i++)
+	{
+		ClockPulse();
+	}
+
 	return data;
 }
 
 void TouchDriver::ClockPulse()
 {
+	//needs to be atleast 500 to achieve 1.5 micro sec pr. 3 clockpulses
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
 	sbi(CLK_PORT,CLK_PIN);
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
 	cbi(CLK_PORT,CLK_PIN);
 }
 

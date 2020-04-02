@@ -3,31 +3,31 @@ Flappy_2.0.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000008  00800200  000003fe  00000492  2**0
+  0 .data         00000016  00800200  00000486  0000051a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000003fe  00000000  00000000  00000094  2**1
+  1 .text         00000486  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000008  00800208  00800208  0000049a  2**0
+  2 .bss          00000008  00800216  00800216  00000530  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000049a  2**0
+  3 .comment      00000030  00000000  00000000  00000530  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000004cc  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000560  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000c0  00000000  00000000  0000050c  2**0
+  5 .debug_aranges 000000c0  00000000  00000000  000005a0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000019e8  00000000  00000000  000005cc  2**0
+  6 .debug_info   00001aff  00000000  00000000  00000660  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000010ea  00000000  00000000  00001fb4  2**0
+  7 .debug_abbrev 0000107d  00000000  00000000  0000215f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000075e  00000000  00000000  0000309e  2**0
+  8 .debug_line   00000825  00000000  00000000  000031dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000021c  00000000  00000000  000037fc  2**2
+  9 .debug_frame  00000228  00000000  00000000  00003a04  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000993  00000000  00000000  00003a18  2**0
+ 10 .debug_str    00000993  00000000  00000000  00003c2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000713  00000000  00000000  000043ab  2**0
+ 11 .debug_loc    000007f8  00000000  00000000  000045bf  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000a0  00000000  00000000  00004abe  2**0
+ 12 .debug_ranges 000000a0  00000000  00000000  00004db7  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -43,7 +43,7 @@ Disassembly of section .text:
    e:	00 00       	nop
   10:	98 c0       	rjmp	.+304    	; 0x142 <__bad_interrupt>
   12:	00 00       	nop
-  14:	e4 c0       	rjmp	.+456    	; 0x1de <__vector_5>
+  14:	f2 c0       	rjmp	.+484    	; 0x1fa <__vector_5>
   16:	00 00       	nop
   18:	94 c0       	rjmp	.+296    	; 0x142 <__bad_interrupt>
   1a:	00 00       	nop
@@ -149,7 +149,7 @@ Disassembly of section .text:
 	...
 
 000000e4 <__ctors_start>:
-  e4:	29 01       	movw	r4, r18
+  e4:	3a 01       	movw	r6, r20
 
 000000e6 <__ctors_end>:
   e6:	11 24       	eor	r1, r1
@@ -165,20 +165,20 @@ Disassembly of section .text:
   f6:	12 e0       	ldi	r17, 0x02	; 2
   f8:	a0 e0       	ldi	r26, 0x00	; 0
   fa:	b2 e0       	ldi	r27, 0x02	; 2
-  fc:	ee ef       	ldi	r30, 0xFE	; 254
-  fe:	f3 e0       	ldi	r31, 0x03	; 3
+  fc:	e6 e8       	ldi	r30, 0x86	; 134
+  fe:	f4 e0       	ldi	r31, 0x04	; 4
  100:	00 e0       	ldi	r16, 0x00	; 0
  102:	0b bf       	out	0x3b, r16	; 59
  104:	02 c0       	rjmp	.+4      	; 0x10a <__do_copy_data+0x14>
  106:	07 90       	elpm	r0, Z+
  108:	0d 92       	st	X+, r0
- 10a:	a8 30       	cpi	r26, 0x08	; 8
+ 10a:	a6 31       	cpi	r26, 0x16	; 22
  10c:	b1 07       	cpc	r27, r17
  10e:	d9 f7       	brne	.-10     	; 0x106 <__do_copy_data+0x10>
 
 00000110 <__do_clear_bss>:
  110:	22 e0       	ldi	r18, 0x02	; 2
- 112:	a8 e0       	ldi	r26, 0x08	; 8
+ 112:	a6 e1       	ldi	r26, 0x16	; 22
  114:	b2 e0       	ldi	r27, 0x02	; 2
  116:	01 c0       	rjmp	.+2      	; 0x11a <.do_clear_bss_start>
 
@@ -186,7 +186,7 @@ Disassembly of section .text:
  118:	1d 92       	st	X+, r1
 
 0000011a <.do_clear_bss_start>:
- 11a:	a0 31       	cpi	r26, 0x10	; 16
+ 11a:	ae 31       	cpi	r26, 0x1E	; 30
  11c:	b2 07       	cpc	r27, r18
  11e:	e1 f7       	brne	.-8      	; 0x118 <.do_clear_bss_loop>
 
@@ -200,14 +200,14 @@ Disassembly of section .text:
  12c:	01 09       	sbc	r16, r1
  12e:	80 2f       	mov	r24, r16
  130:	fe 01       	movw	r30, r28
- 132:	28 d1       	rcall	.+592    	; 0x384 <__tablejump2__>
+ 132:	6c d1       	rcall	.+728    	; 0x40c <__tablejump2__>
  134:	c2 37       	cpi	r28, 0x72	; 114
  136:	d1 07       	cpc	r29, r17
  138:	80 e0       	ldi	r24, 0x00	; 0
  13a:	08 07       	cpc	r16, r24
  13c:	b1 f7       	brne	.-20     	; 0x12a <__do_global_ctors+0xa>
  13e:	33 d0       	rcall	.+102    	; 0x1a6 <main>
- 140:	5c c1       	rjmp	.+696    	; 0x3fa <_exit>
+ 140:	a0 c1       	rjmp	.+832    	; 0x482 <_exit>
 
 00000142 <__bad_interrupt>:
  142:	5e cf       	rjmp	.-324    	; 0x0 <__vectors>
@@ -296,7 +296,7 @@ void SendInteger(int Tal)
  186:	be 01       	movw	r22, r28
  188:	6f 5f       	subi	r22, 0xFF	; 255
  18a:	7f 4f       	sbci	r23, 0xFF	; 255
- 18c:	03 d1       	rcall	.+518    	; 0x394 <__itoa_ncheck>
+ 18c:	47 d1       	rcall	.+654    	; 0x41c <__itoa_ncheck>
 char array[7];
   // Convert the integer to an ASCII string (array), radix = 10 
   itoa(Tal, array, 10);
@@ -353,474 +353,588 @@ void InitUART(unsigned long BaudRate, unsigned char DataBit, char Parity)
 	InitUART(9600,8,'N');
 	
 	touchDriver.InitTouch();
- 1c4:	88 e0       	ldi	r24, 0x08	; 8
+ 1c4:	86 e1       	ldi	r24, 0x16	; 22
  1c6:	92 e0       	ldi	r25, 0x02	; 2
- 1c8:	49 d0       	rcall	.+146    	; 0x25c <_ZN11TouchDriver9InitTouchEv>
+ 1c8:	c4 d0       	rcall	.+392    	; 0x352 <_ZN11TouchDriver9InitTouchEv>
 	
 	SendString("Started");
  1ca:	80 e0       	ldi	r24, 0x00	; 0
  1cc:	92 e0       	ldi	r25, 0x02	; 2
  1ce:	c2 df       	rcall	.-124    	; 0x154 <_Z10SendStringPc>
+	
+    while (1) 
+    {
+	    SendInteger(IRQ_PORT);
+ 1d0:	8e b1       	in	r24, 0x0e	; 14
+ 1d2:	90 e0       	ldi	r25, 0x00	; 0
+ 1d4:	cd df       	rcall	.-102    	; 0x170 <_Z11SendIntegeri>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 1d0:	8f e9       	ldi	r24, 0x9F	; 159
- 1d2:	9f e0       	ldi	r25, 0x0F	; 15
- 1d4:	01 97       	sbiw	r24, 0x01	; 1
- 1d6:	f1 f7       	brne	.-4      	; 0x1d4 <main+0x2e>
- 1d8:	00 c0       	rjmp	.+0      	; 0x1da <main+0x34>
- 1da:	00 00       	nop
- 1dc:	f9 cf       	rjmp	.-14     	; 0x1d0 <main+0x2a>
+ 1d6:	2f ef       	ldi	r18, 0xFF	; 255
+ 1d8:	83 ed       	ldi	r24, 0xD3	; 211
+ 1da:	90 e3       	ldi	r25, 0x30	; 48
+ 1dc:	21 50       	subi	r18, 0x01	; 1
+ 1de:	80 40       	sbci	r24, 0x00	; 0
+ 1e0:	90 40       	sbci	r25, 0x00	; 0
+ 1e2:	e1 f7       	brne	.-8      	; 0x1dc <main+0x36>
+ 1e4:	00 c0       	rjmp	.+0      	; 0x1e6 <main+0x40>
+		_delay_ms(1000);
+		touchDriver.Read();
+ 1e6:	00 00       	nop
+ 1e8:	86 e1       	ldi	r24, 0x16	; 22
+ 1ea:	92 e0       	ldi	r25, 0x02	; 2
+		SendInteger(touchDriver.getPosition().getX());
+ 1ec:	df d0       	rcall	.+446    	; 0x3ac <_ZN11TouchDriver4ReadEv>
+ 1ee:	86 e1       	ldi	r24, 0x16	; 22
+ 1f0:	92 e0       	ldi	r25, 0x02	; 2
+ 1f2:	45 d0       	rcall	.+138    	; 0x27e <_ZN11TouchDriver11getPositionEv>
+ 1f4:	cb 01       	movw	r24, r22
+ 1f6:	bc df       	rcall	.-136    	; 0x170 <_Z11SendIntegeri>
+ 1f8:	eb cf       	rjmp	.-42     	; 0x1d0 <main+0x2a>
 
-000001de <__vector_5>:
-		
+000001fa <__vector_5>:
     }
 }
 
 ISR (INT4_vect)
 {
- 1de:	1f 92       	push	r1
- 1e0:	0f 92       	push	r0
- 1e2:	0f b6       	in	r0, 0x3f	; 63
- 1e4:	0f 92       	push	r0
- 1e6:	11 24       	eor	r1, r1
- 1e8:	0b b6       	in	r0, 0x3b	; 59
- 1ea:	0f 92       	push	r0
- 1ec:	cf 92       	push	r12
- 1ee:	df 92       	push	r13
- 1f0:	ef 92       	push	r14
- 1f2:	ff 92       	push	r15
- 1f4:	2f 93       	push	r18
- 1f6:	3f 93       	push	r19
- 1f8:	4f 93       	push	r20
- 1fa:	5f 93       	push	r21
- 1fc:	6f 93       	push	r22
- 1fe:	7f 93       	push	r23
- 200:	8f 93       	push	r24
- 202:	9f 93       	push	r25
- 204:	af 93       	push	r26
- 206:	bf 93       	push	r27
- 208:	ef 93       	push	r30
- 20a:	ff 93       	push	r31
+ 1fa:	1f 92       	push	r1
+ 1fc:	0f 92       	push	r0
+ 1fe:	0f b6       	in	r0, 0x3f	; 63
+ 200:	0f 92       	push	r0
+ 202:	11 24       	eor	r1, r1
+ 204:	0b b6       	in	r0, 0x3b	; 59
+ 206:	0f 92       	push	r0
+ 208:	cf 92       	push	r12
+ 20a:	df 92       	push	r13
+ 20c:	ef 92       	push	r14
+ 20e:	ff 92       	push	r15
+ 210:	2f 93       	push	r18
+ 212:	3f 93       	push	r19
+ 214:	4f 93       	push	r20
+ 216:	5f 93       	push	r21
+ 218:	6f 93       	push	r22
+ 21a:	7f 93       	push	r23
+ 21c:	8f 93       	push	r24
+ 21e:	9f 93       	push	r25
+ 220:	af 93       	push	r26
+ 222:	bf 93       	push	r27
+ 224:	ef 93       	push	r30
+ 226:	ff 93       	push	r31
+	SendString("Interrupted.");
+ 228:	88 e0       	ldi	r24, 0x08	; 8
+ 22a:	92 e0       	ldi	r25, 0x02	; 2
+ 22c:	93 df       	rcall	.-218    	; 0x154 <_Z10SendStringPc>
 	touchDriver.Read();
- 20c:	88 e0       	ldi	r24, 0x08	; 8
- 20e:	92 e0       	ldi	r25, 0x02	; 2
- 210:	8e d0       	rcall	.+284    	; 0x32e <_ZN11TouchDriver4ReadEv>
+ 22e:	86 e1       	ldi	r24, 0x16	; 22
+ 230:	92 e0       	ldi	r25, 0x02	; 2
+ 232:	bc d0       	rcall	.+376    	; 0x3ac <_ZN11TouchDriver4ReadEv>
 	
 	Position pos = touchDriver.getPosition();
- 212:	88 e0       	ldi	r24, 0x08	; 8
- 214:	92 e0       	ldi	r25, 0x02	; 2
- 216:	3a d0       	rcall	.+116    	; 0x28c <_ZN11TouchDriver11getPositionEv>
- 218:	6b 01       	movw	r12, r22
- 21a:	7c 01       	movw	r14, r24
+ 234:	86 e1       	ldi	r24, 0x16	; 22
+ 236:	92 e0       	ldi	r25, 0x02	; 2
+ 238:	22 d0       	rcall	.+68     	; 0x27e <_ZN11TouchDriver11getPositionEv>
+ 23a:	6b 01       	movw	r12, r22
 	
 	SendInteger(pos.getX());
- 21c:	cb 01       	movw	r24, r22
- 21e:	a8 df       	rcall	.-176    	; 0x170 <_Z11SendIntegeri>
+ 23c:	7c 01       	movw	r14, r24
+ 23e:	cb 01       	movw	r24, r22
 	SendInteger(pos.getY());
- 220:	c7 01       	movw	r24, r14
- 222:	a6 df       	rcall	.-180    	; 0x170 <_Z11SendIntegeri>
- 224:	ff 91       	pop	r31
+ 240:	97 df       	rcall	.-210    	; 0x170 <_Z11SendIntegeri>
+ 242:	c7 01       	movw	r24, r14
+ 244:	95 df       	rcall	.-214    	; 0x170 <_Z11SendIntegeri>
 	
 }
- 226:	ef 91       	pop	r30
- 228:	bf 91       	pop	r27
- 22a:	af 91       	pop	r26
- 22c:	9f 91       	pop	r25
- 22e:	8f 91       	pop	r24
- 230:	7f 91       	pop	r23
- 232:	6f 91       	pop	r22
- 234:	5f 91       	pop	r21
- 236:	4f 91       	pop	r20
- 238:	3f 91       	pop	r19
- 23a:	2f 91       	pop	r18
- 23c:	ff 90       	pop	r15
- 23e:	ef 90       	pop	r14
- 240:	df 90       	pop	r13
- 242:	cf 90       	pop	r12
- 244:	0f 90       	pop	r0
- 246:	0b be       	out	0x3b, r0	; 59
- 248:	0f 90       	pop	r0
- 24a:	0f be       	out	0x3f, r0	; 63
- 24c:	0f 90       	pop	r0
- 24e:	1f 90       	pop	r1
- 250:	18 95       	reti
+ 246:	ff 91       	pop	r31
+ 248:	ef 91       	pop	r30
+ 24a:	bf 91       	pop	r27
+ 24c:	af 91       	pop	r26
+ 24e:	9f 91       	pop	r25
+ 250:	8f 91       	pop	r24
+ 252:	7f 91       	pop	r23
+ 254:	6f 91       	pop	r22
+ 256:	5f 91       	pop	r21
+ 258:	4f 91       	pop	r20
+ 25a:	3f 91       	pop	r19
+ 25c:	2f 91       	pop	r18
+ 25e:	ff 90       	pop	r15
+ 260:	ef 90       	pop	r14
+ 262:	df 90       	pop	r13
+ 264:	cf 90       	pop	r12
+ 266:	0f 90       	pop	r0
+ 268:	0b be       	out	0x3b, r0	; 59
+ 26a:	0f 90       	pop	r0
+ 26c:	0f be       	out	0x3f, r0	; 63
+ 26e:	0f 90       	pop	r0
+ 270:	1f 90       	pop	r1
+ 272:	18 95       	reti
 
-00000252 <_GLOBAL__sub_I__Z8InitUARTmhc>:
- 252:	88 e0       	ldi	r24, 0x08	; 8
+00000274 <_GLOBAL__sub_I__Z8InitUARTmhc>:
 #include "TouchDriver/TouchDriver.h"
 #include "UARTDriver/uart.c"
 #include "TouchDriver/Position.h"
 #include <util/delay.h>
 
 TouchDriver touchDriver;
- 254:	92 e0       	ldi	r25, 0x02	; 2
- 256:	01 c0       	rjmp	.+2      	; 0x25a <_ZN11TouchDriverC1Ev>
- 258:	08 95       	ret
+ 274:	86 e1       	ldi	r24, 0x16	; 22
+ 276:	92 e0       	ldi	r25, 0x02	; 2
+ 278:	01 c0       	rjmp	.+2      	; 0x27c <_ZN11TouchDriverC1Ev>
+ 27a:	08 95       	ret
 
-0000025a <_ZN11TouchDriverC1Ev>:
+0000027c <_ZN11TouchDriverC1Ev>:
 }
 
 bool TouchDriver::ScreenTouched()
 {
 	return !rbi(IRQ_PORT,IRQ_PIN);
 }
- 25a:	08 95       	ret
+ 27c:	08 95       	ret
 
-0000025c <_ZN11TouchDriver9InitTouchEv>:
- 25c:	fc 01       	movw	r30, r24
- 25e:	a1 e0       	ldi	r26, 0x01	; 1
- 260:	b1 e0       	ldi	r27, 0x01	; 1
- 262:	9c 91       	ld	r25, X
- 264:	98 60       	ori	r25, 0x08	; 8
- 266:	9c 93       	st	X, r25
- 268:	6b 9a       	sbi	0x0d, 3	; 13
- 26a:	9d 9a       	sbi	0x13, 5	; 19
- 26c:	9d b1       	in	r25, 0x0d	; 13
- 26e:	90 7c       	andi	r25, 0xC0	; 192
- 270:	9d b9       	out	0x0d, r25	; 13
- 272:	6c 9a       	sbi	0x0d, 4	; 13
- 274:	ec 9a       	sbi	0x1d, 4	; 29
- 276:	aa e6       	ldi	r26, 0x6A	; 106
- 278:	b0 e0       	ldi	r27, 0x00	; 0
- 27a:	9c 91       	ld	r25, X
- 27c:	93 60       	ori	r25, 0x03	; 3
- 27e:	9c 93       	st	X, r25
- 280:	78 94       	sei
- 282:	15 82       	std	Z+5, r1	; 0x05
- 284:	14 82       	std	Z+4, r1	; 0x04
- 286:	17 82       	std	Z+7, r1	; 0x07
- 288:	16 82       	std	Z+6, r1	; 0x06
- 28a:	08 95       	ret
+0000027e <_ZN11TouchDriver11getPositionEv>:
+ 27e:	fc 01       	movw	r30, r24
+ 280:	64 81       	ldd	r22, Z+4	; 0x04
+ 282:	75 81       	ldd	r23, Z+5	; 0x05
+ 284:	86 81       	ldd	r24, Z+6	; 0x06
+ 286:	97 81       	ldd	r25, Z+7	; 0x07
+ 288:	08 95       	ret
 
-0000028c <_ZN11TouchDriver11getPositionEv>:
- 28c:	fc 01       	movw	r30, r24
- 28e:	64 81       	ldd	r22, Z+4	; 0x04
- 290:	75 81       	ldd	r23, Z+5	; 0x05
- 292:	86 81       	ldd	r24, Z+6	; 0x06
- 294:	97 81       	ldd	r25, Z+7	; 0x07
- 296:	08 95       	ret
-
-00000298 <_ZN11TouchDriver10ClockPulseEv>:
-	return data;
-}
-
-void TouchDriver::ClockPulse()
-{
+0000028a <_ZN11TouchDriver10ClockPulseEv>:
+	...
+	//needs to be atleast 500 to achieve 1.5 micro sec pr. 3 clockpulses
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
+ 292:	00 00       	nop
 	sbi(CLK_PORT,CLK_PIN);
- 298:	e2 e0       	ldi	r30, 0x02	; 2
- 29a:	f1 e0       	ldi	r31, 0x01	; 1
- 29c:	80 81       	ld	r24, Z
- 29e:	83 60       	ori	r24, 0x03	; 3
- 2a0:	80 83       	st	Z, r24
+ 294:	e2 e0       	ldi	r30, 0x02	; 2
+ 296:	f1 e0       	ldi	r31, 0x01	; 1
+ 298:	80 81       	ld	r24, Z
+ 29a:	83 60       	ori	r24, 0x03	; 3
+ 29c:	80 83       	st	Z, r24
+	...
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
+	_NOP();
+ 2a6:	00 00       	nop
 	cbi(CLK_PORT,CLK_PIN);
- 2a2:	80 81       	ld	r24, Z
- 2a4:	8c 7f       	andi	r24, 0xFC	; 252
- 2a6:	80 83       	st	Z, r24
- 2a8:	08 95       	ret
+ 2a8:	80 81       	ld	r24, Z
+ 2aa:	8c 7f       	andi	r24, 0xFC	; 252
+ 2ac:	80 83       	st	Z, r24
+ 2ae:	08 95       	ret
 
-000002aa <_ZN11TouchDriver8ReadDataEv>:
-		ClockPulse();
-	}
+000002b0 <_ZN11TouchDriver8ReadDataEv>:
+	ClockPulse();
+	
 }
 
 int16_t TouchDriver::ReadData()
 {
- 2aa:	ef 92       	push	r14
- 2ac:	ff 92       	push	r15
- 2ae:	0f 93       	push	r16
- 2b0:	1f 93       	push	r17
- 2b2:	cf 93       	push	r28
- 2b4:	df 93       	push	r29
- 2b6:	7c 01       	movw	r14, r24
- 2b8:	0c e0       	ldi	r16, 0x0C	; 12
- 2ba:	10 e0       	ldi	r17, 0x00	; 0
+ 2b0:	ef 92       	push	r14
+ 2b2:	ff 92       	push	r15
+ 2b4:	0f 93       	push	r16
+ 2b6:	1f 93       	push	r17
+ 2b8:	cf 93       	push	r28
+ 2ba:	df 93       	push	r29
+ 2bc:	7c 01       	movw	r14, r24
+ 2be:	0c e0       	ldi	r16, 0x0C	; 12
+ 2c0:	10 e0       	ldi	r17, 0x00	; 0
 	int16_t data = 0;
- 2bc:	c0 e0       	ldi	r28, 0x00	; 0
- 2be:	d0 e0       	ldi	r29, 0x00	; 0
+ 2c2:	c0 e0       	ldi	r28, 0x00	; 0
+ 2c4:	d0 e0       	ldi	r29, 0x00	; 0
 	
 	for (int i=0; i<12;i++)
 	{
 		data = data<<(1);
- 2c0:	cc 0f       	add	r28, r28
- 2c2:	dd 1f       	adc	r29, r29
+ 2c6:	cc 0f       	add	r28, r28
+ 2c8:	dd 1f       	adc	r29, r29
 		ClockPulse();
- 2c4:	c7 01       	movw	r24, r14
- 2c6:	e8 df       	rcall	.-48     	; 0x298 <_ZN11TouchDriver10ClockPulseEv>
+ 2ca:	c7 01       	movw	r24, r14
+ 2cc:	de df       	rcall	.-68     	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
 		if(rbi(DOUT_PORT,DOUT_PIN))
- 2c8:	8e b1       	in	r24, 0x0e	; 14
- 2ca:	85 70       	andi	r24, 0x05	; 5
- 2cc:	09 f0       	breq	.+2      	; 0x2d0 <_ZN11TouchDriver8ReadDataEv+0x26>
+ 2ce:	8e b1       	in	r24, 0x0e	; 14
+ 2d0:	85 70       	andi	r24, 0x05	; 5
+ 2d2:	09 f0       	breq	.+2      	; 0x2d6 <_ZN11TouchDriver8ReadDataEv+0x26>
 		{
 			data++;
- 2ce:	21 96       	adiw	r28, 0x01	; 1
- 2d0:	01 50       	subi	r16, 0x01	; 1
- 2d2:	11 09       	sbc	r17, r1
+ 2d4:	21 96       	adiw	r28, 0x01	; 1
+ 2d6:	01 50       	subi	r16, 0x01	; 1
+ 2d8:	11 09       	sbc	r17, r1
 
 int16_t TouchDriver::ReadData()
 {
 	int16_t data = 0;
 	
 	for (int i=0; i<12;i++)
- 2d4:	a9 f7       	brne	.-22     	; 0x2c0 <_ZN11TouchDriver8ReadDataEv+0x16>
+ 2da:	a9 f7       	brne	.-22     	; 0x2c6 <_ZN11TouchDriver8ReadDataEv+0x16>
 			data++;
 		}
 	}
-	
+	for (int i=0; i<3;i++)
+	{
+		ClockPulse();
+ 2dc:	c7 01       	movw	r24, r14
+ 2de:	d5 df       	rcall	.-86     	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
+ 2e0:	c7 01       	movw	r24, r14
+ 2e2:	d3 df       	rcall	.-90     	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
+ 2e4:	c7 01       	movw	r24, r14
+ 2e6:	d1 df       	rcall	.-94     	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
+	}
+
 	return data;
 }
- 2d6:	ce 01       	movw	r24, r28
- 2d8:	df 91       	pop	r29
- 2da:	cf 91       	pop	r28
- 2dc:	1f 91       	pop	r17
- 2de:	0f 91       	pop	r16
- 2e0:	ff 90       	pop	r15
- 2e2:	ef 90       	pop	r14
- 2e4:	08 95       	ret
+ 2e8:	ce 01       	movw	r24, r28
+ 2ea:	df 91       	pop	r29
+ 2ec:	cf 91       	pop	r28
+ 2ee:	1f 91       	pop	r17
+ 2f0:	0f 91       	pop	r16
+ 2f2:	ff 90       	pop	r15
+ 2f4:	ef 90       	pop	r14
+ 2f6:	08 95       	ret
 
-000002e6 <_ZN11TouchDriver10ClearClockEv>:
+000002f8 <_ZN11TouchDriver10ClearClockEv>:
 	cbi(CLK_PORT,CLK_PIN);
 }
 
 void TouchDriver::ClearClock()
 {
 	cbi(CLK_PORT,CLK_PIN);
- 2e6:	e2 e0       	ldi	r30, 0x02	; 2
- 2e8:	f1 e0       	ldi	r31, 0x01	; 1
- 2ea:	80 81       	ld	r24, Z
- 2ec:	8c 7f       	andi	r24, 0xFC	; 252
- 2ee:	80 83       	st	Z, r24
- 2f0:	08 95       	ret
+ 2f8:	e2 e0       	ldi	r30, 0x02	; 2
+ 2fa:	f1 e0       	ldi	r31, 0x01	; 1
+ 2fc:	80 81       	ld	r24, Z
+ 2fe:	8c 7f       	andi	r24, 0xFC	; 252
+ 300:	80 83       	st	Z, r24
+ 302:	08 95       	ret
 
-000002f2 <_ZN11TouchDriver9WriteDataEh>:
+00000304 <_ZN11TouchDriver9WriteDataEh>:
 {
 	return !rbi(IRQ_PORT,IRQ_PIN);
 }
 
 void TouchDriver::WriteData(unsigned char data)
 {
- 2f2:	ef 92       	push	r14
- 2f4:	ff 92       	push	r15
- 2f6:	1f 93       	push	r17
- 2f8:	cf 93       	push	r28
- 2fa:	df 93       	push	r29
- 2fc:	7c 01       	movw	r14, r24
- 2fe:	16 2f       	mov	r17, r22
+ 304:	ef 92       	push	r14
+ 306:	ff 92       	push	r15
+ 308:	1f 93       	push	r17
+ 30a:	cf 93       	push	r28
+ 30c:	df 93       	push	r29
+ 30e:	7c 01       	movw	r14, r24
+ 310:	16 2f       	mov	r17, r22
 	unsigned char temp = data;
 	
 	ClearClock();
- 300:	f2 df       	rcall	.-28     	; 0x2e6 <_ZN11TouchDriver10ClearClockEv>
- 302:	c8 e0       	ldi	r28, 0x08	; 8
- 304:	d0 e0       	ldi	r29, 0x00	; 0
+ 312:	f2 df       	rcall	.-28     	; 0x2f8 <_ZN11TouchDriver10ClearClockEv>
+ 314:	c8 e0       	ldi	r28, 0x08	; 8
+ 316:	d0 e0       	ldi	r29, 0x00	; 0
 	for(int i=0;i<8;i++)
 	{
 		if(temp & 0b10000000)
- 306:	11 23       	and	r17, r17
- 308:	24 f4       	brge	.+8      	; 0x312 <_ZN11TouchDriver9WriteDataEh+0x20>
+ 318:	11 23       	and	r17, r17
+ 31a:	24 f4       	brge	.+8      	; 0x324 <_ZN11TouchDriver9WriteDataEh+0x20>
 		{
 			sbi(DIN_PORT,DIN_PIN);
- 30a:	84 b3       	in	r24, 0x14	; 20
- 30c:	85 60       	ori	r24, 0x05	; 5
- 30e:	84 bb       	out	0x14, r24	; 20
- 310:	03 c0       	rjmp	.+6      	; 0x318 <_ZN11TouchDriver9WriteDataEh+0x26>
+ 31c:	84 b3       	in	r24, 0x14	; 20
+ 31e:	85 60       	ori	r24, 0x05	; 5
+ 320:	84 bb       	out	0x14, r24	; 20
+ 322:	03 c0       	rjmp	.+6      	; 0x32a <_ZN11TouchDriver9WriteDataEh+0x26>
 		}
 		else
 		{
 			cbi(DIN_PORT,DIN_PIN);	
- 312:	84 b3       	in	r24, 0x14	; 20
- 314:	8a 7f       	andi	r24, 0xFA	; 250
- 316:	84 bb       	out	0x14, r24	; 20
+ 324:	84 b3       	in	r24, 0x14	; 20
+ 326:	8a 7f       	andi	r24, 0xFA	; 250
+ 328:	84 bb       	out	0x14, r24	; 20
 		}
 		temp = temp <<(1);
- 318:	11 0f       	add	r17, r17
+ 32a:	11 0f       	add	r17, r17
+		_NOP();
+ 32c:	00 00       	nop
 		ClockPulse();
- 31a:	c7 01       	movw	r24, r14
- 31c:	bd df       	rcall	.-134    	; 0x298 <_ZN11TouchDriver10ClockPulseEv>
- 31e:	21 97       	sbiw	r28, 0x01	; 1
+ 32e:	c7 01       	movw	r24, r14
+ 330:	ac df       	rcall	.-168    	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
+ 332:	21 97       	sbiw	r28, 0x01	; 1
 void TouchDriver::WriteData(unsigned char data)
 {
 	unsigned char temp = data;
 	
 	ClearClock();
 	for(int i=0;i<8;i++)
- 320:	91 f7       	brne	.-28     	; 0x306 <_ZN11TouchDriver9WriteDataEh+0x14>
-			cbi(DIN_PORT,DIN_PIN);	
+ 334:	89 f7       	brne	.-30     	; 0x318 <_ZN11TouchDriver9WriteDataEh+0x14>
 		}
 		temp = temp <<(1);
+		_NOP();
 		ClockPulse();
 	}
+	cbi(DIN_PORT,DIN_PIN);
+ 336:	84 b3       	in	r24, 0x14	; 20
+ 338:	8a 7f       	andi	r24, 0xFA	; 250
+ 33a:	84 bb       	out	0x14, r24	; 20
+	_NOP();
+ 33c:	00 00       	nop
+	_NOP();
+ 33e:	00 00       	nop
+	_NOP();
+	ClockPulse();
+ 340:	00 00       	nop
+ 342:	c7 01       	movw	r24, r14
+ 344:	a2 df       	rcall	.-188    	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
+	
 }
- 322:	df 91       	pop	r29
- 324:	cf 91       	pop	r28
- 326:	1f 91       	pop	r17
- 328:	ff 90       	pop	r15
- 32a:	ef 90       	pop	r14
- 32c:	08 95       	ret
+ 346:	df 91       	pop	r29
+ 348:	cf 91       	pop	r28
+ 34a:	1f 91       	pop	r17
+ 34c:	ff 90       	pop	r15
+ 34e:	ef 90       	pop	r14
+ 350:	08 95       	ret
 
-0000032e <_ZN11TouchDriver4ReadEv>:
-	position = Position(0,0);
+00000352 <_ZN11TouchDriver9InitTouchEv>:
+{
 	
 }
 
+void TouchDriver::InitTouch()
+{
+ 352:	cf 93       	push	r28
+ 354:	df 93       	push	r29
+ 356:	ec 01       	movw	r28, r24
+	//P Directions
+	CLK_DDR |= 1<<(CLK_PIN);
+ 358:	e1 e0       	ldi	r30, 0x01	; 1
+ 35a:	f1 e0       	ldi	r31, 0x01	; 1
+ 35c:	80 81       	ld	r24, Z
+ 35e:	88 60       	ori	r24, 0x08	; 8
+ 360:	80 83       	st	Z, r24
+	CS_DDR |= 1<<(CS_PIN);
+ 362:	6b 9a       	sbi	0x0d, 3	; 13
+	DIN_DDR |= 1<<(DIN_PIN);
+ 364:	9d 9a       	sbi	0x13, 5	; 19
+	DOUT_DDR &= ~1<<(DOUT_PIN);
+ 366:	8d b1       	in	r24, 0x0d	; 13
+ 368:	80 7c       	andi	r24, 0xC0	; 192
+ 36a:	8d b9       	out	0x0d, r24	; 13
+	IRQ_DDR &= ~1<<(IRQ_PIN);
+ 36c:	8d b1       	in	r24, 0x0d	; 13
+ 36e:	80 7e       	andi	r24, 0xE0	; 224
+ 370:	8d b9       	out	0x0d, r24	; 13
+	
+	//INT setup for INT4
+	EIMSK |= 1<<(4);
+ 372:	ec 9a       	sbi	0x1d, 4	; 29
+	EICRB |= 2;
+ 374:	ea e6       	ldi	r30, 0x6A	; 106
+ 376:	f0 e0       	ldi	r31, 0x00	; 0
+ 378:	80 81       	ld	r24, Z
+ 37a:	82 60       	ori	r24, 0x02	; 2
+ 37c:	80 83       	st	Z, r24
+	
+	sei();
+ 37e:	78 94       	sei
+	cbi(CS_PORT,CS_PIN);
+ 380:	8e b1       	in	r24, 0x0e	; 14
+ 382:	8c 7f       	andi	r24, 0xFC	; 252
+ 384:	8e b9       	out	0x0e, r24	; 14
+	_NOP();
+ 386:	00 00       	nop
+	_NOP();
+ 388:	00 00       	nop
+	WriteData(0x90);
+ 38a:	60 e9       	ldi	r22, 0x90	; 144
+ 38c:	ce 01       	movw	r24, r28
+ 38e:	ba df       	rcall	.-140    	; 0x304 <_ZN11TouchDriver9WriteDataEh>
+	ClockPulse();
+ 390:	ce 01       	movw	r24, r28
+ 392:	7b df       	rcall	.-266    	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
+	unsigned long temp_x = ReadData();
+ 394:	ce 01       	movw	r24, r28
+ 396:	8c df       	rcall	.-232    	; 0x2b0 <_ZN11TouchDriver8ReadDataEv>
+ 398:	8e b1       	in	r24, 0x0e	; 14
+	sbi(CS_PORT,CS_PIN);
+ 39a:	83 60       	ori	r24, 0x03	; 3
+ 39c:	8e b9       	out	0x0e, r24	; 14
+ 39e:	1d 82       	std	Y+5, r1	; 0x05
+	
+	position = Position(0,0);
+ 3a0:	1c 82       	std	Y+4, r1	; 0x04
+ 3a2:	1f 82       	std	Y+7, r1	; 0x07
+ 3a4:	1e 82       	std	Y+6, r1	; 0x06
+ 3a6:	df 91       	pop	r29
+	
+}
+ 3a8:	cf 91       	pop	r28
+ 3aa:	08 95       	ret
+
+000003ac <_ZN11TouchDriver4ReadEv>:
+ 3ac:	0f 93       	push	r16
+
 void TouchDriver::Read()
 {
- 32e:	0f 93       	push	r16
- 330:	1f 93       	push	r17
- 332:	cf 93       	push	r28
- 334:	df 93       	push	r29
- 336:	ec 01       	movw	r28, r24
+ 3ae:	1f 93       	push	r17
+ 3b0:	cf 93       	push	r28
+ 3b2:	df 93       	push	r29
+ 3b4:	ec 01       	movw	r28, r24
 	unsigned long temp_x=0, temp_y=0;
 	//int datacounter = 0;
 	
 	cbi(CS_PORT,CS_PIN);
- 338:	9e b1       	in	r25, 0x0e	; 14
- 33a:	9c 7f       	andi	r25, 0xFC	; 252
- 33c:	9e b9       	out	0x0e, r25	; 14
+ 3b6:	8e b1       	in	r24, 0x0e	; 14
+ 3b8:	8c 7f       	andi	r24, 0xFC	; 252
+ 3ba:	8e b9       	out	0x0e, r24	; 14
 	
 	//disables interrupt
-	IRQ_DDR &= ~1<<(IRQ_PIN);
- 33e:	9d b1       	in	r25, 0x0d	; 13
- 340:	90 7e       	andi	r25, 0xE0	; 224
- 342:	9d b9       	out	0x0d, r25	; 13
+	IRQ_DDR |= 1<<(IRQ_PIN);
+ 3bc:	6c 9a       	sbi	0x0d, 4	; 13
 	
 	if(ScreenTouched())
- 344:	72 99       	sbic	0x0e, 2	; 14
- 346:	15 c0       	rjmp	.+42     	; 0x372 <_ZN11TouchDriver4ReadEv+0x44>
+ 3be:	72 99       	sbic	0x0e, 2	; 14
+ 3c0:	17 c0       	rjmp	.+46     	; 0x3f0 <_ZN11TouchDriver4ReadEv+0x44>
 	{
 		WriteData(0x90);
- 348:	60 e9       	ldi	r22, 0x90	; 144
- 34a:	ce 01       	movw	r24, r28
- 34c:	d2 df       	rcall	.-92     	; 0x2f2 <_ZN11TouchDriver9WriteDataEh>
-		ClockPulse();
- 34e:	ce 01       	movw	r24, r28
- 350:	a3 df       	rcall	.-186    	; 0x298 <_ZN11TouchDriver10ClockPulseEv>
+ 3c2:	60 e9       	ldi	r22, 0x90	; 144
+ 3c4:	ce 01       	movw	r24, r28
+ 3c6:	9e df       	rcall	.-196    	; 0x304 <_ZN11TouchDriver9WriteDataEh>
 		temp_x = ReadData();
- 352:	ce 01       	movw	r24, r28
- 354:	aa df       	rcall	.-172    	; 0x2aa <_ZN11TouchDriver8ReadDataEv>
- 356:	8c 01       	movw	r16, r24
- 358:	72 99       	sbic	0x0e, 2	; 14
+ 3c8:	ce 01       	movw	r24, r28
+ 3ca:	72 df       	rcall	.-284    	; 0x2b0 <_ZN11TouchDriver8ReadDataEv>
+ 3cc:	8c 01       	movw	r16, r24
+		sbi(CS_PORT,CS_PIN);
+ 3ce:	8e b1       	in	r24, 0x0e	; 14
+ 3d0:	83 60       	ori	r24, 0x03	; 3
+ 3d2:	8e b9       	out	0x0e, r24	; 14
 		
 		if(ScreenTouched())
- 35a:	0b c0       	rjmp	.+22     	; 0x372 <_ZN11TouchDriver4ReadEv+0x44>
+ 3d4:	72 99       	sbic	0x0e, 2	; 14
+ 3d6:	0c c0       	rjmp	.+24     	; 0x3f0 <_ZN11TouchDriver4ReadEv+0x44>
 		{
+			cbi(CS_PORT,CS_PIN);
+ 3d8:	8e b1       	in	r24, 0x0e	; 14
+ 3da:	8c 7f       	andi	r24, 0xFC	; 252
+ 3dc:	8e b9       	out	0x0e, r24	; 14
 			WriteData(0xD0);
- 35c:	60 ed       	ldi	r22, 0xD0	; 208
- 35e:	ce 01       	movw	r24, r28
- 360:	c8 df       	rcall	.-112    	; 0x2f2 <_ZN11TouchDriver9WriteDataEh>
-			ClockPulse();
- 362:	ce 01       	movw	r24, r28
- 364:	99 df       	rcall	.-206    	; 0x298 <_ZN11TouchDriver10ClockPulseEv>
- 366:	ce 01       	movw	r24, r28
+ 3de:	60 ed       	ldi	r22, 0xD0	; 208
+ 3e0:	ce 01       	movw	r24, r28
 			temp_y = ReadData();
- 368:	a0 df       	rcall	.-192    	; 0x2aa <_ZN11TouchDriver8ReadDataEv>
- 36a:	1d 83       	std	Y+5, r17	; 0x05
- 36c:	0c 83       	std	Y+4, r16	; 0x04
+ 3e2:	90 df       	rcall	.-224    	; 0x304 <_ZN11TouchDriver9WriteDataEh>
+ 3e4:	ce 01       	movw	r24, r28
+ 3e6:	64 df       	rcall	.-312    	; 0x2b0 <_ZN11TouchDriver8ReadDataEv>
 		setY(y);
 	}
 
 	void setX(int x)
 	{
 		x_value=x;
- 36e:	9f 83       	std	Y+7, r25	; 0x07
- 370:	8e 83       	std	Y+6, r24	; 0x06
+ 3e8:	1d 83       	std	Y+5, r17	; 0x05
+ 3ea:	0c 83       	std	Y+4, r16	; 0x04
 	}
 	void setY(int y)
 	{
 		y_value = y;
- 372:	8e b1       	in	r24, 0x0e	; 14
- 374:	83 60       	ori	r24, 0x03	; 3
+ 3ec:	9f 83       	std	Y+7, r25	; 0x07
+ 3ee:	8e 83       	std	Y+6, r24	; 0x06
 			position.setY(temp_y);
 		}
 		
 	}
 	
 	sbi(CS_PORT,CS_PIN);
- 376:	8e b9       	out	0x0e, r24	; 14
- 378:	6c 9a       	sbi	0x0d, 4	; 13
- 37a:	df 91       	pop	r29
+ 3f0:	8e b1       	in	r24, 0x0e	; 14
+ 3f2:	83 60       	ori	r24, 0x03	; 3
+	_NOP();
+ 3f4:	8e b9       	out	0x0e, r24	; 14
+	ClockPulse();
+ 3f6:	00 00       	nop
+ 3f8:	ce 01       	movw	r24, r28
+ 3fa:	47 df       	rcall	.-370    	; 0x28a <_ZN11TouchDriver10ClockPulseEv>
 	
 	//Enables interrupt
-	IRQ_DDR |= 1<<(IRQ_PIN);
- 37c:	cf 91       	pop	r28
+	IRQ_DDR &= ~1<<(IRQ_PIN);
+ 3fc:	8d b1       	in	r24, 0x0d	; 13
+ 3fe:	80 7e       	andi	r24, 0xE0	; 224
+ 400:	8d b9       	out	0x0d, r24	; 13
 }
- 37e:	1f 91       	pop	r17
- 380:	0f 91       	pop	r16
- 382:	08 95       	ret
+ 402:	df 91       	pop	r29
+ 404:	cf 91       	pop	r28
+ 406:	1f 91       	pop	r17
+ 408:	0f 91       	pop	r16
+ 40a:	08 95       	ret
 
-00000384 <__tablejump2__>:
- 384:	ee 0f       	add	r30, r30
- 386:	ff 1f       	adc	r31, r31
- 388:	88 1f       	adc	r24, r24
- 38a:	8b bf       	out	0x3b, r24	; 59
- 38c:	07 90       	elpm	r0, Z+
- 38e:	f6 91       	elpm	r31, Z
- 390:	e0 2d       	mov	r30, r0
- 392:	19 94       	eijmp
+0000040c <__tablejump2__>:
+ 40c:	ee 0f       	add	r30, r30
+ 40e:	ff 1f       	adc	r31, r31
+ 410:	88 1f       	adc	r24, r24
+ 412:	8b bf       	out	0x3b, r24	; 59
+ 414:	07 90       	elpm	r0, Z+
+ 416:	f6 91       	elpm	r31, Z
+ 418:	e0 2d       	mov	r30, r0
+ 41a:	19 94       	eijmp
 
-00000394 <__itoa_ncheck>:
- 394:	bb 27       	eor	r27, r27
- 396:	4a 30       	cpi	r20, 0x0A	; 10
- 398:	31 f4       	brne	.+12     	; 0x3a6 <__itoa_ncheck+0x12>
- 39a:	99 23       	and	r25, r25
- 39c:	22 f4       	brpl	.+8      	; 0x3a6 <__itoa_ncheck+0x12>
- 39e:	bd e2       	ldi	r27, 0x2D	; 45
- 3a0:	90 95       	com	r25
- 3a2:	81 95       	neg	r24
- 3a4:	9f 4f       	sbci	r25, 0xFF	; 255
- 3a6:	01 c0       	rjmp	.+2      	; 0x3aa <__utoa_common>
+0000041c <__itoa_ncheck>:
+ 41c:	bb 27       	eor	r27, r27
+ 41e:	4a 30       	cpi	r20, 0x0A	; 10
+ 420:	31 f4       	brne	.+12     	; 0x42e <__itoa_ncheck+0x12>
+ 422:	99 23       	and	r25, r25
+ 424:	22 f4       	brpl	.+8      	; 0x42e <__itoa_ncheck+0x12>
+ 426:	bd e2       	ldi	r27, 0x2D	; 45
+ 428:	90 95       	com	r25
+ 42a:	81 95       	neg	r24
+ 42c:	9f 4f       	sbci	r25, 0xFF	; 255
+ 42e:	01 c0       	rjmp	.+2      	; 0x432 <__utoa_common>
 
-000003a8 <__utoa_ncheck>:
- 3a8:	bb 27       	eor	r27, r27
+00000430 <__utoa_ncheck>:
+ 430:	bb 27       	eor	r27, r27
 
-000003aa <__utoa_common>:
- 3aa:	fb 01       	movw	r30, r22
- 3ac:	55 27       	eor	r21, r21
- 3ae:	aa 27       	eor	r26, r26
- 3b0:	88 0f       	add	r24, r24
- 3b2:	99 1f       	adc	r25, r25
- 3b4:	aa 1f       	adc	r26, r26
- 3b6:	a4 17       	cp	r26, r20
- 3b8:	10 f0       	brcs	.+4      	; 0x3be <__utoa_common+0x14>
- 3ba:	a4 1b       	sub	r26, r20
- 3bc:	83 95       	inc	r24
- 3be:	50 51       	subi	r21, 0x10	; 16
- 3c0:	b9 f7       	brne	.-18     	; 0x3b0 <__utoa_common+0x6>
- 3c2:	a0 5d       	subi	r26, 0xD0	; 208
- 3c4:	aa 33       	cpi	r26, 0x3A	; 58
- 3c6:	08 f0       	brcs	.+2      	; 0x3ca <__utoa_common+0x20>
- 3c8:	a9 5d       	subi	r26, 0xD9	; 217
- 3ca:	a1 93       	st	Z+, r26
- 3cc:	00 97       	sbiw	r24, 0x00	; 0
- 3ce:	79 f7       	brne	.-34     	; 0x3ae <__utoa_common+0x4>
- 3d0:	b1 11       	cpse	r27, r1
- 3d2:	b1 93       	st	Z+, r27
- 3d4:	11 92       	st	Z+, r1
- 3d6:	cb 01       	movw	r24, r22
- 3d8:	00 c0       	rjmp	.+0      	; 0x3da <strrev>
+00000432 <__utoa_common>:
+ 432:	fb 01       	movw	r30, r22
+ 434:	55 27       	eor	r21, r21
+ 436:	aa 27       	eor	r26, r26
+ 438:	88 0f       	add	r24, r24
+ 43a:	99 1f       	adc	r25, r25
+ 43c:	aa 1f       	adc	r26, r26
+ 43e:	a4 17       	cp	r26, r20
+ 440:	10 f0       	brcs	.+4      	; 0x446 <__utoa_common+0x14>
+ 442:	a4 1b       	sub	r26, r20
+ 444:	83 95       	inc	r24
+ 446:	50 51       	subi	r21, 0x10	; 16
+ 448:	b9 f7       	brne	.-18     	; 0x438 <__utoa_common+0x6>
+ 44a:	a0 5d       	subi	r26, 0xD0	; 208
+ 44c:	aa 33       	cpi	r26, 0x3A	; 58
+ 44e:	08 f0       	brcs	.+2      	; 0x452 <__utoa_common+0x20>
+ 450:	a9 5d       	subi	r26, 0xD9	; 217
+ 452:	a1 93       	st	Z+, r26
+ 454:	00 97       	sbiw	r24, 0x00	; 0
+ 456:	79 f7       	brne	.-34     	; 0x436 <__utoa_common+0x4>
+ 458:	b1 11       	cpse	r27, r1
+ 45a:	b1 93       	st	Z+, r27
+ 45c:	11 92       	st	Z+, r1
+ 45e:	cb 01       	movw	r24, r22
+ 460:	00 c0       	rjmp	.+0      	; 0x462 <strrev>
 
-000003da <strrev>:
- 3da:	dc 01       	movw	r26, r24
- 3dc:	fc 01       	movw	r30, r24
- 3de:	67 2f       	mov	r22, r23
- 3e0:	71 91       	ld	r23, Z+
- 3e2:	77 23       	and	r23, r23
- 3e4:	e1 f7       	brne	.-8      	; 0x3de <strrev+0x4>
- 3e6:	32 97       	sbiw	r30, 0x02	; 2
- 3e8:	04 c0       	rjmp	.+8      	; 0x3f2 <strrev+0x18>
- 3ea:	7c 91       	ld	r23, X
- 3ec:	6d 93       	st	X+, r22
- 3ee:	70 83       	st	Z, r23
- 3f0:	62 91       	ld	r22, -Z
- 3f2:	ae 17       	cp	r26, r30
- 3f4:	bf 07       	cpc	r27, r31
- 3f6:	c8 f3       	brcs	.-14     	; 0x3ea <strrev+0x10>
- 3f8:	08 95       	ret
+00000462 <strrev>:
+ 462:	dc 01       	movw	r26, r24
+ 464:	fc 01       	movw	r30, r24
+ 466:	67 2f       	mov	r22, r23
+ 468:	71 91       	ld	r23, Z+
+ 46a:	77 23       	and	r23, r23
+ 46c:	e1 f7       	brne	.-8      	; 0x466 <strrev+0x4>
+ 46e:	32 97       	sbiw	r30, 0x02	; 2
+ 470:	04 c0       	rjmp	.+8      	; 0x47a <strrev+0x18>
+ 472:	7c 91       	ld	r23, X
+ 474:	6d 93       	st	X+, r22
+ 476:	70 83       	st	Z, r23
+ 478:	62 91       	ld	r22, -Z
+ 47a:	ae 17       	cp	r26, r30
+ 47c:	bf 07       	cpc	r27, r31
+ 47e:	c8 f3       	brcs	.-14     	; 0x472 <strrev+0x10>
+ 480:	08 95       	ret
 
-000003fa <_exit>:
- 3fa:	f8 94       	cli
+00000482 <_exit>:
+ 482:	f8 94       	cli
 
-000003fc <__stop_program>:
- 3fc:	ff cf       	rjmp	.-2      	; 0x3fc <__stop_program>
+00000484 <__stop_program>:
+ 484:	ff cf       	rjmp	.-2      	; 0x484 <__stop_program>

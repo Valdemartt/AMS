@@ -46,12 +46,12 @@ public:
 	void Calibrate();
 	Position getPosition();
 	void Read();
-private:
-	bool ScreenTouched();
 	void WriteData(unsigned char data);
 	int16_t ReadData();
+	bool ScreenTouched();
 	void ClockPulse();
 	void ClearClock();
+private:
 	int16_t X,Y;
 	Position position;
 };

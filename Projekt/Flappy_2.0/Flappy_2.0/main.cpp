@@ -16,38 +16,30 @@
 #include <util/delay.h>
 
 TouchDriver touchDriver;
-
+Position pos;
 
 int main(void)
-{
-	
+{	
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
-	
 	InitUART(9600,8,'N');
 	
 	touchDriver.InitTouch();
-	
-	SendString("Started");
-	
-    while (1) 
+	SendString("RST");
+    while(true)
     {
-	    SendInteger(IRQ_PORT);
-		_delay_ms(1000);
-		touchDriver.Read();
-		SendInteger(touchDriver.getPosition().getX());
+		if(touchDriver.ScreenTouched())
+		{
+			touchDriver.Read();
+			pos = touchDriver.getPosition();
+			SendInteger(pos.getX());
+			SendInteger(pos.getY());
+		}
     }
 }
 
-ISR (INT4_vect)
+ISR(INT4_vect)
 {
-	SendString("Interrupted.");
-	touchDriver.Read();
 	
-	Position pos = touchDriver.getPosition();
-	
-	SendInteger(pos.getX());
-	SendInteger(pos.getY());
 	
 }
-

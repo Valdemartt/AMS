@@ -25,10 +25,10 @@
 #define DIN_PORT PORTG
 #define DIN_PIN 5
 #define DIN_DDR DDRG
-#define DOUT_PORT PORTE
+#define DOUT_PORT PINE
 #define DOUT_PIN 5
 #define DOUT_DDR DDRE
-#define IRQ_PORT PORTE
+#define IRQ_PORT PINE
 #define IRQ_PIN 4
 #define IRQ_DDR DDRE
 
@@ -39,17 +39,27 @@ class TouchDriver
 {
 public:
 	TouchDriver();
+	TouchDriver(int x_offset, int y_offset, int conversion_resolution, int x_pixels, int y_pixels);
 	void InitTouch();
 	void Calibrate();
-	Position getPosition();
+	int getX();
+	int getY();
 	void Read();
 	void WriteData(unsigned char data);
 	int16_t ReadData();
 	bool ScreenTouched();	
 	void ClockPulse();
 	void ClearClock();
+	void SetTimer1_EnableInterrupt();
 private:
-	int16_t X,Y;
 	Position position;
+	int _xOffset;
+	int _yOffset;
+	int _timer0_duration;
+	int _conversionResolution;
+	int _xPixels;
+	int _yPixels;
+	int _xResPerPixel;
+	int _yResPerPixel;
 };
 #endif /* TOUCHDRIVER_H_ */

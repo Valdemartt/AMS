@@ -25,13 +25,20 @@ void TouchDriver::InitTouch()
 	CS_DDR |= 1<<(CS_PIN);
 	DIN_DDR |= 1<<(DIN_PIN);
 	DOUT_DDR &= ~1<<(DOUT_PIN);
-	IRQ_DDR &= ~1<<(IRQ_PIN);
+	IRQ_DDR |= 1<<(IRQ_PIN);
 	
 	//INT setup for INT4
 	EIMSK |= 1<<(4);
 	EICRB |= 2;
-	
 	sei();
+	
+	position = Position(0,0);
+	
+	sbi(CS_PORT,CS_PIN);
+	sbi(CLK_PORT,CLK_PIN);
+	//sbi(DIN_PORT,DIN_PIN);
+	//sbi(IRQ_PORT,IRQ_PIN);
+	
 	cbi(CS_PORT,CS_PIN);
 	_NOP();
 	_NOP();
@@ -39,30 +46,25 @@ void TouchDriver::InitTouch()
 	ClockPulse();
 	unsigned long temp_x = ReadData();
 	sbi(CS_PORT,CS_PIN);
-	
-	position = Position(0,0);
-	
 }
 
 void TouchDriver::Read()
 {
-	unsigned long temp_x=0, temp_y=0;
+	unsigned int temp_x=0, temp_y=0;
 	//int datacounter = 0;
 	
 	cbi(CS_PORT,CS_PIN);
 	
-	//disables interrupt
-	IRQ_DDR |= 1<<(IRQ_PIN);
+	//enables interrupt
+	IRQ_DDR &= ~1<<(IRQ_PIN);
 	
-	if(ScreenTouched())
+	if(!rbi(IRQ_PORT,IRQ_PIN))
 	{
 		WriteData(0x90);
 		temp_x = ReadData();
-		sbi(CS_PORT,CS_PIN);
 		
-		if(ScreenTouched())
+		if(!rbi(IRQ_PORT,IRQ_PIN))
 		{
-			cbi(CS_PORT,CS_PIN);
 			WriteData(0xD0);
 			temp_y = ReadData();
 			
@@ -77,12 +79,13 @@ void TouchDriver::Read()
 		
 	}
 	
+	//disables interrupt
+	IRQ_DDR |= 1<<(IRQ_PIN);
+		
 	sbi(CS_PORT,CS_PIN);
 	_NOP();
 	ClockPulse();
-	
-	//Enables interrupt
-	IRQ_DDR &= ~1<<(IRQ_PIN);
+
 }
 
 Position TouchDriver::getPosition()
@@ -92,7 +95,11 @@ Position TouchDriver::getPosition()
 
 bool TouchDriver::ScreenTouched()
 {
-	return !rbi(IRQ_PORT,IRQ_PIN);
+	bool dataAvailable;
+	IRQ_DDR &= ~1<<(IRQ_PIN);
+	dataAvailable = !rbi(IRQ_PORT,IRQ_PIN);
+	IRQ_DDR |= 1<<(IRQ_PIN);
+	return dataAvailable;
 }
 
 void TouchDriver::WriteData(unsigned char data)

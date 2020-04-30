@@ -158,6 +158,12 @@
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="TFT\TFTdriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TFT\TFTdriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="TouchDriver\Position.h">
       <SubType>compile</SubType>
     </Compile>
@@ -167,14 +173,16 @@
     <Compile Include="TouchDriver\TouchDriver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart.c">
+    <Compile Include="UART\uart.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart.h">
+    <Compile Include="UART\uart.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="UART" />
+    <Folder Include="TFT" />
     <Folder Include="TouchDriver" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

@@ -179,8 +179,21 @@
     <Compile Include="UART\uart.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="UIObjects\UIObject.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UIObjects\UIObject.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UIObjects\UIObjectFactory.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UIObjects\UIObjectFactory.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="UIObjects" />
     <Folder Include="UART" />
     <Folder Include="TFT" />
     <Folder Include="TouchDriver" />

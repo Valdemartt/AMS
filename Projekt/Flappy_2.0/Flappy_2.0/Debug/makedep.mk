@@ -4,7 +4,13 @@
 
 main.cpp
 
+TFT\TFTdriver.c
+
 TouchDriver\TouchDriver.cpp
 
-uart.c
+UART\uart.c
+
+UIObjects\UIObject.cpp
+
+UIObjects\UIObjectFactory.cpp
 

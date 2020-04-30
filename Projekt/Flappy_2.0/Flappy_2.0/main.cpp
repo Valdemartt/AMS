@@ -15,11 +15,11 @@
 #include "TouchDriver/Position.h"
 #include <util/delay.h>
 
-TouchDriver touchDriver(400,400,4095, 320, 240);
+TouchDriver touchDriver(400, 400, 4095, 320, 240);
 Position pos;
 
 int main(void)
-{	
+{	 
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
 	InitUART(9600,8,'N');
@@ -48,7 +48,7 @@ ISR(TIMER1_COMPA_vect)
 	TIMSK1 = 0; //Disable timer interrupt
 	
 	//Disable timer
-	TCCR1A = 0; 
+	TCCR1A = 0;
 	TCCR1B = 0;
 	
 	sbi(EIFR, 4); //Clear INT4 flag if set in mean time to avoid additional interrupts

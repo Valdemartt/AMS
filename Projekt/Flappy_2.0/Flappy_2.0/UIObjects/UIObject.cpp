@@ -7,9 +7,7 @@
 
 
 #include "UIObject.h"
-
-//Starting with 30 pixels.
-#define PIPE_SPAWN_LENGTH 30;
+#include "FlappyObject.h"
 
 UIObject::UIObject(int x, int y, int h, int w)
 {
@@ -17,6 +15,20 @@ UIObject::UIObject(int x, int y, int h, int w)
 	SetStartY(y);
 	SetHeight(h);
 	SetWidth(w);
+}
+
+UIObject::UIObject(int x, int y, int h, int w, bool flappy)
+{
+	SetStartX(x);
+	SetStartY(y);
+	SetHeight(h);
+	SetWidth(w);
+	if(flappy)
+	{
+		FlappyObject bird;
+		int* flappyArray = bird.getFlappy();
+		SetFlappy(flappyArray);
+	}
 }
 
 void UIObject::SetStartX(int x)
@@ -37,4 +49,9 @@ void UIObject::SetHeight(int h)
 void UIObject::SetWidth(int w)
 {
 	this->width = w;
+}
+
+void UIObject::SetFlappy(int* flappy)
+{
+	this->flappy=flappy;
 }

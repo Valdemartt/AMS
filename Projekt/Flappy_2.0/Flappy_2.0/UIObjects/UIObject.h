@@ -9,13 +9,17 @@
 #ifndef UIOBJECT_H_
 #define UIOBJECT_H_
 
+#define PIPE_SPAWN_LENGTH 50
+
 class UIObject
 {
 	public:
 		UIObject();
 		UIObject(int startX, int startY, int height, int width);
+		UIObject(int startX, int startY, int height, int width, bool flappy);
 
 	private:
+		int* flappy;
 		int startX;
 		int startY;
 		int height;
@@ -24,7 +28,7 @@ class UIObject
 		void SetStartY(int startY);
 		void SetHeight(int height);
 		void SetWidth(int width);
-	
+		void SetFlappy(int* flappy);
 };
 
 #endif /* UIOBJECT_H_ */

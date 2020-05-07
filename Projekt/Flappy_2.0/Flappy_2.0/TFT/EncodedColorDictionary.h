@@ -9,7 +9,6 @@
 #ifndef __COLORS_H__
 #define __COLORS_H__
 #include "string.h"
-#include <iostream>
 #include "Color.h"
 class EncodedColorDictionary
 {
@@ -17,14 +16,14 @@ class EncodedColorDictionary
 public:
 protected:
 private:
-	std::list<std::pair<std::string, int>> _encodedColors;
+	std::list<std::pair<char*, int>> _encodedColors;
 
 //functions
 public:
 	EncodedColorDictionary(std::list<Color> colors);
 	EncodedColorDictionary();
 	~EncodedColorDictionary();
-	int GetColor(std::string name);
+	int GetColor(char* name);
 protected:
 private:
 	Colors( const Colors &c );

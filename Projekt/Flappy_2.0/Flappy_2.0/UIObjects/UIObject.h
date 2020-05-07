@@ -8,7 +8,12 @@
 
 #ifndef UIOBJECT_H_
 #define UIOBJECT_H_
+
 #include "../TFT/Color.h"
+
+#define PIPE_SPAWN_LENGTH 50
+
+
 class UIObject
 {
 	public:
@@ -19,7 +24,10 @@ class UIObject
 		int GetHeight();
 		int GetWidth();
 		unsigned int GetColor();
+		UIObject(int startX, int startY, int height, int width, bool flappy);
+
 	private:
+		int* flappy;
 		int startX;
 		int startY;
 		int height;
@@ -30,7 +38,7 @@ class UIObject
 		void SetHeight(int height);
 		void SetWidth(int width);
 		void SetColor(Color * color);
-	
+		void SetFlappy(int* flappy);
 };
 
 #endif /* UIOBJECT_H_ */

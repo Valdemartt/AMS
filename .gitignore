@@ -6,7 +6,10 @@
 *.ko
 *.obj
 *.elf
-
+*.eep 
+*.srec
+Makefile
+*.mk
 # Linker output
 *.ilk
 *.map

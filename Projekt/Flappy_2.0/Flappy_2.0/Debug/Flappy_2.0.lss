@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000002d0  00000000  00000000  00003ef4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000a91  00000000  00000000  000041c4  2**0
+ 10 .debug_str    00000a9b  00000000  00000000  000041c4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000a80  00000000  00000000  00004c55  2**0
+ 11 .debug_loc    00000a80  00000000  00000000  00004c5f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c0  00000000  00000000  000056d5  2**0
+ 12 .debug_ranges 000000c0  00000000  00000000  000056df  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -347,7 +347,7 @@ void InitUART(unsigned long BaudRate, unsigned char DataBit, char Parity)
  1ba:	90 e0       	ldi	r25, 0x00	; 0
  1bc:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7000c5>
  1c0:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7000c4>
-{	
+{	 
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
 	InitUART(9600,8,'N');
@@ -475,7 +475,7 @@ ISR(TIMER1_COMPA_vect)
  278:	10 92 6f 00 	sts	0x006F, r1	; 0x80006f <__TEXT_REGION_LENGTH__+0x70006f>
 	
 	//Disable timer
-	TCCR1A = 0; 
+	TCCR1A = 0;
  27c:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x700080>
 	TCCR1B = 0;
  280:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <__TEXT_REGION_LENGTH__+0x700081>
@@ -518,7 +518,7 @@ ISR(TIMER1_COMPA_vect)
 #include "TouchDriver/Position.h"
 #include <util/delay.h>
 
-TouchDriver touchDriver(400,400,4095, 320, 240);
+TouchDriver touchDriver(400, 400, 4095, 320, 240);
  2bc:	0f 2e       	mov	r0, r31
  2be:	f0 ef       	ldi	r31, 0xF0	; 240
  2c0:	ef 2e       	mov	r14, r31

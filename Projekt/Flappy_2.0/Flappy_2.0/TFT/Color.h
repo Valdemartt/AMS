@@ -19,10 +19,10 @@ private:
 char _red;
 char _green;
 char _blue;
-std::string _name;
+char* _name;
 //functions
 public:
-	Color(char red, char green, char blue, std::string name) 
+	Color(char red, char green, char blue, char* name) 
 	{
 		_red = red;
 		_green = green;
@@ -39,8 +39,8 @@ public:
 	~Color();
 	char getRed() { return _red; }
 	char getGreen() { return _green; }
-	char getBlue() { return _blue }
-	std::string getName() { return _name; }
+	char getBlue() { return _blue; }
+	char* getName() { return _name; }
 protected:
 private:
 	Color( const Color &c );

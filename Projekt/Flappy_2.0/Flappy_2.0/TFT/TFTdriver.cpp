@@ -210,6 +210,7 @@ void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned
 }
 
 void TFTDriver::DrawFrame(int* data)
+
 {
 	int dataSize = sizeof(data);
 	if(dataSize > _height * _width)

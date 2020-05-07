@@ -9,20 +9,25 @@
 #ifndef FLAPPYOBJECT_H_
 #define FLAPPYOBJECT_H_
 
-#define FLAPPY_SIZE 30
+#define FLAPPY_HEIGHT 25
+#define FLAPPY_LENGTH 32
 
 class FlappyObject
 {
 public:
-	static int flappy[FLAPPY_SIZE][FLAPPY_SIZE];
+	static int flappy[FLAPPY_HEIGHT][FLAPPY_LENGTH];
 	int* getFlappy()
 	{
-		int* flappyAdd = &flappy[FLAPPY_SIZE][FLAPPY_SIZE];
+		int* flappyAdd = &flappy[FLAPPY_HEIGHT][FLAPPY_LENGTH];
 		return flappyAdd;
 	}
-	int getFlappySize()
+	int getFlappyHeight()
 	{
-		return FLAPPY_SIZE;
+		return FLAPPY_HEIGHT;
+	}
+	int getFlappyLength()
+	{
+		return FLAPPY_LENGTH;
 	}
 };
 

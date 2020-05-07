@@ -8,7 +8,7 @@
 #include <avr/interrupt.h>
 #include "TouchDriver.h"
 #include <avr/cpufunc.h>
-#include "../uart.h"
+#include "../UART/uart.h"
 #include <avr/io.h>
 
 #define CAL_X 0x00378F66UL

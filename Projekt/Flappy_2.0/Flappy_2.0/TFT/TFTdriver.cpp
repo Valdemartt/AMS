@@ -41,7 +41,7 @@
 // LOCAL FUNCTIONS /////////////////////////////////////////////////////////////
 
 // ILI 9341 data sheet, page 238
-void WriteCommand(unsigned int command)
+void TFTDriver::WriteCommand(unsigned int command)
 {
 	//Set command mode
 	DC_PORT &= ~(1<<DC_BIT);
@@ -59,7 +59,7 @@ void WriteCommand(unsigned int command)
 }
 
 // ILI 9341 data sheet, page 238
-void WriteData(unsigned int data)
+void TFTDriver::WriteData(unsigned int data)
 {
 	DC_PORT |= (1<<DC_BIT);
 	//Setup data
@@ -77,10 +77,25 @@ void WriteData(unsigned int data)
 
 // PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////
 
-// Initializes (resets) the display
-void DisplayInit()
+TFTDriver::TFTDriver(int width, int height)
 {
+	_width = width;
+	_height = height;
+}
 
+TFTDriver::TFTDriver()
+{
+	_width = 0;
+	_height = 0;
+}
+
+TFTDriver::~TFTDriver()
+{
+}
+
+// Initializes (resets) the display
+void TFTDriver::DisplayInit()
+{
 	//Set DC pin as output
 	DDRD |= (1<<DC_BIT);
 	//Set port A and C as output for data pins
@@ -110,23 +125,23 @@ void DisplayInit()
 	
 }
 
-void DisplayOff()
+void TFTDriver::DisplayOff()
 {
 	WriteCommand(0b00101000);
 }
 
-void DisplayOn()
+void TFTDriver::DisplayOn()
 {
 	WriteCommand(0b00101001);
 }
 
-void SleepOut()
+void TFTDriver::SleepOut()
 {
 	WriteCommand(0b00010001);
 	_delay_ms(10);
 }
 
-void Reset()
+void TFTDriver::Reset()
 {
 	RST_PORT &= ~(1<<RST_PORT);
 	_delay_ms(500);
@@ -134,39 +149,31 @@ void Reset()
 	_delay_ms(130);
 }
 
-void MemoryAccessControl(unsigned char parameter)
+void TFTDriver::MemoryAccessControl(unsigned char parameter)
 {
 	WriteCommand(0b00110110);
 	WriteData(parameter);
 }
 
-void InterfacePixelFormat(unsigned char parameter)
+void TFTDriver::InterfacePixelFormat(unsigned char parameter)
 {
 	WriteCommand(0b00111010);
 	WriteData(parameter);
 }
 
-void MemoryWrite()
+void TFTDriver::MemoryWrite()
 {
 	WriteCommand(0b00101100);
 }
 
 // Red 0-31, Green 0-63, Blue 0-31
-void WritePixel(unsigned char Red, unsigned char Green, unsigned char Blue)
+void TFTDriver::WritePixel(int encodedColor)
 {
-	unsigned int blue = (0b00011111 & Blue);
-	unsigned int green = (0b00111111 & Green);
-	unsigned int red = (0b00011111 & Red);
-	
-	unsigned int color = 0;
-	color |= blue;
-	color |= (green<<6);
-	color |= (red<<12);
-	WriteData(color);
+	WriteData(encodedColor);
 }
 
 // Set Column Address (0-239), Start > End
-void SetColumnAddress(unsigned int Start, unsigned int End)
+void TFTDriver::SetColumnAddress(unsigned int Start, unsigned int End)
 {
 	WriteCommand(0b00101010);
 	WriteData(Start>>8);
@@ -176,7 +183,7 @@ void SetColumnAddress(unsigned int Start, unsigned int End)
 }
 
 // Set Page Address (0-319), Start > End
-void SetPageAddress(unsigned int Start, unsigned int End)
+void TFTDriver::SetPageAddress(unsigned int Start, unsigned int End)
 {
 	WriteCommand(0b00101011);
 	WriteData(Start>>8);
@@ -189,25 +196,43 @@ void SetPageAddress(unsigned int Start, unsigned int End)
 // (StartX,StartY) = Upper left corner. X horizontal (0-319) , Y vertical (0-239).
 // Height (1-240) is vertical. Width (1-320) is horizontal.
 // R-G-B = 5-6-5 bits.
-void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue)
+void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue)
 {
 	SetPageAddress(StartX, (StartX + Width) - 1);
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
 	for(long int i = 0; i < (Width * Height); ++i)
 	{
-		WritePixel(Red, Green, Blue);	
+		WritePixel(0);
 	}
 	//Dummy command
 	DisplayInversionOff();
 }
 
-void DisplayInversionOn()
+void TFTDriver::DrawFrame(int[] data)
+{
+	int dataSize = sizeof(data);
+	if(dataSize > _height * _width)
+	{
+		dataSize = _height * _width;
+	}
+	SetPageAddress(0, _width - 1);
+	SetColumnAddress(0, _height - 1);
+	MemoryWrite();
+	for(long int i = 0; i < dataSize; ++i)
+	{
+		WriteData(data[i]);
+	}
+	//Dummy command
+	DisplayInversionOff();
+}
+
+void TFTDriver::DisplayInversionOn()
 {
 	WriteCommand(0b00100001);
 }
 
-void DisplayInversionOff()
+void TFTDriver::DisplayInversionOff()
 {
 	WriteCommand(0b00100000);
 }

@@ -18,21 +18,38 @@
 
   Henning Hargaard, February 15, 2018
 ************************************************************/  
-void DisplayInit();
-void Reset();
-void DisplayOff();
-void DisplayOn();
-void SleepOut();
-void MemoryAccessControl(unsigned char parameter);
-void InterfacePixelFormat(unsigned char parameter);
-void WritePixel(unsigned char Red, unsigned char Blue, unsigned char Green);
-void SetColumnAddress(unsigned int Start, unsigned int End);
-void SetPageAddress(unsigned int Start, unsigned int End);
-void MemoryWrite();
-void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, 
-                   unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue);
-void DisplayInversionOn();
-void DisplayInversionOff();
+class TFTDriver
+{
+//Variables
+private:
+	int _height;
+	int _width;
+
+public: 
+	TFTDriver(int height, int width);
+	TFTDriver();
+	~TFTDriver();
+	void DisplayInit();
+	void Reset();
+	void DisplayOff();
+	void DisplayOn();
+	void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width,
+	unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue);
+	void DrawFrame(int[] data);
+	void DisplayInversionOn();
+	void DisplayInversionOff();
+private:
+	void SleepOut();
+	void MemoryAccessControl(unsigned char parameter);
+	void InterfacePixelFormat(unsigned char parameter);
+	void WritePixel(int encodedColor);
+	void SetColumnAddress(unsigned int Start, unsigned int End);
+	void SetPageAddress(unsigned int Start, unsigned int End);
+	void MemoryWrite();
+	void WriteCommand(unsigned int command);
+	void WriteData(unsigned int data);
+};
+
 
 
 

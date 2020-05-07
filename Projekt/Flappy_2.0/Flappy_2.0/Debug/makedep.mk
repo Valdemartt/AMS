@@ -4,7 +4,11 @@
 
 main.cpp
 
+TFT\EncodedColorDictionary.cpp
+
+TFT\TFTdriver.cpp
+
 TouchDriver\TouchDriver.cpp
 
-uart.c
+UART\uart.c
 

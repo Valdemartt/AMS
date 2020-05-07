@@ -10,9 +10,12 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "TouchDriver/TouchDriver.h"
 #include "UARTDriver/uart.c"
 #include "TouchDriver/Position.h"
+#include "UIObjects/UIObjectFactory.h"
+#include "TFT/Color.h"
+#include "Game/GameController.h"
+
 #include <util/delay.h>
 
 TouchDriver touchDriver(400, 400, 4095, 320, 240);
@@ -26,9 +29,21 @@ int main(void)
 	////_delay_ms(1000);
 	touchDriver.InitTouch();
 	SendString("RST");
+	UIObjectFactory factory = UIObjectFactory();
+	Color Red(255, 0,0);
+	Color Green(0, 255, 0);
+	Color Blue(0, 0, 255);
+	
+	
+	TFTDriver tftDriver(320, 240);
+	tftDriver.DisplayInit();
+	tftDriver.DrawBackground(&Blue);
+	GameController game(&tftDriver, & touchDriver, 42, 30, 50);
+
+	game.StartGame();
     while(true)
     {
-		_delay_ms(1000);
+		
     }
 }
 

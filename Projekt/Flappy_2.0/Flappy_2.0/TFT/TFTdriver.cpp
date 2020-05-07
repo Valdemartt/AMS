@@ -201,27 +201,75 @@ void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned
 	SetPageAddress(StartX, (StartX + Width) - 1);
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
-	for(long int i = 0; i < (Width * Height); ++i)
+	Color color(Red, Green, Blue);
+	int encodedColor = color.getEncodedColor();
+	long int numPixels = (long int)Width * Height;
+	for(long int i = 0; i < numPixels; ++i)
 	{
-		WritePixel(0);
+		WritePixel(encodedColor);
 	}
 	//Dummy command
 	DisplayInversionOff();
 }
 
-void TFTDriver::DrawFrame(int* data)
+void TFTDriver::DrawFrame(int* data, int rows, int cols)
 {
-	int dataSize = sizeof(data);
-	if(dataSize > _height * _width)
-	{
-		dataSize = _height * _width;
+	if(rows > _height) {
+		rows = _height;
 	}
+	if(cols > _width) {
+		cols = _width;
+	}
+	
 	SetPageAddress(0, _width - 1);
 	SetColumnAddress(0, _height - 1);
 	MemoryWrite();
-	for(long int i = 0; i < dataSize; ++i)
+	for(int r = 0; r < rows; ++r)
 	{
-		WriteData(data[i]);
+		for(int c = 0; c < cols; c++)
+		{
+			WriteData(*(data + (r*c)+c));
+		}
+	}
+	//Dummy command
+	DisplayInversionOff();
+}
+
+void TFTDriver::DrawGame(UIObject ** pillars, int numPillars, UIObject *flappy)
+{
+	for(int i = 0; i < numPillars; i++)
+	{
+		int startX = pillars[i]->GetStartX();
+		int width = pillars[i]->GetWidth();
+		int startY = pillars[i]->GetStartY();
+		int height = pillars[i]->GetHeight();
+		unsigned int color = pillars[i]->GetColor();
+		
+		SetPageAddress(startX, (startX + width) - 1); //Maybe add error checking
+		SetColumnAddress(startY, (startY + height) - 1);
+		MemoryWrite();
+		
+		long int numPixels = (long int)(width * height);
+		for(long int p = 0; p < numPixels; p++)
+		{
+			WritePixel(color);	
+		}
+		//Dummy command
+		DisplayInversionOff();
+	}
+	//Draw flappy
+}
+
+void TFTDriver::DrawBackground(Color *color)
+{
+	int encodedColor = color->getEncodedColor();
+	SetPageAddress(0, _width - 1);
+	SetColumnAddress(0, _height - 1);
+	MemoryWrite();
+	long int numPixels = (long int)_width * _height;
+	for(long int i = 0; i < numPixels; ++i)
+	{
+		WritePixel(encodedColor);
 	}
 	//Dummy command
 	DisplayInversionOff();

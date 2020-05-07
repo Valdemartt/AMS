@@ -40,6 +40,22 @@ public:
 		color |= (red_enc<<12);
 		_encodedColor = color;
 	}
+	Color(char red, char green, char blue)
+	{
+		_red = red;
+		_green = green;
+		_blue = blue;
+		
+		unsigned int blue_enc = (0b00011111 & blue);
+		unsigned int green_enc = (0b00111111 & green);
+		unsigned int red_enc = (0b00011111 & red);
+		
+		unsigned int color = 0;
+		color |= blue_enc;
+		color |= (green_enc<<6);
+		color |= (red_enc<<12);
+		_encodedColor = color;
+	}
 	Color()
 	{
 		_red = 0;
@@ -48,12 +64,15 @@ public:
 		_name = "";
 		_encodedColor = 0;
 	}
-	~Color();
+	~Color()
+	{
+		
+	}
 	char getRed() { return _red; }
 	char getGreen() { return _green; }
 	char getBlue() { return _blue; }
 	char* getName() { return _name; }
-	int getEncodedColor { return _encodedColor }	
+	unsigned int getEncodedColor() { return _encodedColor; }	
 protected:
 private:
 	Color( const Color &c );

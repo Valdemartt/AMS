@@ -16,6 +16,7 @@ class UIObjectFactory
 	public:
 		UIObjectFactory();
 		UIObject CreateObject(int startX, int startY, int height, int width);
+		UIObject CreateRectangle(int startX, int startY, int height, int width, Color* color);
 	private:
 		UIObject object;
 };

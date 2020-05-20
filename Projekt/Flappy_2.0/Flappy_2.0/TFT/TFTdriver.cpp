@@ -206,10 +206,10 @@ int TFTDriver::GetWidth()
 // (StartX,StartY) = Upper left corner. X horizontal (0-319) , Y vertical (0-239).
 // Height (1-240) is vertical. Width (1-320) is horizontal.
 // R-G-B = 5-6-5 bits.
-void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned int color)
+void TFTDriver::FillRectangle(int StartX, int StartY, unsigned int Width, unsigned int Height, unsigned int color)
 {
-	unsigned int endX, endY;
-	if(StartX > _width || StartX < 0) //Out of screen
+	int endX, endY;
+	if(StartX > _width || StartX + Width < 0) //Out of screen
 	{
 		return;
 	}
@@ -263,7 +263,7 @@ void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flapp
 	DrawFlappy(flappy);
 }
 
-void TFTDriver::ErasePipes(PipePair * pipePairs, int numPairs, unsigned int color)
+void TFTDriver::EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color)
 {
 	for(int i = 0; i < numPairs; i++)
 	{
@@ -282,6 +282,11 @@ void TFTDriver::ErasePipes(PipePair * pipePairs, int numPairs, unsigned int colo
 		height = lower->GetHeight();
 		FillRectangle(startX, startY, width, height, color);
 	}
+	int startX = flappy->GetStartX();
+	int startY = flappy->GetStartY();
+	int width = flappy->getFlappyLength();
+	int height = flappy->getFlappyHeight();
+	FillRectangle(startX, startY, width, height, color);
 }
 
 void TFTDriver::DrawFlappy(FlappyObject * flappy)

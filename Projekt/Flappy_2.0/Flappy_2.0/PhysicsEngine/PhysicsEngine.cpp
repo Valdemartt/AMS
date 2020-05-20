@@ -17,7 +17,6 @@ PhysicsEngine::PhysicsEngine()
 PhysicsEngine::PhysicsEngine(int Yposition)
 {
 	FlappyPosition = Yposition;
-	
 } 
 
 // default destructor
@@ -25,28 +24,28 @@ PhysicsEngine::~PhysicsEngine()
 {
 } //~PhysicsEngine
 
-void PhysicsEngine::KeyPressed()
+void PhysicsEngine::Update(float elapsedTime, FlappyObject * flappy, bool keyPressed)
 {
-	keyPressed = true;
-}
-
-void PhysicsEngine::Update(float elapsedTime)
-{
-	if(keyPressed && Velocity >= Gravity / 5.0f)
+	//if(keyPressed && Velocity >= Gravity / 5.0f)
+	//{
+		//Acceleration = 0.0f;
+		//Velocity = -Gravity / 3.0f;
+	//}
+	//else
+	//{
+		//Acceleration += Gravity * elapsedTime;
+	//}
+	//if(Acceleration>=Gravity)
+	//{
+		//Acceleration = Gravity;
+	//}
+	//Velocity += Acceleration * elapsedTime;
+	//FlappyPosition += Velocity * elapsedTime;	
+	//flappy->SetStartY(FlappyPosition);
+	//keyPressed=false;
+	if(keyPressed)
 	{
-		Acceleration = 0.0f;
-		Velocity = -Gravity / 3.0f;
+		flappy->SetStartY(flappy->GetStartY() - 15);
 	}
-	else
-	{
-		Acceleration += Gravity * elapsedTime;
-	}
-	if(Acceleration>=Gravity)
-	{
-		Acceleration = Gravity;
-	}
-	Velocity += Acceleration * elapsedTime;
-	FlappyPosition += Velocity * elapsedTime;	
-	
-	keyPressed=false;
+	flappy->SetStartY(flappy->GetStartY() + 3);
 }

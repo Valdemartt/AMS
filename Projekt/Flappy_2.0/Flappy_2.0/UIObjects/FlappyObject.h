@@ -11,6 +11,7 @@
 
 #define FLAPPY_HEIGHT 25
 #define FLAPPY_LENGTH 64
+#include "../TFT/Color.h"
 
 class FlappyObject
 {
@@ -82,6 +83,10 @@ public:
 	int GetStartY() 
 	{
 		return _startY;
+	}
+	void SetStartY(int y)
+	{
+		_startY = y;
 	}
 };
 

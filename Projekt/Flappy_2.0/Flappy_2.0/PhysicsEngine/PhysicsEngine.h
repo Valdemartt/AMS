@@ -8,7 +8,7 @@
 
 #ifndef __PHYSICSENGINE_H__
 #define __PHYSICSENGINE_H__
-
+#include "../UIObjects/FlappyObject.h"
 class PhysicsEngine
 {
 //variables
@@ -20,19 +20,17 @@ private:
 public:
 	PhysicsEngine();
 	~PhysicsEngine();
-	void KeyPressed();
-	void Update(float elapsedTime);
+	void Update(float elapsedTime, FlappyObject * flappy, bool keyPressed);
 	
 protected:
 private:
-	bool keyPressed = false;
 	PhysicsEngine( const PhysicsEngine &c );
 	PhysicsEngine(int Yposition);
 	PhysicsEngine& operator=( const PhysicsEngine &c );
 	int FlappyPosition = 0;
 	float Velocity = 0.0f;
 	float Acceleration = 0.0f;
-	float Gravity = 100.0f;
+	float Gravity = 5.0f;
 
 }; //PhysicsEngine
 

@@ -31,16 +31,17 @@ GameController::~GameController()
 {
 } //~GameController
 
-GameController::GameController(TFTDriver *tftDriver, TouchDriver *touchDriver, long seed, int pipeWidth, int pipeGap)
+GameController::GameController(TFTDriver *tftDriver, TouchDriver *touchDriver, PhysicsEngine * engine, long seed, int pipeWidth, int pipeGap)
 {
 	_tftDriver = tftDriver;
 	_touchDriver = touchDriver;
+	_engine = engine;
 	_rngState = seed;
 	_lastPipeOffset = 0;
 	_pipeWidth = pipeWidth;
-	_pipeDistance = 60;
+	_pipeDistance = 100;
 	_pipeGap = pipeGap;
-	_speed = 3;
+	_speed = 5;
 	_numPipePairs = _tftDriver->GetWidth()/(_pipeWidth + _pipeDistance) + 1;
 }
 
@@ -68,12 +69,12 @@ void GameController::StartGame()
 	_tftDriver->DrawGame(_pipes, _numPipePairs, _flappy);
 }
 
-void GameController::NextFrame()
+void GameController::NextFrame(bool screenPressed)
 {
 	Color Blue(0,0,255);
-	_tftDriver->ErasePipes(_pipes, _numPipePairs, Blue.getEncodedColor());
+	_tftDriver->EraseObjects(_pipes, _numPipePairs, _flappy, Blue.getEncodedColor());
 	UpdatePipes();
-	UpdateFlappy();
+	UpdateFlappy(screenPressed);
 	_tftDriver->DrawGame(_pipes, _numPipePairs, _flappy);
 }
 
@@ -114,9 +115,9 @@ void GameController::UpdatePipes()
 	}
 }
 
-void GameController::UpdateFlappy()
+void GameController::UpdateFlappy(bool screenPressed)
 {
-	
+	_engine->Update(_speed, _flappy, screenPressed);
 }	
 
 bool GameController::IsPlaying()

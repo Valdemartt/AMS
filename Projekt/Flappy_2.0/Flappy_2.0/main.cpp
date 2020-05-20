@@ -33,7 +33,8 @@ int main(void)
 	touchDriver.InitTouch();
 	TFTDriver tftDriver(320, 240);
 	tftDriver.DisplayInit();
-	GameController game(&tftDriver, &touchDriver, 42, 30, 50);
+	PhysicsEngine engine;
+	GameController game(&tftDriver, &touchDriver, &engine, 42, 30, 100);
 	game.StartGame();
 	InterruptSetup::InitFrameTimer();
     while(true)
@@ -42,7 +43,9 @@ int main(void)
 		{
 			if(drawNewFrame)
 			{
-				game.NextFrame();
+				game.NextFrame(screenTouched);
+				drawNewFrame = false;
+				screenTouched = false;
 			}
 		}
 		if(!game.IsPlaying())
@@ -63,11 +66,10 @@ ISR(INT4_vect)
 	//Disable interrupt - will be enable again on timer0 overflow.
 	cbi(EIMSK, IRQ_PIN);
 	touchDriver.Read();
-	//SendInteger(touchDriver.getX());
 	//SendChar(' ');
 	//SendInteger(touchDriver.getY());
 	touchDriver.SetTimer1_EnableInterrupt();
-	}
+}
 
 ISR(TIMER3_COMPA_vect)
 {
@@ -84,5 +86,4 @@ ISR(TIMER1_COMPA_vect)
 	
 	sbi(EIFR, 4); //Clear INT4 flag if set in mean time to avoid additional interrupts
 	sbi(EIMSK, IRQ_PIN); //re-enable interrupt
-	SendString("Timer interrupt");
 }

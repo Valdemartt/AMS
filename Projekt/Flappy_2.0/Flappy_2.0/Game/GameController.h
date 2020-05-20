@@ -14,6 +14,7 @@
 #include "../UIObjects/PipePair.h"
 #include "../UIObjects/FlappyObject.h"
 #include "../UIObjects/UIObject.h"
+#include "../PhysicsEngine/PhysicsEngine.h"
 class GameController
 {
 //variables
@@ -24,6 +25,7 @@ private:
 	TouchDriver * _touchDriver;
 	PipePair* _pipes;
 	FlappyObject* _flappy;
+	PhysicsEngine* _engine;
 	bool _isPlaying;
 	unsigned long _rngState;
 	unsigned int _lastPipeOffset;
@@ -36,13 +38,13 @@ private:
 //functions
 public:
 	GameController();
-	GameController(TFTDriver* tftDriver, TouchDriver* touchDriver, long seed, int pipeWidth, int pipeGap);
+	GameController(TFTDriver* tftDriver, TouchDriver* touchDriver, PhysicsEngine* engine, long seed, int pipeWidth, int pipeGap);
 	~GameController();
 	void StartGame();
 	void StopGame();
 	void GameOver();
 	bool IsPlaying();
-	void NextFrame();
+	void NextFrame(bool screenPressed);
 	void Pause();
 	bool DetectCollision();
 	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
@@ -51,7 +53,7 @@ private:
 	GameController( const GameController &c );
 	GameController& operator=( const GameController &c );
 	void UpdatePipes();
-	void UpdateFlappy();
+	void UpdateFlappy(bool screenPressed);
 }; //GameController
 
 #endif //__GAMECONTROLLER_H__

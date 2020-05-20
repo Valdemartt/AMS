@@ -22,7 +22,7 @@ UIObject * _lower;
 //functions
 public:
 	PipePair();
-	PipePair(UIObject * _upper, UIObject * _lower);
+	PipePair(UIObject * upper, UIObject * lower);
 	~PipePair();
 	UIObject * GetUpper();
 	UIObject * GetLower();

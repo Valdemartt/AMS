@@ -13,6 +13,7 @@
 #include "../TouchDriver/TouchDriver.h"
 #include "../UIObjects/PipePair.h"
 #include "../UIObjects/FlappyObject.h"
+#include "../UIObjects/UIObject.h"
 class GameController
 {
 //variables

@@ -26,19 +26,12 @@ int main(void)
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
 	InitUART(9600,8,'N');
-	////_delay_ms(1000);
 	touchDriver.InitTouch();
-	SendString("RST");
-	UIObjectFactory factory = UIObjectFactory();
-	Color Red(255, 0,0);
-	Color Green(0, 255, 0);
 	Color Blue(0, 0, 255);
-	
-	
 	TFTDriver tftDriver(320, 240);
 	tftDriver.DisplayInit();
 	tftDriver.DrawBackground(&Blue);
-	GameController game(&tftDriver, & touchDriver, 42, 30, 50);
+	GameController game(&tftDriver, &touchDriver, 42, 30, 50);
 
 	game.StartGame();
     while(true)

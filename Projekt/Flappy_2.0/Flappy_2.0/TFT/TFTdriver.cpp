@@ -208,7 +208,21 @@ int TFTDriver::GetWidth()
 // R-G-B = 5-6-5 bits.
 void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned int color)
 {
-	SetPageAddress(StartX, (StartX + Width) - 1);
+	unsigned int endX, endY;
+	if(StartX > _width || StartX < 0) //Out of screen
+	{
+		return;
+	}
+	else if(StartX + Width > _width) //On right edge of screen
+	{
+		endX = _width;
+	}
+	else if(StartX + Width > 0 && StartX < 0) //On left edge of screen
+	{
+		endX = StartX + Width;
+		StartX = 0;
+	}
+	SetPageAddress(StartX, endX - 1);
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
 	long int numPixels = (long int)Width * Height;
@@ -220,53 +234,54 @@ void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned
 	DisplayInversionOff();
 }
 
-void TFTDriver::DrawFrame(int* data, int rows, int cols)
-{
-	if(rows > _height) {
-		rows = _height;
-	}
-	if(cols > _width) {
-		cols = _width;
-	}
-	
-	SetPageAddress(0, _width - 1);
-	SetColumnAddress(0, _height - 1);
-	MemoryWrite();
-	for(int r = 0; r < rows; ++r)
-	{
-		for(int c = 0; c < cols; c++)
-		{
-			WriteData(*(data + (r*c)+c));
-		}
-	}
-}
 
 void TFTDriver::DrawGame(PipePair ** pipePairs, int numPairs, FlappyObject *flappy)
 {
-	//for(int i = 0; i < numPairs; i++)
-	//{
-		//UIObject * lower = pipePairs[i]->GetLower();
-		//UIObject * upper = pipePairs[i]->GetUpper();
-		//
-		//int startX = upper->GetStartX();
-		//int width = upper->GetWidth();
-		//int startY = upper->GetStartY();
-		//int height = upper->GetHeight();
-		//unsigned int color = upper->GetColor();
-		//FillRectangle(startX, startY, width, height, color);
-		//
-		//startX = lower->GetStartX();
-		//width = lower->GetWidth();
-		//startY = lower->GetStartY();
-		//height = lower->GetHeight();
-		//color = lower->GetColor();
-		//FillRectangle(startX, startY, width, height, color);
-		//
-		////Dummy command
+	for(int i = 0; i < numPairs; i++)
+	{
+		UIObject * lower = pipePairs[i]->GetLower();
+		UIObject * upper = pipePairs[i]->GetUpper();
+		
+		int startX = upper->GetStartX();
+		int width = upper->GetWidth();
+		int startY = upper->GetStartY();
+		int height = upper->GetHeight();
+		unsigned int color = upper->GetColor();
+		FillRectangle(startX, startY, width, height, color);
+		
+		startX = lower->GetStartX();
+		width = lower->GetWidth();
+		startY = lower->GetStartY();
+		height = lower->GetHeight();
+		color = lower->GetColor();
+		FillRectangle(startX, startY, width, height, color);
+		
+		//Dummy command
 		//DisplayInversionOff();
-	//}
+	}
 	//Draw flappy
 	DrawFlappy(flappy);
+}
+
+void TFTDriver::ErasePipes(PipePair ** pipePairs, int numPairs, unsigned int color)
+{
+	for(int i = 0; i < numPairs; i++)
+	{
+		UIObject * lower = pipePairs[i]->GetLower();
+		UIObject * upper = pipePairs[i]->GetUpper();
+		
+		int startX = upper->GetStartX();
+		int width = upper->GetWidth();
+		int startY = upper->GetStartY();
+		int height = upper->GetHeight();
+		FillRectangle(startX, startY, width, height, color);
+		
+		startX = lower->GetStartX();
+		width = lower->GetWidth();
+		startY = lower->GetStartY();
+		height = lower->GetHeight();
+		FillRectangle(startX, startY, width, height, color);
+	}
 }
 
 void TFTDriver::DrawFlappy(FlappyObject * flappy)

@@ -241,33 +241,58 @@ void TFTDriver::DrawFrame(int* data, int rows, int cols)
 	}
 }
 
-void TFTDriver::DrawGame(PipePair ** pipePairs, int numPairs, UIObject *flappy)
+void TFTDriver::DrawGame(PipePair ** pipePairs, int numPairs, FlappyObject *flappy)
 {
-	for(int i = 0; i < numPairs; i++)
-	{
-		UIObject * lower = pipePairs[i]->GetLower();
-		UIObject * upper = pipePairs[i]->GetUpper();
-		
-		int startX = upper->GetStartX();
-		int width = upper->GetWidth();
-		int startY = upper->GetStartY();
-		int height = upper->GetHeight();
-		unsigned int color = upper->GetColor();
-		FillRectangle(startX, startY, width, height, color);
-		
-		int startX = lower->GetStartX();
-		int width = lower->GetWidth();
-		int startY = lower->GetStartY();
-		int height = lower->GetHeight();
-		unsigned int color = lower->GetColor();
-		FillRectangle(startX, startY, width, height, color);
-		
-		//Dummy command
-		DisplayInversionOff();
-	}
+	//for(int i = 0; i < numPairs; i++)
+	//{
+		//UIObject * lower = pipePairs[i]->GetLower();
+		//UIObject * upper = pipePairs[i]->GetUpper();
+		//
+		//int startX = upper->GetStartX();
+		//int width = upper->GetWidth();
+		//int startY = upper->GetStartY();
+		//int height = upper->GetHeight();
+		//unsigned int color = upper->GetColor();
+		//FillRectangle(startX, startY, width, height, color);
+		//
+		//startX = lower->GetStartX();
+		//width = lower->GetWidth();
+		//startY = lower->GetStartY();
+		//height = lower->GetHeight();
+		//color = lower->GetColor();
+		//FillRectangle(startX, startY, width, height, color);
+		//
+		////Dummy command
+		//DisplayInversionOff();
+	//}
 	//Draw flappy
+	DrawFlappy(flappy);
 }
 
+void TFTDriver::DrawFlappy(FlappyObject * flappy)
+{
+	int startX = flappy->GetStartX();
+	int startY = flappy->GetStartY();
+	int height = flappy->getFlappyHeight();
+	int width = flappy->getFlappyLength();
+	Color Yellow(0,255,255);
+	//FillRectangle(startX, startY, width, height, Yellow.getEncodedColor());
+	
+	SetPageAddress(startX, (startX + width) - 1);
+	SetColumnAddress(startY, (startY + height) - 1);
+	MemoryWrite();
+	for(int i = 0; i < height; i++)
+	{
+		int * flappyData = flappy->getFlappy(i);
+		for(int j = 0; j < width; j++)
+		{
+			int color = flappyData[j];
+			WritePixel(color);
+		}
+	}	
+	//Dummy command
+	DisplayInversionOff();
+}
 void TFTDriver::DrawBackground(Color *color)
 {
 	int encodedColor = color->getEncodedColor();

@@ -23,8 +23,12 @@ class UIObject
 		int GetStartY();
 		int GetHeight();
 		int GetWidth();
+		void SetStartX(int startX);
+		void SetStartY(int startY);
+		void SetHeight(int height);
+		void SetWidth(int width);
+		void SetColor(Color * color);
 		unsigned int GetColor();
-		UIObject(int startX, int startY, int height, int width, bool flappy);
 
 	private:
 		int* flappy;
@@ -33,12 +37,6 @@ class UIObject
 		int height;
 		int width;
 		unsigned int color;
-		void SetStartX(int startX);
-		void SetStartY(int startY);
-		void SetHeight(int height);
-		void SetWidth(int width);
-		void SetColor(Color * color);
-		void SetFlappy(int* flappy);
 };
 
 #endif /* UIOBJECT_H_ */

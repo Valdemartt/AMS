@@ -12,6 +12,7 @@
 #include "../TFT/TFTdriver.h"
 #include "../TouchDriver/TouchDriver.h"
 #include "../UIObjects/PipePair.h"
+#include "../UIObjects/FlappyObject.h"
 class GameController
 {
 //variables
@@ -21,7 +22,7 @@ private:
 	TFTDriver * _tftDriver;
 	TouchDriver * _touchDriver;
 	PipePair** _pipes;
-	UIObject _flappy;
+	FlappyObject* _flappy;
 	bool _isPlaying;
 	long _rngState;
 	int _lastPipeOffset;

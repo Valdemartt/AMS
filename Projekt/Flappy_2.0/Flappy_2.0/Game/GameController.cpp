@@ -11,6 +11,15 @@
 // default constructor
 GameController::GameController()
 {
+	_tftDriver = nullptr;
+	_touchDriver = nullptr;
+	_rngState = 42;
+	_lastPipeOffset = 0;
+	_pipeWidth = 30;
+	_pipeDistance = 80;
+	_pipeGap = 50;
+	_speed = 10;
+	_numPipePairs = 2;
 } //GameController
 
 // default destructor
@@ -41,21 +50,22 @@ void GameController::StartGame()
 	for (int i = 0; i < _numPipePairs; i++)
 	{
 		_lastPipeOffset = GenerateRandomNumber(50,200);
-		UIObject lowerPipe(290, _lastPipeOffset, 240 - _lastPipeOffset, _pipeWidth, &Green);
+		UIObject lowerPipe(290 + i * , _lastPipeOffset, 240 - _lastPipeOffset, _pipeWidth, &Green);
 		UIObject upperPipe(290, 0, 240 - _pipeGap - _lastPipeOffset, _pipeWidth, &Green);
-		PipePair pair1 = PipePair(&upperPipe, &lowerPipe);
+		PipePair pair = PipePair(&upperPipe, &lowerPipe);
+		pipes[i] = &pair;
 	}
 	_pipes = pipes;
-	
-	_flappy = UIObject();
+	FlappyObject flappy = FlappyObject(70, 108);
+	_flappy = &flappy;
 	
 	_tftDriver->DrawBackground(&Blue);
-	_tftDriver->DrawGame(_pipes, sizeof(_pipes), &_flappy);
+	_tftDriver->DrawGame(_pipes, 0, _flappy);
 	while(!DetectCollision() && _isPlaying)
 	{
 		UpdatePipes();
 		UpdateFlappy();
-		_tftDriver->DrawGame(_pipes, sizeof(_pipes), &_flappy);
+		_tftDriver->DrawGame(_pipes, 0, _flappy);
 	}
 	GameOver();
 }
@@ -72,26 +82,21 @@ int GameController::GenerateRandomNumber(int min, int max)
 
 void GameController::UpdatePipes()
 {
-	for(int i = 0; i < sizeof(_pipes); ++i)
-	{
-		//_pipes[i]->SetStartX(_pipes[i]->GetStartX() - _speed);
-		//if(_pipes[i]->GetStartX() + _pipes[i]->GetWidth() < 0)
+	//for(int i = 0; i < sizeof(_pipes); ++i)
+	//{
+		//UIObject * lower = _pipes[i]->GetLower();
+		//UIObject * upper = _pipes[i]->GetUpper();
+		//lower->SetStartX(lower->GetStartX() - _speed);
+		//upper->SetStartX(upper->GetStartX() - _speed);
+		//if((lower->GetStartX() + lower->GetWidth()) < 0)
 		//{
-			//_pipes[i]->SetStartX(_tftDriver->GetWidth());
+			//_lastPipeOffset = GenerateRandomNumber(50,200);
+			//lower->SetStartX(_tftDriver->GetWidth());
+			//upper->SetStartX(_tftDriver->GetWidth());
+			//upper->SetHeight(_tftDriver->GetHeight() - _pipeGap - _lastPipeOffset);
+			//lower->SetHeight(_tftDriver->GetHeight() - _lastPipeOffset);
 		//}
-		UIObject * lower = _pipes[i]->GetLower();
-		UIObject * upper = _pipes[i]->GetUpper();
-		lower->SetStartX(lower->GetStartX() - _speed);
-		upper->SetStartX(upper->GetStartX() - _speed);
-		if((lower->GetStartX() + lower->GetWidth()) < 0)
-		{
-			_lastPipeOffset = GenerateRandomNumber(50,200);
-			lower->SetStartX(_tftDriver->GetWidth());
-			upper->SetStartX(_tftDriver->GetWidth());
-			upper->SetHeight(_tftDriver->GetHeight() - _pipeGap - _lastPipeOffset);
-			lower->SetHeight(_tftDriver->GetHeight() - _lastPipeOffset);
-		}
-	}
+	//}
 }
 
 void GameController::UpdateFlappy()

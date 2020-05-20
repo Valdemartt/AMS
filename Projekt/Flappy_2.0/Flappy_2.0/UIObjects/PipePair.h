@@ -9,7 +9,7 @@
 #ifndef __PIPEPAIR_H__
 #define __PIPEPAIR_H__
 
-
+#include "UIObject.h"
 class PipePair
 {
 //variables

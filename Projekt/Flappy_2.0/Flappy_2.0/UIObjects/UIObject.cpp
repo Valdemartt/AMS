@@ -27,20 +27,6 @@ UIObject::UIObject()
 	SetColor(&Black);
 }
 
-UIObject::UIObject(int x, int y, int h, int w, bool flappy)
-{
-	SetStartX(x);
-	SetStartY(y);
-	SetHeight(h);
-	SetWidth(w);
-	if(flappy)
-	{
-		FlappyObject bird;
-		int* flappyArray = bird.getFlappy();
-		SetFlappy(flappyArray);
-	}
-}
-
 void UIObject::SetStartX(int x)
 {
 	this->startX = x;
@@ -91,8 +77,4 @@ unsigned int UIObject::GetColor()
 	return this->color;
 }
 
-void UIObject::SetFlappy(int* flappy)
-{
-	this->flappy=flappy;
-}
 

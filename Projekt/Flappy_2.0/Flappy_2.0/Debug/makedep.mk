@@ -6,6 +6,8 @@ Game\GameController.cpp
 
 main.cpp
 
+PhysicsEngine\PhysicsEngine.cpp
+
 TFT\TFTdriver.cpp
 
 TouchDriver\TouchDriver.cpp

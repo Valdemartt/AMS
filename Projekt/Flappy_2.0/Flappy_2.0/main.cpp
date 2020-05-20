@@ -49,7 +49,7 @@ ISR(INT4_vect)
 	SendChar(' ');
 	SendInteger(touchDriver.getY());
 	touchDriver.SetTimer1_EnableInterrupt();
-}
+	}
 
 ISR(TIMER1_COMPA_vect)
 {

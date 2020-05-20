@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+Game\GameController.cpp
+
 main.cpp
 
 TFT\TFTdriver.cpp

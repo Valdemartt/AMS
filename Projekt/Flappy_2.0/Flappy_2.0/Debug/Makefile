@@ -33,6 +33,7 @@ LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
+../Game \
 ../UIObjects \
 ../UART \
 ../TFT \
@@ -41,10 +42,12 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../Game/GameController.cpp \
 ../main.cpp \
 ../TFT/TFTdriver.cpp \
 ../TouchDriver/TouchDriver.cpp \
 ../UART/uart.c \
+../UIObjects/PipePair.cpp \
 ../UIObjects/UIObject.cpp \
 ../UIObjects/UIObjectFactory.cpp
 
@@ -56,34 +59,42 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+Game/GameController.o \
 main.o \
 TFT/TFTdriver.o \
 TouchDriver/TouchDriver.o \
 UART/uart.o \
+UIObjects/PipePair.o \
 UIObjects/UIObject.o \
 UIObjects/UIObjectFactory.o
 
 OBJS_AS_ARGS +=  \
+Game/GameController.o \
 main.o \
 TFT/TFTdriver.o \
 TouchDriver/TouchDriver.o \
 UART/uart.o \
+UIObjects/PipePair.o \
 UIObjects/UIObject.o \
 UIObjects/UIObjectFactory.o
 
 C_DEPS +=  \
+Game/GameController.d \
 main.d \
 TFT/TFTdriver.d \
 TouchDriver/TouchDriver.d \
 UART/uart.d \
+UIObjects/PipePair.d \
 UIObjects/UIObject.d \
 UIObjects/UIObjectFactory.d
 
 C_DEPS_AS_ARGS +=  \
+Game/GameController.d \
 main.d \
 TFT/TFTdriver.d \
 TouchDriver/TouchDriver.d \
 UART/uart.d \
+UIObjects/PipePair.d \
 UIObjects/UIObject.d \
 UIObjects/UIObjectFactory.d
 
@@ -101,6 +112,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+Game/GameController.o: ../Game/GameController.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ./main.o: .././main.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
@@ -126,6 +144,13 @@ UART/uart.o: ../UART/uart.c
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+UIObjects/PipePair.o: ../UIObjects/PipePair.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 

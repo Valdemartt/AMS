@@ -191,6 +191,12 @@
     <Compile Include="UIObjects\FlappyObject.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="UIObjects\PipePair.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UIObjects\PipePair.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="UIObjects\UIObject.cpp">
       <SubType>compile</SubType>
     </Compile>

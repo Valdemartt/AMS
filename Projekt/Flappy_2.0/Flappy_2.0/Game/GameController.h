@@ -11,6 +11,7 @@
 #include "../TFT/Color.h"
 #include "../TFT/TFTdriver.h"
 #include "../TouchDriver/TouchDriver.h"
+#include "../UIObjects/PipePair.h"
 class GameController
 {
 //variables
@@ -19,7 +20,7 @@ protected:
 private:
 	TFTDriver * _tftDriver;
 	TouchDriver * _touchDriver;
-	UIObject** _pipes;
+	PipePair** _pipes;
 	UIObject _flappy;
 	bool _isPlaying;
 	long _rngState;
@@ -28,6 +29,8 @@ private:
 	int _pipeWidth;
 	int _speed;
 	int _score;
+	int _pipeDistance;
+	int _numPipePairs;
 //functions
 public:
 	GameController();

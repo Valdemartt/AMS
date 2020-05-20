@@ -192,21 +192,29 @@ void TFTDriver::SetPageAddress(unsigned int Start, unsigned int End)
 	WriteData(End);
 }
 
+int TFTDriver::GetHeight()
+{
+	return _height;
+}
+
+int TFTDriver::GetWidth()
+{
+	return _width;
+}
+
 // Fills rectangle with specified color
 // (StartX,StartY) = Upper left corner. X horizontal (0-319) , Y vertical (0-239).
 // Height (1-240) is vertical. Width (1-320) is horizontal.
 // R-G-B = 5-6-5 bits.
-void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue)
+void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, unsigned int Height, unsigned int color)
 {
 	SetPageAddress(StartX, (StartX + Width) - 1);
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
-	Color color(Red, Green, Blue);
-	int encodedColor = color.getEncodedColor();
 	long int numPixels = (long int)Width * Height;
 	for(long int i = 0; i < numPixels; ++i)
 	{
-		WritePixel(encodedColor);
+		WritePixel(color);
 	}
 	//Dummy command
 	DisplayInversionOff();
@@ -231,29 +239,29 @@ void TFTDriver::DrawFrame(int* data, int rows, int cols)
 			WriteData(*(data + (r*c)+c));
 		}
 	}
-	//Dummy command
-	DisplayInversionOff();
 }
 
-void TFTDriver::DrawGame(UIObject ** pillars, int numPillars, UIObject *flappy)
+void TFTDriver::DrawGame(PipePair ** pipePairs, int numPairs, UIObject *flappy)
 {
-	for(int i = 0; i < numPillars; i++)
+	for(int i = 0; i < numPairs; i++)
 	{
-		int startX = pillars[i]->GetStartX();
-		int width = pillars[i]->GetWidth();
-		int startY = pillars[i]->GetStartY();
-		int height = pillars[i]->GetHeight();
-		unsigned int color = pillars[i]->GetColor();
+		UIObject * lower = pipePairs[i]->GetLower();
+		UIObject * upper = pipePairs[i]->GetUpper();
 		
-		SetPageAddress(startX, (startX + width) - 1); //Maybe add error checking
-		SetColumnAddress(startY, (startY + height) - 1);
-		MemoryWrite();
+		int startX = upper->GetStartX();
+		int width = upper->GetWidth();
+		int startY = upper->GetStartY();
+		int height = upper->GetHeight();
+		unsigned int color = upper->GetColor();
+		FillRectangle(startX, startY, width, height, color);
 		
-		long int numPixels = (long int)(width * height);
-		for(long int p = 0; p < numPixels; p++)
-		{
-			WritePixel(color);	
-		}
+		int startX = lower->GetStartX();
+		int width = lower->GetWidth();
+		int startY = lower->GetStartY();
+		int height = lower->GetHeight();
+		unsigned int color = lower->GetColor();
+		FillRectangle(startX, startY, width, height, color);
+		
 		//Dummy command
 		DisplayInversionOff();
 	}

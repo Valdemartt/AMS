@@ -42,6 +42,8 @@ public:
 	void DrawBackground(Color *color);
 	void DisplayInversionOn();
 	void DisplayInversionOff();
+	int GetHeight();
+	int GetWidth();
 private:
 	void SleepOut();
 	void MemoryAccessControl(unsigned char parameter);

@@ -15,40 +15,63 @@
 #include "UIObjects/UIObjectFactory.h"
 #include "TFT/Color.h"
 #include "Game/GameController.h"
+#include "Game/InterruptSetup.h"
 
 #include <util/delay.h>
 
 TouchDriver touchDriver(400, 400, 4095, 320, 240);
 Position pos;
-
+bool drawNewFrame;
+bool gamePaused;
+bool screenTouched;
 int main(void)
 {	 
+	gamePaused = false;
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
 	InitUART(9600,8,'N');
 	touchDriver.InitTouch();
-	Color Blue(0, 0, 255);
 	TFTDriver tftDriver(320, 240);
 	tftDriver.DisplayInit();
-	tftDriver.DrawBackground(&Blue);
 	GameController game(&tftDriver, &touchDriver, 42, 30, 50);
-
 	game.StartGame();
+	InterruptSetup::InitFrameTimer();
     while(true)
     {
-		
+		while(game.IsPlaying() && !game.DetectCollision())
+		{
+			if(drawNewFrame)
+			{
+				game.NextFrame();
+			}
+		}
+		if(!game.IsPlaying())
+		{
+			while(!screenTouched){ }
+			game.StartGame();
+		}
+		else if(game.DetectCollision())
+		{
+			game.GameOver();
+		}		
     }
 }
 
 ISR(INT4_vect)
 {
+	screenTouched = true;
 	//Disable interrupt - will be enable again on timer0 overflow.
 	cbi(EIMSK, IRQ_PIN);
 	touchDriver.Read();
-	SendInteger(touchDriver.getX());
-	SendChar(' ');
-	SendInteger(touchDriver.getY());
+	//SendInteger(touchDriver.getX());
+	//SendChar(' ');
+	//SendInteger(touchDriver.getY());
 	touchDriver.SetTimer1_EnableInterrupt();
+}
+
+ISR(TIMER3_COMPA_vect)
+{
+	drawNewFrame = true;
 }
 
 ISR(TIMER1_COMPA_vect)

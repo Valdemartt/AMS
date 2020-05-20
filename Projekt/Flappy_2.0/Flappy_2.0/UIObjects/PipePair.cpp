@@ -18,7 +18,7 @@ PipePair::~PipePair()
 {
 } //~PipePair
 
-PipePair::PipePair(UIObject * upper, UIObject * lower)
+PipePair::PipePair(UIObject upper, UIObject lower)
 {
 	_upper = upper;
 	_lower = lower;
@@ -26,9 +26,15 @@ PipePair::PipePair(UIObject * upper, UIObject * lower)
 
 UIObject * PipePair::GetLower()
 {
-	return _lower;
+	return &_lower;
 }
 UIObject * PipePair::GetUpper()
 {
-	return _upper;
+	return &_upper;
 }
+PipePair& PipePair::operator=( const PipePair &c )
+{
+	_upper = c._upper;
+	_lower = c._lower;	
+}
+

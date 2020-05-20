@@ -235,12 +235,12 @@ void TFTDriver::FillRectangle(unsigned int StartX, unsigned int StartY, unsigned
 }
 
 
-void TFTDriver::DrawGame(PipePair ** pipePairs, int numPairs, FlappyObject *flappy)
+void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flappy)
 {
 	for(int i = 0; i < numPairs; i++)
 	{
-		UIObject * lower = pipePairs[i]->GetLower();
-		UIObject * upper = pipePairs[i]->GetUpper();
+		UIObject * lower = pipePairs[i].GetLower();
+		UIObject * upper = pipePairs[i].GetUpper();
 		
 		int startX = upper->GetStartX();
 		int width = upper->GetWidth();
@@ -263,12 +263,12 @@ void TFTDriver::DrawGame(PipePair ** pipePairs, int numPairs, FlappyObject *flap
 	DrawFlappy(flappy);
 }
 
-void TFTDriver::ErasePipes(PipePair ** pipePairs, int numPairs, unsigned int color)
+void TFTDriver::ErasePipes(PipePair * pipePairs, int numPairs, unsigned int color)
 {
 	for(int i = 0; i < numPairs; i++)
 	{
-		UIObject * lower = pipePairs[i]->GetLower();
-		UIObject * upper = pipePairs[i]->GetUpper();
+		UIObject * lower = pipePairs[i].GetLower();
+		UIObject * upper = pipePairs[i].GetUpper();
 		
 		int startX = upper->GetStartX();
 		int width = upper->GetWidth();

@@ -16,21 +16,20 @@ class PipePair
 public:
 protected:
 private:
-UIObject * _upper;
-UIObject * _lower;
+UIObject _upper;
+UIObject _lower;
 
 //functions
 public:
 	PipePair();
-	PipePair(UIObject * upper, UIObject * lower);
+	PipePair(UIObject upper, UIObject lower);
 	~PipePair();
 	UIObject * GetUpper();
 	UIObject * GetLower();
+	PipePair& operator=( const PipePair &c );
 protected:
 private:
 	PipePair( const PipePair &c );
-	PipePair& operator=( const PipePair &c );
-
 }; //PipePair
 
 #endif //__PIPEPAIR_H__

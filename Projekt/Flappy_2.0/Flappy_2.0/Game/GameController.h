@@ -22,11 +22,11 @@ protected:
 private:
 	TFTDriver * _tftDriver;
 	TouchDriver * _touchDriver;
-	PipePair** _pipes;
+	PipePair* _pipes;
 	FlappyObject* _flappy;
 	bool _isPlaying;
-	long _rngState;
-	int _lastPipeOffset;
+	unsigned long _rngState;
+	unsigned int _lastPipeOffset;
 	int _pipeGap;
 	int _pipeWidth;
 	int _speed;
@@ -42,14 +42,16 @@ public:
 	void StopGame();
 	void GameOver();
 	bool IsPlaying();
-	int GenerateRandomNumber(int min, int max);
+	void NextFrame();
+	void Pause();
+	bool DetectCollision();
+	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
 protected:
 private:
 	GameController( const GameController &c );
 	GameController& operator=( const GameController &c );
 	void UpdatePipes();
 	void UpdateFlappy();
-	bool DetectCollision();
 }; //GameController
 
 #endif //__GAMECONTROLLER_H__

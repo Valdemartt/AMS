@@ -39,14 +39,14 @@ public:
 	void DisplayOn();
 	void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width,
 	unsigned int Height, unsigned int color);
-	void DrawGame(PipePair **pillars, int numPillars, FlappyObject *flappy);
+	void DrawGame(PipePair *pillars, int numPillars, FlappyObject *flappy);
 	void DrawBackground(Color *color);
 	void DisplayInversionOn();
 	void DisplayInversionOff();
 	int GetHeight();
 	int GetWidth();
 	void DrawFlappy(FlappyObject * flappy);
-	void ErasePipes(PipePair ** pipes, int numPairs, unsigned int color);
+	void ErasePipes(PipePair * pipes, int numPairs, unsigned int color);
 private:
 	void SleepOut();
 	void MemoryAccessControl(unsigned char parameter);

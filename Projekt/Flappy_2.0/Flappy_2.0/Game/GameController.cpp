@@ -54,7 +54,7 @@ void GameController::StartGame()
 {
 	Color Green(0,255,0);
 	Color Blue(0,0,255);
-	Color Brown(210,105,30);
+	Color Brown(30,105,210);
 	_isPlaying = true;
 	_score = 0;
 	_earthHeight = 10;

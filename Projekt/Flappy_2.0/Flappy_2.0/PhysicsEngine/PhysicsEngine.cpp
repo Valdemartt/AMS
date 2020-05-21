@@ -26,26 +26,25 @@ PhysicsEngine::~PhysicsEngine()
 
 void PhysicsEngine::Update(float elapsedTime, FlappyObject * flappy, bool keyPressed)
 {
-	//if(keyPressed && Velocity >= Gravity / 5.0f)
-	//{
-		//Acceleration = 0.0f;
-		//Velocity = -Gravity / 3.0f;
-	//}
-	//else
-	//{
-		//Acceleration += Gravity * elapsedTime;
-	//}
-	//if(Acceleration>=Gravity)
-	//{
-		//Acceleration = Gravity;
-	//}
-	//Velocity += Acceleration * elapsedTime;
-	//FlappyPosition += Velocity * elapsedTime;
-	//flappy->SetStartY(FlappyPosition);
-	//keyPressed=false;
-	if(keyPressed)
+	if(keyPressed && Velocity >= Gravity / 5.0f)
 	{
-		flappy->SetStartY(flappy->GetStartY() - 15);
+		Acceleration = 0.0f;
+		Velocity = -Gravity / 3.0f;
 	}
-	flappy->SetStartY(flappy->GetStartY() + 6);
+	else
+	{
+		Acceleration += Gravity * elapsedTime;
+	}
+	if(Acceleration>=Gravity)
+		Acceleration = Gravity;
+	
+	Velocity+=Acceleration * elapsedTime;
+	FlappyPosition += Velocity * elapsedTime;
+	flappy->SetStartY(FlappyPosition);
+	
+	//if(keyPressed)
+	//{
+		//flappy->SetStartY(flappy->GetStartY() - 15);
+	//}
+	//flappy->SetStartY(flappy->GetStartY() + 6);
 }

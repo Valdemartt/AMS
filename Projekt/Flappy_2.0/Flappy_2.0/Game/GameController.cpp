@@ -54,7 +54,7 @@ void GameController::StartGame()
 {
 	Color Green(0,255,0);
 	Color Blue(0,0,255);
-	Color Brown(30,105,210);
+	Color Brown(42,42,165);
 	_isPlaying = true;
 	_score = 0;
 	_earthHeight = 10;
@@ -141,7 +141,7 @@ bool GameController::DetectCollision()
 {
 	for(int i = 0; i < _numPipePairs; i++)
 	{
-		if(CollisionDetection::CheckCollision(_flappy, &_pipes[i]))
+		if(CollisionDetection::CheckCollision(_flappy, &_pipes[i], _tftDriver->GetHeight()-_earthHeight))
 			return true;
 	}
 	return false;

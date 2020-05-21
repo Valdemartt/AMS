@@ -102,5 +102,20 @@ class InterruptSetup
     +InitFrameTimer(): static void
 }
 
+class GameController
+{
+    +GameController()
+    +GameController(tftDriver: TFTDriver*, touchDriver: TouchDriver*, engine: PhysicsEngine*, seed: long, pipeWidth: int, pipeGap: int)
+    +StartGame(): void
+    +StopGame(): void
+    +GameOver(): void
+    +IsPlaying(): bool
+    +NextFrame(screenPressed: bool): void
+    +Pause(): void
+    +DetectCollision(): bool
+    -CheckIncrementScore(): bool
+    -GenerateRandomNumber(min: unsigned int, max: unsigned int): unsigned int
+}
+
 Position --* TouchDriver : Contains Touch position
 @enduml

@@ -52,14 +52,14 @@ public:
 	void NextFrame(bool screenPressed);
 	void Pause();
 	bool DetectCollision();
-	bool CheckIncrementScore();
-	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
 protected:
 private:
 	GameController( const GameController &c );
 	GameController& operator=( const GameController &c );
 	void UpdatePipes();
 	void UpdateFlappy(bool screenPressed);
+	bool CheckIncrementScore();
+	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
 }; //GameController
 
 #endif //__GAMECONTROLLER_H__

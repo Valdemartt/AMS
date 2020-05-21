@@ -69,8 +69,19 @@ class Position
     -y_value: int
 }
 
-actor MAIN
-allowmixing
+class MAIN
+{
+    ISR(INT4_vect)
+    ISR(TIMER3_COMPA_vect)
+    ISRT(TIMER1_COMPA_vect)
+}
+
+class CollisionDetection
+{
+    CheckCollision(flappy: FlappyObject*, pipes: PipePair*): static bool
+    CheckEarthCollision(flappy: FlappyObject*, earth: int): static bool
+}
+
 
 Position --* TouchDriver : Contains Touch position
 @enduml

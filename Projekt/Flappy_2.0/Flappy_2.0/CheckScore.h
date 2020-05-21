@@ -22,8 +22,6 @@ public:
 		
 		return lowerPipe.GetStartX() == xScore;
 	}
-protected:
-private:
 };
 
 

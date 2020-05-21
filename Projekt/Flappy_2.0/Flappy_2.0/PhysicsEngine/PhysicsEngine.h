@@ -20,7 +20,7 @@ private:
 public:
 	PhysicsEngine();
 	~PhysicsEngine();
-	void Update(double elapsedTime, FlappyObject * flappy, bool keyPressed);
+	void Update(int elapsedTime, FlappyObject * flappy, bool keyPressed);
 	
 protected:
 private:
@@ -28,9 +28,9 @@ private:
 	PhysicsEngine(int Yposition);
 	PhysicsEngine& operator=( const PhysicsEngine &c );
 	int FlappyPosition = 0;
-	int Velocity = 0.0f;
-	int Acceleration = 0.0f;
-	int Gravity = 10.0f;
+	int Velocity = 0;
+	int Acceleration = 0;
+	int Gravity = 10;
 
 }; //PhysicsEngine
 

@@ -35,6 +35,15 @@ UIObject * PipePair::GetUpper()
 PipePair& PipePair::operator=( const PipePair &c )
 {
 	_upper = c._upper;
-	_lower = c._lower;	
+	_lower = c._lower;
 }
 
+bool PipePair::GetIsPassed()
+{
+	return _passed;
+}
+
+bool PipePair::SetIsPassed(bool passed)
+{
+	_passed = passed;
+}

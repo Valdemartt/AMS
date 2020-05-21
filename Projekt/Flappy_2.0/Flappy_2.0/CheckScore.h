@@ -20,7 +20,12 @@ public:
 	{
 		UIObject lowerPipe = *pipes->GetLower();
 		
-		return lowerPipe.GetStartX() == xScore;
+		if ((xScore > (lowerPipe.GetStartX() + lowerPipe.GetWidth())) && !pipes->GetIsPassed())
+		{
+			pipes->SetIsPassed(true);
+			return true;
+		}
+		return false;
 	}
 };
 

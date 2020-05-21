@@ -23,6 +23,7 @@
 #define F_CPU 16000000
 #include <util/delay.h>
 #include "TFTdriver.h"
+#include <string.h>
 
 // Data port definitions:
 #define DATA_PORT_HIGH PORTA
@@ -77,10 +78,11 @@ void TFTDriver::WriteData(unsigned int data)
 
 // PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////
 
-TFTDriver::TFTDriver(int width, int height)
+TFTDriver::TFTDriver(int width, int height, FontGenerator * fontGenerator)
 {
 	_width = width;
 	_height = height;
+	_fontGenerator = fontGenerator;
 }
 
 TFTDriver::TFTDriver()
@@ -338,33 +340,68 @@ void TFTDriver::DrawBackground(Color *backgroundColor, Color *earthColor, int ea
 	}
 	//Dummy command
 	DisplayInversionOff();
-	
 }
 
 void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
 {
 	unsigned int startX = xCenter - width/2;
 	unsigned int startY = yCenter - height/2;
+	//MemoryAccessControl(0b00011100);
 	SetPageAddress(startX, startX + width - 1);
 	SetColumnAddress(startY, startY + height - 1);
 	MemoryWrite();
 	for(long int i = 0; i < dataLength; i++)
 	{
+		char pixels = data[i];
 		for(int b = 0; b < 8; b++)
 		{
-			if(((data[i]) && (1<<b)) == 0)
-			{
-				WritePixel(backgroundColor);
-			}
-			else
+			char temp = pixels<<b;
+			temp &= 0b10000000;
+			if(temp != 0)
 			{
 				WritePixel(textColor);
 			}
+			else
+			{
+				WritePixel(backgroundColor);
+			}
 		}
-		
 	}
 	//Dummy command
 	DisplayInversionOff();
+	MemoryAccessControl(0b00001000);
+}
+
+void TFTDriver::WriteText(char* text, int startX, int startY, unsigned int textColor, unsigned int backgroundColor)
+{
+	int length = strlen(text);
+	
+	SetColumnAddress(startY,startY+15);
+	SetPageAddress(startX,(length*16)+startX);
+	MemoryWrite();
+	
+	for(int i = 0; i < length; ++i )
+	{
+		unsigned char* c = _fontGenerator->GetCharacter(*(text+i));		
+		
+		for(int ii = 0; ii< 32; ++ii)
+		{
+			char pixel = *(c+ii);
+			for(int iii = 0; iii < 8 ; iii++)
+			{
+				char onoff = pixel<<iii;
+				onoff &= 0b10000000;
+				if(onoff != 0)
+				{
+					WritePixel(textColor);
+				} 
+				else if (onoff == 0) 
+				{
+					WritePixel(backgroundColor);
+				}
+			}
+		}
+	}
 }
 
 void TFTDriver::DisplayInversionOn()

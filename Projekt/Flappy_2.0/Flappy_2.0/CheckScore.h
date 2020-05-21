@@ -27,8 +27,6 @@ public:
 		}
 		return false;
 	}
-protected:
-private:
 };
 
 

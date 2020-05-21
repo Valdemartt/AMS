@@ -51,8 +51,6 @@ public:
 	void NextFrame(bool screenPressed);
 	void Pause();
 	bool DetectCollision();
-	bool CheckIncrementScore();
-	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
 	void Reset();
 protected:
 private:

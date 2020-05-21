@@ -1,0 +1,13 @@
+@startuml
+actor Player
+boundary Foo2
+control Foo3
+entity Foo4
+database Foo5
+collections Foo6
+Player -> Foo2 : To boundary
+Player -> Foo3 : To control
+Player -> Foo4 : To entity
+Player -> Foo5 : To database
+Player -> Foo6 : To collections
+@enduml

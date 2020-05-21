@@ -21,7 +21,6 @@
 #include <util/delay.h>
 
 TouchDriver touchDriver(400, 400, 4095, 320, 240);
-Position pos;
 bool drawNewFrame;
 bool gamePaused;
 bool screenTouched;

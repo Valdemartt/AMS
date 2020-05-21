@@ -47,6 +47,10 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 		
 		flappy->SetStartY(FlappyPosition);
 	}
+	else
+	{
+		flappy->SetStartY(1);	
+	}
 	//if(keyPressed)
 	//{
 		//flappy->SetStartY(flappy->GetStartY() - 15);

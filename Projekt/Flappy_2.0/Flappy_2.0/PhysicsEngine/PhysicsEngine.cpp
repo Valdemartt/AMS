@@ -31,7 +31,8 @@ void PhysicsEngine::Update(double elapsedTime, FlappyObject * flappy, bool keyPr
 	if(keyPressed && Velocity >= Gravity / 4)
 	{
 		Acceleration = 0;
-		Velocity = -Gravity / 2;
+		Velocity = -15;
+		elapsedTime = 1;
 	}
 	else
 	{

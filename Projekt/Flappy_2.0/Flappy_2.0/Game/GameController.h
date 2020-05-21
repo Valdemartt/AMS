@@ -36,6 +36,7 @@ private:
 	int _highscore;
 	int _pipeDistance;
 	int _numPipePairs;
+	int _earthHeight;
 //functions
 public:
 	GameController();

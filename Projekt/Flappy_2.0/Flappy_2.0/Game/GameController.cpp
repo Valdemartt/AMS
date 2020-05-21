@@ -54,8 +54,10 @@ void GameController::StartGame()
 {
 	Color Green(0,255,0);
 	Color Blue(0,0,255);
+	Color Brown(210,105,30);
 	_isPlaying = true;
 	_score = 0;
+	_earthHeight = 10;
 	
 	PipePair pipes[_numPipePairs];
 	for (int i = 0; i < _numPipePairs; i++)
@@ -71,7 +73,7 @@ void GameController::StartGame()
 	FlappyObject flappy = FlappyObject(70, 108);
 	_flappy = &flappy;
 	
-	_tftDriver->DrawBackground(&Blue);
+	_tftDriver->DrawBackground(&Blue, &Brown, _earthHeight);
 	_tftDriver->DrawGame(_pipes, _numPipePairs, _flappy);
 }
 
@@ -162,7 +164,7 @@ void GameController::GameOver()
 		_highscore = _score;
 	}
 	Color color(0,0,0);
-	_tftDriver->DrawBackground(&color);
+	_tftDriver->DrawBackground(&color,&color,0);
 	StopGame();
 }
 void GameController::StopGame()

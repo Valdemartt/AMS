@@ -40,7 +40,7 @@ public:
 	void FillRectangle(int StartX, int StartY, unsigned int Width,
 	unsigned int Height, unsigned int color);
 	void DrawGame(PipePair *pillars, int numPillars, FlappyObject *flappy);
-	void DrawBackground(Color *color);
+	void DrawBackground(Color *backgroundColor, Color *earthColor, int earthHeight);
 	void DisplayInversionOn();
 	void DisplayInversionOff();
 	int GetHeight();

@@ -341,6 +341,28 @@ void TFTDriver::DrawBackground(Color *backgroundColor, Color *earthColor, int ea
 	
 }
 
+void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
+{
+	unsigned int startX = xCenter - width/2;
+	unsigned int startY = yCenter - height/2;
+	SetPageAddress(startX, startX + width - 1);
+	SetColumnAddress(startY, startY + height - 1);
+	MemoryWrite();
+	for(long int i = 0; i < dataLength; i++)
+	{
+		if(data[i] == 0)
+		{
+			WritePixel(backgroundColor);
+		}
+		else
+		{
+			WritePixel(textColor);
+		}
+	}
+	//Dummy command
+	DisplayInversionOff();
+}
+
 void TFTDriver::DisplayInversionOn()
 {
 	WriteCommand(0b00100001);

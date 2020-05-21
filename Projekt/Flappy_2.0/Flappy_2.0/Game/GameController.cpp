@@ -118,7 +118,7 @@ void GameController::UpdatePipes()
 			_lastPipeOffset = GenerateRandomNumber(50,200);
 			upper->SetHeight(_lastPipeOffset - _pipeGap/2);
 			lower->SetStartY(_lastPipeOffset + _pipeGap/2);
-			lower->SetHeight(_tftDriver->GetHeight() - (_lastPipeOffset + _pipeGap/2));
+			lower->SetHeight(_tftDriver->GetHeight() - (_lastPipeOffset + _pipeGap/2) - _earthHeight);
 		}
 		if(CheckIncrementScore())
 		{
@@ -159,12 +159,17 @@ bool GameController::CheckIncrementScore()
 
 void GameController::GameOver()
 {
+	Color backgroundColor(0,0,255);
+	Color textColor(0,0,0);
+	Color earthColor(42,42,165);
+	_tftDriver->DrawBackground(&backgroundColor, &earthColor, _earthHeight);
+	_tftDriver->DrawText(_gameOverText, _gameOverWidth * _gameOverHeight, _gameOverWidth, _gameOverHeight, 160, 80, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	PipePair pipes[_numPipePairs];
+	_pipes = pipes; //reset pipes
 	if(_score>_highscore)
 	{
 		_highscore = _score;
 	}
-	Color color(0,0,0);
-	_tftDriver->DrawBackground(&color,&color,0);
 	StopGame();
 }
 void GameController::StopGame()

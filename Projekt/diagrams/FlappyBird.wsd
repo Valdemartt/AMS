@@ -56,4 +56,21 @@ class TouchDriver
     -_xResPerPixel: int
     -_yResPerPixel: int
 }
+
+class Position
+{
+    +Position()
+    +Position(x: int, y: int)
+    +setX(x: int): void
+    +setY(y: int): void
+    +getX(): int
+    +getY(): int
+    -x_value: int
+    -y_value: int
+}
+
+actor MAIN
+allowmixing
+
+Position --* TouchDriver : Contains Touch position
 @enduml

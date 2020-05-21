@@ -115,7 +115,72 @@ class GameController
     +DetectCollision(): bool
     -CheckIncrementScore(): bool
     -GenerateRandomNumber(min: unsigned int, max: unsigned int): unsigned int
+    -UpdatePipes(): void
+    -UpdateFlappy(screenPressed: bool): void
+    -_pipeGap: int
+    -_isPlaying: bool
+    -_rngState: unsigned long
+    -_lastPipeOffset: unsigned int
+    -_pipeWidth: int
+    -_speed: int
+    -_score: int
+    -_highsacore: int
+    -_pipeDistance: int
+    -_numPipePairs: int
+    -_elapsedTimeSinceClick: int
+    -_earthHight: int
 }
 
-Position --* TouchDriver : Contains Touch position
+class Color
+{
+    +Color()
+    +Color(red: char, green: char, blue: char, name: char*)
+    +Color(red: char, green: char, blue: char)
+    +getRed(): char
+    +getBlue(): char
+    +getGreen(): char
+    +getEncodedColor(): unsigned int
+    -_red: char
+    -_green: char
+    -_blue: char
+    -_name: char*
+    -_encodedColor: unsigned int
+}
+
+class UIObject
+{
+    +UIObject()
+    +UIObject(startX: int, startY: int, height: int, width: int, color: Color*)
+    +GetStartX(): int
+    +GetStartY(): int
+    +GetHeight(): int
+    +GetWidth(): int
+    +SetStartX(startX: int): void
+    +SetStartY(startY: int): void
+    +SetHeight(height: int): void
+    +SetWidth(width: int): void
+    +SetColor(color: Color*): void
+    +GetColor(): unsigned int
+    -flappy*: int
+    -startX: int
+    -startY: int
+    -height: int
+    -width: int
+    -color: unsigned int
+}
+
+class FlappyObject
+{
+    +FlappyObject()
+    +FlappyObject(startX: int, startY: int)
+    +getFlappy(index: int): int*
+    +getFlappyHeight(): int
+    +getFlappyWidth(): int
+    +getStartX(): int
+    +getStartY(): int
+    +SetStartY(): int
+    -_startX: int
+    -_startY: int
+    -_flappy[]: int
+}
 @enduml

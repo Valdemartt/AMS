@@ -47,6 +47,7 @@ public:
 	int GetWidth();
 	void DrawFlappy(FlappyObject * flappy);
 	void EraseObjects(PipePair * pipes, int numPairs, FlappyObject * flappy, unsigned int color);
+	void DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor);
 private:
 	void SleepOut();
 	void MemoryAccessControl(unsigned char parameter);

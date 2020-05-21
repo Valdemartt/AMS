@@ -137,8 +137,12 @@ bool GameController::DetectCollision()
 
 void GameController::GameOver()
 {
-	Color color(0,0,0);
-	_tftDriver->DrawBackground(&color);
+	Color backgroundColor(0,0,255);
+	Color textColor(0,0,0);
+	_tftDriver->DrawBackground(&backgroundColor);
+	_tftDriver->DrawText(_gameOverText, _gameOverWidth * _gameOverHeight, _gameOverWidth, _gameOverHeight, 160, 80, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	PipePair pipes[_numPipePairs];
+	_pipes = pipes; //reset pipes
 	StopGame();
 }
 void GameController::StopGame()

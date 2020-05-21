@@ -182,7 +182,7 @@ void TouchDriver::SetTimer1_EnableInterrupt()
 	TCCR1A &= 0b11111100; //Set CTC mode
 	TCCR1B &= 0b11101111; //Set CTC mode
 	TCCR1B |= 0b00001000; //Set CTC mode
-	OCR1A = 25000; //Compare on when timer reaches 25000 - every 100 ms;
+	OCR1A = 12500; //Compare on when timer reaches 25000 - every 100 ms;
 	TCCR1B |= 0b00000011; //Set 64 clock prescaler and start timer
 }
 void TouchDriver::ClearClock()

@@ -328,6 +328,21 @@ void TFTDriver::DrawBackground(Color *color)
 	DisplayInversionOff();
 }
 
+void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
+{
+	for(long int i = 0; i < dataLength; i++)
+	{
+		if(data[i] == 0)
+		{
+			WritePixel(backgroundColor);
+		}
+		else
+		{
+			WritePixel(textColor);
+		}
+	}
+}
+
 void TFTDriver::DisplayInversionOn()
 {
 	WriteCommand(0b00100001);

@@ -17,7 +17,7 @@
 class CollisionDetection
 {
 	public:
-		static bool CheckCollision(FlappyObject * flappy, PipePair * pipes, int earth)
+		static bool CheckCollision(FlappyObject * flappy, PipePair * pipes)
 		{
 			UIObject lowerPipe = *pipes->GetLower();
 			UIObject upperPipe = *pipes->GetUpper();
@@ -34,10 +34,13 @@ class CollisionDetection
 			flappy->GetStartY() < upperPipe.GetStartY() + upperPipe.GetHeight() &&
 			flappy->GetStartY() + flappy->getFlappyHeight() > upperPipe.GetStartY();
 			
-			bool groundCollision = ((flappy->GetStartY() + flappy->getFlappyHeight()) > earth);
-			
-			return collisionLower || collisionUpper || groundCollision;
+			return (collisionLower || collisionUpper);
 		};
+		static bool  CheckEarthCollision(FlappyObject * flappy, int earth)
+		{
+			bool groundCollision = flappy->GetStartX()+flappy->getFlappyHeight() > earth;
+			return groundCollision;
+		}
 };
 
 #endif /* COLLISIONDETECTION_H_ */

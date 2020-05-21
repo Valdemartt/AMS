@@ -8,6 +8,7 @@
 
 #include "GameController.h"
 #include "../CollisionDetection.h"
+#include "../CheckScore.h"
 #define F_CPU 16000000
 #include <util/delay.h>
 #include <stdlib.h>
@@ -24,6 +25,8 @@ GameController::GameController()
 	_pipeGap = 50;
 	_speed = 10;
 	_numPipePairs = 2;
+	_score = 0;
+	_highscore = 0;
 } //GameController
 
 // default destructor
@@ -43,6 +46,8 @@ GameController::GameController(TFTDriver *tftDriver, TouchDriver *touchDriver, P
 	_pipeGap = pipeGap;
 	_speed = 5;
 	_numPipePairs = _tftDriver->GetWidth()/(_pipeWidth + _pipeDistance) + 1;
+	_score = 0;
+	_highscore = 0;
 }
 
 void GameController::StartGame()
@@ -50,6 +55,7 @@ void GameController::StartGame()
 	Color Green(0,255,0);
 	Color Blue(0,0,255);
 	_isPlaying = true;
+	_score = 0;
 	
 	PipePair pipes[_numPipePairs];
 	for (int i = 0; i < _numPipePairs; i++)
@@ -112,6 +118,10 @@ void GameController::UpdatePipes()
 			lower->SetStartY(_lastPipeOffset + _pipeGap/2);
 			lower->SetHeight(_tftDriver->GetHeight() - (_lastPipeOffset + _pipeGap/2));
 		}
+		if(CheckIncrementScore())
+		{
+			_score++;
+		}
 	}
 }
 
@@ -135,8 +145,22 @@ bool GameController::DetectCollision()
 	return false;
 }
 
+bool GameController::CheckIncrementScore()
+{
+	for(int i = 0; i< _numPipePairs; i++)
+	{
+		if(CheckScore::CheckIncrementScore(69, &_pipes[i]))
+			return true;
+	}
+	return false;
+}
+
 void GameController::GameOver()
 {
+	if(_score>_highscore)
+	{
+		_highscore = _score;
+	}
 	Color color(0,0,0);
 	_tftDriver->DrawBackground(&color);
 	StopGame();

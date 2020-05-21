@@ -14,6 +14,7 @@ Makefile
 *.ilk
 *.map
 *.exp
+*.srec
 
 # Precompiled Headers
 *.gch

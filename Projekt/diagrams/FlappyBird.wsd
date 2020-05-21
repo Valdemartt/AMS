@@ -78,10 +78,29 @@ class MAIN
 
 class CollisionDetection
 {
-    CheckCollision(flappy: FlappyObject*, pipes: PipePair*): static bool
-    CheckEarthCollision(flappy: FlappyObject*, earth: int): static bool
+    +CheckCollision(flappy: FlappyObject*, pipes: PipePair*): static bool
+    +CheckEarthCollision(flappy: FlappyObject*, earth: int): static bool
 }
 
+class CheckScore
+{
+    +CheckIncrementScore(xScore: int, pipes: PipePair*): static bool
+}
+
+class PhysicsEngine
+{
+    +PhysicsEngine()
+    +Update(elapsedTime: int, flappy: FlappyObject*, keyPressed: bool): void
+    -FlappyPosition: int
+    -Velocity: int
+    -Acceleration: int
+    -Gratvity = 10: int
+}
+
+class InterruptSetup
+{
+    +InitFrameTimer(): static void
+}
 
 Position --* TouchDriver : Contains Touch position
 @enduml

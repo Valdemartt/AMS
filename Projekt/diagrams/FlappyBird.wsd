@@ -1,0 +1,59 @@
+@startuml
+class TFTDriver
+{
+    +TFTDriver()
+    +TFTDriver(height: int, width: int)
+    +~TFTDriver()
+    +DisplayInit(): void
+    +Reset(): void
+    +DisplayOff(): void
+    +DisplayOn(): void
+    +FillRectangle(StartX: int, int StartY: int, Width: unsigned int,
+	+Height: unsigned int, color: unsigned int): void
+    +DrawGame(pillars: PipePair*, numPillars: int, flappy: FlappyObject*): void
+    +DrawBackground(): void
+    +DisplayInversionOn(): void
+    +DisplayInversionOff(): void
+    +GetWidth(): int
+    +GetHeight(): int
+    +DrawFlappy(flappy: FlappyObject*)
+    +EraseObjects(pipes: PipePair*, numPairs: int, flappy: FlappyObject*, color: unsigned int): void
+    +DrawText(data: const unsigned char*, dataLength: long int, width: int, height: int, xCenter: int, yCenter: int, backgroundColor: unsigned int, textColor: unsigned int): void
+    -_height: int
+    -_width: int
+    -SleepOut(): void
+    -MemoryAccessControl(parameter: unsigned char): void
+    -InterfacePixelFormat(parameter: unsigned char): void
+    -WritePixel(encodedColor: int): void
+    -SetColumnAddress(Start: unsigned int, End: unsigned int): void
+    -SetPageAddress(Start: unsigned int, End: unsigned int): void
+    -MemoryWrite(): void
+    -WriteCommand(command: unsigned int): void
+    -WriteData(data: unsigned int): void
+}
+
+class TouchDriver
+{
+    +TouchDriver()
+    +TouchDriver(x_offset: int, y_offset: int, conversion_resolution: int, x_pixels: int, y_pixels: int)
+    +InitTouch(): void
+    +getX(): int
+    +getY(): int
+    +Read(): void
+    +SetTimer1_EnableInterrupt(): void
+    -WriteData(data: unsigned char): void
+    -ReadData(): int16_t
+    -ScreenTouched(): bool
+    -ClockPulse(): void
+    -ClearClock(): void
+    -position: Position
+    -_xOffset: int
+    -_yOffset: int
+    -_timer0_duration: int
+    -_conversionResolution: int
+    -_xPixels: int
+    -_yPixels: int
+    -_xResPerPixel: int
+    -_yResPerPixel: int
+}
+@enduml

@@ -41,17 +41,16 @@ public:
 	TouchDriver();
 	TouchDriver(int x_offset, int y_offset, int conversion_resolution, int x_pixels, int y_pixels);
 	void InitTouch();
-	void Calibrate();
 	int getX();
 	int getY();
 	void Read();
-	void WriteData(unsigned char data);
-	int16_t ReadData();
-	bool ScreenTouched();	
-	void ClockPulse();
-	void ClearClock();
 	void SetTimer1_EnableInterrupt();
 private:
+	void WriteData(unsigned char data);
+	int16_t ReadData();
+	bool ScreenTouched();
+	void ClockPulse();
+	void ClearClock();
 	Position position;
 	int _xOffset;
 	int _yOffset;

@@ -34,9 +34,9 @@ class CollisionDetection
 			flappy->GetStartY() < upperPipe.GetStartY() + upperPipe.GetHeight() &&
 			flappy->GetStartY() + flappy->getFlappyHeight() > upperPipe.GetStartY();
 			
-			bool groundCollision = flappy->GetStartX()+flappy->getFlappyHeight() >= earth;
+			bool groundCollision = flappy->GetStartX()+flappy->getFlappyHeight() > earth;
 			
-			return (collisionLower || collisionUpper || groundCollision);
+			return collisionLower || collisionUpper || groundCollision;
 		};
 };
 

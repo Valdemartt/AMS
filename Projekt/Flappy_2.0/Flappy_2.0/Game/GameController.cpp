@@ -81,6 +81,11 @@ void GameController::StartGame()
 void GameController::NextFrame(bool screenPressed)
 {
 	Color Blue(0,0,255);
+	if(DetectCollision())
+	{
+		GameOver();
+		return;
+	}
 	_tftDriver->EraseObjects(_pipes, _numPipePairs, _flappy, Blue.getEncodedColor());
 	UpdatePipes();
 	UpdateFlappy(screenPressed);
@@ -161,10 +166,18 @@ bool GameController::CheckIncrementScore()
 {
 	for(int i = 0; i< _numPipePairs; i++)
 	{
-		if(CheckScore::CheckIncrementScore(69, &_pipes[i]))
+		if(CheckScore::CheckIncrementScore(_flappy->GetStartX(), &_pipes[i]))
 			return true;
 	}
 	return false;
+}
+
+void GameController::Reset()
+{
+	_engine->Reset();
+	PipePair pipes[_numPipePairs];
+	_pipes = pipes; //reset pipes
+	_score = 0;
 }
 
 void GameController::GameOver()
@@ -173,13 +186,18 @@ void GameController::GameOver()
 	Color textColor(0,0,0);
 	Color earthColor(42,42,165);
 	_tftDriver->DrawBackground(&backgroundColor, &earthColor, _earthHeight);
-	_tftDriver->DrawText(_gameOverText, sizeof(_gameOverText), _gameOverWidth, _gameOverHeight, 160, 80, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
-	PipePair pipes[_numPipePairs];
-	_pipes = pipes; //reset pipes
-	if(_score>_highscore)
+	_tftDriver->DrawText(_gameOverText, sizeof(_gameOverText), _gameOverWidth, _gameOverHeight, 160, 60, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 140, 120, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->WriteText(itoa(_score), 200, 112, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
+	_tftDriver->DrawText(_highText, sizeof(_highText), _highWidth, _highHeight, 90, 160, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 170, 164, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->WriteText(itoa(_highscore), 220, 152, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
+	_tftDriver->DrawText(_pressToPlayText, sizeof(_pressToPlayText), _pressToPlayWidth, _pressToPlayHeight, 160, 180, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	if(_score > _highscore)
 	{
 		_highscore = _score;
 	}
+	Reset();
 	StopGame();
 }
 void GameController::StopGame()

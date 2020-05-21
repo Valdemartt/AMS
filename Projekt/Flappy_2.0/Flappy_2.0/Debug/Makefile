@@ -47,6 +47,7 @@ C_SRCS +=  \
 ../Game/GameController.cpp \
 ../main.cpp \
 ../PhysicsEngine/PhysicsEngine.cpp \
+../TFT/FontGenerator.cpp \
 ../TFT/TFTdriver.cpp \
 ../TouchDriver/TouchDriver.cpp \
 ../UART/uart.c \
@@ -65,6 +66,7 @@ OBJS +=  \
 Game/GameController.o \
 main.o \
 PhysicsEngine/PhysicsEngine.o \
+TFT/FontGenerator.o \
 TFT/TFTdriver.o \
 TouchDriver/TouchDriver.o \
 UART/uart.o \
@@ -76,6 +78,7 @@ OBJS_AS_ARGS +=  \
 Game/GameController.o \
 main.o \
 PhysicsEngine/PhysicsEngine.o \
+TFT/FontGenerator.o \
 TFT/TFTdriver.o \
 TouchDriver/TouchDriver.o \
 UART/uart.o \
@@ -87,6 +90,7 @@ C_DEPS +=  \
 Game/GameController.d \
 main.d \
 PhysicsEngine/PhysicsEngine.d \
+TFT/FontGenerator.d \
 TFT/TFTdriver.d \
 TouchDriver/TouchDriver.d \
 UART/uart.d \
@@ -98,6 +102,7 @@ C_DEPS_AS_ARGS +=  \
 Game/GameController.d \
 main.d \
 PhysicsEngine/PhysicsEngine.d \
+TFT/FontGenerator.d \
 TFT/TFTdriver.d \
 TouchDriver/TouchDriver.d \
 UART/uart.d \
@@ -134,6 +139,13 @@ Game/GameController.o: ../Game/GameController.cpp
 	
 
 PhysicsEngine/PhysicsEngine.o: ../PhysicsEngine/PhysicsEngine.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=c++11 -lstdc++ -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+TFT/FontGenerator.o: ../TFT/FontGenerator.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=c++11 -lstdc++ -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

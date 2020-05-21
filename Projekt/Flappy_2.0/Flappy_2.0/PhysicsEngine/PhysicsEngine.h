@@ -21,6 +21,7 @@ public:
 	PhysicsEngine();
 	~PhysicsEngine();
 	void Update(int elapsedTime, FlappyObject * flappy, bool keyPressed);
+	void Reset();
 	
 protected:
 private:

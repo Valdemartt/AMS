@@ -8,6 +8,8 @@ main.cpp
 
 PhysicsEngine\PhysicsEngine.cpp
 
+TFT\FontGenerator.cpp
+
 TFT\TFTdriver.cpp
 
 TouchDriver\TouchDriver.cpp

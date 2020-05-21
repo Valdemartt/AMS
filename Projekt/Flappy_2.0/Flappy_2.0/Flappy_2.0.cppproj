@@ -196,6 +196,12 @@
     <Compile Include="TFT\Color.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="TFT\FontGenerator.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TFT\FontGenerator.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="TFT\Text.h">
       <SubType>compile</SubType>
     </Compile>

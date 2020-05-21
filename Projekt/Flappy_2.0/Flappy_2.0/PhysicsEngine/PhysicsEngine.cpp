@@ -32,7 +32,7 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 		if(keyPressed && Velocity >= Gravity / 10)
 		{
 			Acceleration = 0;
-			Velocity = Velocity - Gravity*2;
+			Velocity = Velocity - Gravity;
 		}
 		else
 		{
@@ -56,4 +56,10 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 		//flappy->SetStartY(flappy->GetStartY() - 15);
 	//}
 	//flappy->SetStartY(flappy->GetStartY() + 6);
+}
+
+void PhysicsEngine::Reset()
+{
+	Acceleration = 0;
+	Velocity = 0;
 }

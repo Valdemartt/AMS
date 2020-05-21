@@ -38,7 +38,6 @@ private:
 	int _pipeDistance;
 	int _numPipePairs;
 	int _elapsedTimeSinceClick;
-	
 	int _earthHeight;
 //functions
 public:
@@ -54,6 +53,7 @@ public:
 	bool DetectCollision();
 	bool CheckIncrementScore();
 	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
+	void Reset();
 protected:
 private:
 	GameController( const GameController &c );

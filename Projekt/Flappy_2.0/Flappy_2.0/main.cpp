@@ -16,6 +16,7 @@
 #include "TFT/Color.h"
 #include "Game/GameController.h"
 #include "Game/InterruptSetup.h"
+#include "TFT/FontGenerator.h"
 
 #include <util/delay.h>
 
@@ -31,32 +32,30 @@ int main(void)
 	//freeRTOS bør nok benyttes.
 	InitUART(9600,8,'N');
 	touchDriver.InitTouch();
-	TFTDriver tftDriver(320, 240);
+	FontGenerator fontGenerator;
+	TFTDriver tftDriver(320, 240, &fontGenerator);
 	tftDriver.DisplayInit();
 	PhysicsEngine engine;
 	GameController game(&tftDriver, &touchDriver, &engine, 42, 30, 100);
-	game.StartGame();
 	InterruptSetup::InitFrameTimer();
     while(true)
     {
-		while(game.IsPlaying() && !game.DetectCollision())
+		if(game.IsPlaying())
 		{
 			if(drawNewFrame)
 			{
 				game.NextFrame(screenTouched);
-				drawNewFrame = false;
 				screenTouched = false;
+				drawNewFrame = false;
 			}
 		}
-		if(!game.IsPlaying())
+		else 
 		{
-			while(!screenTouched){ }
-			game.StartGame();
-		}
-		else if(game.DetectCollision())
-		{
-			game.GameOver();
-		}		
+			if(screenTouched)
+			{
+				game.StartGame();
+			}
+		}	
     }
 }
 

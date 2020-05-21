@@ -22,15 +22,16 @@
 #include "Color.h"
 #include "../UIObjects/PipePair.h"
 #include "../UIObjects/FlappyObject.h"
+#include "FontGenerator.h"
 class TFTDriver
 {
 //Variables
 private:
 	int _height;
 	int _width;
-
+	FontGenerator * _fontGenerator;
 public: 
-	TFTDriver(int height, int width);
+	TFTDriver(int height, int width, FontGenerator * fontGenerator);
 	TFTDriver();
 	~TFTDriver();
 	void DisplayInit();
@@ -48,6 +49,7 @@ public:
 	void DrawFlappy(FlappyObject * flappy);
 	void EraseObjects(PipePair * pipes, int numPairs, FlappyObject * flappy, unsigned int color);
 	void DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor);
+	void WriteText(char* text, int startX, int startY, unsigned int textColor, unsigned int backgroundColor);
 private:
 	void SleepOut();
 	void MemoryAccessControl(unsigned char parameter);
@@ -58,6 +60,7 @@ private:
 	void MemoryWrite();
 	void WriteCommand(unsigned int command);
 	void WriteData(unsigned int data);
+	
 };
 
 

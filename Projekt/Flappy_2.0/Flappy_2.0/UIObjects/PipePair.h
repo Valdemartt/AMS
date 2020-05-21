@@ -18,6 +18,7 @@ protected:
 private:
 UIObject _upper;
 UIObject _lower;
+bool _passed;
 
 //functions
 public:
@@ -27,6 +28,8 @@ public:
 	UIObject * GetUpper();
 	UIObject * GetLower();
 	PipePair& operator=( const PipePair &c );
+	bool GetIsPassed();
+	void SetIsPassed(bool isPassed);
 protected:
 private:
 	PipePair( const PipePair &c );

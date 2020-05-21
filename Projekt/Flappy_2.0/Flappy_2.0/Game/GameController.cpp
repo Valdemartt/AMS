@@ -58,6 +58,7 @@ void GameController::StartGame()
 	_isPlaying = true;
 	_score = 0;
 	_earthHeight = 10;
+	_elapsedTimeSinceClick = 0;
 	
 	PipePair pipes[_numPipePairs];
 	for (int i = 0; i < _numPipePairs; i++)
@@ -129,7 +130,14 @@ void GameController::UpdatePipes()
 
 void GameController::UpdateFlappy(bool screenPressed)
 {
-	_engine->Update(_speed, _flappy, screenPressed);
+	if(screenPressed)
+	{
+		_elapsedTimeSinceClick = 0;
+	}
+	else
+		_elapsedTimeSinceClick++;
+		
+	_engine->Update(_elapsedTimeSinceClick/10, _flappy, screenPressed);
 }	
 
 bool GameController::IsPlaying()

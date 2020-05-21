@@ -173,7 +173,7 @@ void GameController::GameOver()
 	Color textColor(0,0,0);
 	Color earthColor(42,42,165);
 	_tftDriver->DrawBackground(&backgroundColor, &earthColor, _earthHeight);
-	_tftDriver->DrawText(_gameOverText, _gameOverWidth * _gameOverHeight, _gameOverWidth, _gameOverHeight, 160, 80, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->DrawText(_gameOverText, sizeof(_gameOverText), _gameOverWidth, _gameOverHeight, 160, 80, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
 	PipePair pipes[_numPipePairs];
 	_pipes = pipes; //reset pipes
 	if(_score>_highscore)

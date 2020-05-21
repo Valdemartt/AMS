@@ -196,6 +196,9 @@
     <Compile Include="TFT\Color.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="TFT\Text.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="TFT\TFTdriver.cpp">
       <SubType>compile</SubType>
     </Compile>

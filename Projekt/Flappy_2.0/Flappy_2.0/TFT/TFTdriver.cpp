@@ -350,14 +350,18 @@ void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int wi
 	MemoryWrite();
 	for(long int i = 0; i < dataLength; i++)
 	{
-		if(data[i] == 0)
+		for(int b = 0; b < 8; b++)
 		{
-			WritePixel(backgroundColor);
+			if(((data[i]) && (1<<b)) == 0)
+			{
+				WritePixel(backgroundColor);
+			}
+			else
+			{
+				WritePixel(textColor);
+			}
 		}
-		else
-		{
-			WritePixel(textColor);
-		}
+		
 	}
 	//Dummy command
 	DisplayInversionOff();

@@ -30,7 +30,7 @@ private:
 	int FlappyPosition = 0;
 	int Velocity = 0.0f;
 	int Acceleration = 0.0f;
-	int Gravity = 30.0f;
+	int Gravity = 10.0f;
 
 }; //PhysicsEngine
 

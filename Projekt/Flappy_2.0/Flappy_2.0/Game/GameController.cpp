@@ -8,6 +8,7 @@
 
 #include "GameController.h"
 #include "../CollisionDetection.h"
+#include "../CheckScore.h"
 #define F_CPU 16000000
 #include <util/delay.h>
 #include <stdlib.h>
@@ -24,6 +25,8 @@ GameController::GameController()
 	_pipeGap = 50;
 	_speed = 10;
 	_numPipePairs = 2;
+	_score = 0;
+	_highscore = 0;
 } //GameController
 
 // default destructor
@@ -43,20 +46,25 @@ GameController::GameController(TFTDriver *tftDriver, TouchDriver *touchDriver, P
 	_pipeGap = pipeGap;
 	_speed = 5;
 	_numPipePairs = _tftDriver->GetWidth()/(_pipeWidth + _pipeDistance) + 1;
+	_score = 0;
+	_highscore = 0;
 }
 
 void GameController::StartGame()
 {
 	Color Green(0,255,0);
 	Color Blue(0,0,255);
+	Color Brown(42,42,165);
 	_isPlaying = true;
+	_score = 0;
+	_earthHeight = 10;
 	
 	PipePair pipes[_numPipePairs];
 	for (int i = 0; i < _numPipePairs; i++)
 	{
 		unsigned int temp = GenerateRandomNumber(75,175);
 		_lastPipeOffset = temp;
-		UIObject lowerPipe(_tftDriver->GetWidth() + (i * (_pipeDistance + _pipeWidth)) , _lastPipeOffset + _pipeGap/2, _tftDriver->GetHeight() - _lastPipeOffset - _pipeGap/2, _pipeWidth, &Green);
+		UIObject lowerPipe(_tftDriver->GetWidth() + (i * (_pipeDistance + _pipeWidth)) , _lastPipeOffset + _pipeGap/2, _tftDriver->GetHeight() - _lastPipeOffset - _pipeGap/2 - _earthHeight, _pipeWidth, &Green);
 		UIObject upperPipe(_tftDriver->GetWidth() + (i * (_pipeDistance + _pipeWidth)), 0, _lastPipeOffset - _pipeGap/2, _pipeWidth, &Green);
 		PipePair pair(upperPipe, lowerPipe);
 		pipes[i] = pair;
@@ -65,7 +73,7 @@ void GameController::StartGame()
 	FlappyObject flappy = FlappyObject(70, 108);
 	_flappy = &flappy;
 	
-	_tftDriver->DrawBackground(&Blue);
+	_tftDriver->DrawBackground(&Blue, &Brown, _earthHeight);
 	_tftDriver->DrawGame(_pipes, _numPipePairs, _flappy);
 }
 
@@ -110,7 +118,11 @@ void GameController::UpdatePipes()
 			_lastPipeOffset = GenerateRandomNumber(50,200);
 			upper->SetHeight(_lastPipeOffset - _pipeGap/2);
 			lower->SetStartY(_lastPipeOffset + _pipeGap/2);
-			lower->SetHeight(_tftDriver->GetHeight() - (_lastPipeOffset + _pipeGap/2));
+			lower->SetHeight(_tftDriver->GetHeight() - (_lastPipeOffset + _pipeGap/2) - _earthHeight);
+		}
+		if(CheckIncrementScore())
+		{
+			_score++;
 		}
 	}
 }
@@ -135,14 +147,29 @@ bool GameController::DetectCollision()
 	return false;
 }
 
+bool GameController::CheckIncrementScore()
+{
+	for(int i = 0; i< _numPipePairs; i++)
+	{
+		if(CheckScore::CheckIncrementScore(69, &_pipes[i]))
+			return true;
+	}
+	return false;
+}
+
 void GameController::GameOver()
 {
 	Color backgroundColor(0,0,255);
 	Color textColor(0,0,0);
-	_tftDriver->DrawBackground(&backgroundColor);
+	Color earthColor(42,42,165);
+	_tftDriver->DrawBackground(&backgroundColor, &earthColor, _earthHeight);
 	_tftDriver->DrawText(_gameOverText, _gameOverWidth * _gameOverHeight, _gameOverWidth, _gameOverHeight, 160, 80, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
 	PipePair pipes[_numPipePairs];
 	_pipes = pipes; //reset pipes
+	if(_score>_highscore)
+	{
+		_highscore = _score;
+	}
 	StopGame();
 }
 void GameController::StopGame()

@@ -313,23 +313,41 @@ void TFTDriver::DrawFlappy(FlappyObject * flappy)
 	//Dummy command
 	DisplayInversionOff();
 }
-void TFTDriver::DrawBackground(Color *color)
+void TFTDriver::DrawBackground(Color *backgroundColor, Color *earthColor, int earthHeight)
 {
-	int encodedColor = color->getEncodedColor();
+	int encodedBackgroundColor = backgroundColor->getEncodedColor();
+	int encodedearthColor = earthColor->getEncodedColor();
 	SetPageAddress(0, _width - 1);
-	SetColumnAddress(0, _height - 1);
+	SetColumnAddress(0, _height - earthHeight - 1);
 	MemoryWrite();
-	long int numPixels = (long int)_width * _height;
+	long int numPixels = (long int)_width * _height-earthHeight;
 	for(long int i = 0; i < numPixels; ++i)
 	{
-		WritePixel(encodedColor);
+		WritePixel(encodedBackgroundColor);
 	}
 	//Dummy command
 	DisplayInversionOff();
+	
+	SetPageAddress(0, _width - 1);
+	SetColumnAddress(_height-earthHeight, _height - 1);
+	MemoryWrite();
+	numPixels = (long int)_width * earthHeight;
+	for(long int i = 0; i < numPixels; ++i)
+	{
+		WritePixel(encodedearthColor);
+	}
+	//Dummy command
+	DisplayInversionOff();
+	
 }
 
 void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
 {
+	unsigned int startX = xCenter - width/2;
+	unsigned int startY = yCenter - height/2;
+	SetPageAddress(startX, startX + width - 1);
+	SetColumnAddress(startY, startY + height - 1);
+	MemoryWrite();
 	for(long int i = 0; i < dataLength; i++)
 	{
 		if(data[i] == 0)
@@ -341,6 +359,8 @@ void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int wi
 			WritePixel(textColor);
 		}
 	}
+	//Dummy command
+	DisplayInversionOff();
 }
 
 void TFTDriver::DisplayInversionOn()

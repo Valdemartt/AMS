@@ -33,6 +33,7 @@ private:
 	int _pipeWidth;
 	int _speed;
 	int _score;
+	int _highscore;
 	int _pipeDistance;
 	int _numPipePairs;
 	const unsigned char _gameOverText [2538] = {
@@ -198,7 +199,7 @@ private:
 	};
 	int _gameOverHeight = 18;
 	int _gameOverWidth = 141;
-
+	int _earthHeight;
 //functions
 public:
 	GameController();
@@ -211,6 +212,7 @@ public:
 	void NextFrame(bool screenPressed);
 	void Pause();
 	bool DetectCollision();
+	bool CheckIncrementScore();
 	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
 protected:
 private:

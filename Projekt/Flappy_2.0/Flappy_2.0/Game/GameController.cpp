@@ -137,7 +137,7 @@ void GameController::UpdateFlappy(bool screenPressed)
 	else
 		_elapsedTimeSinceClick++;
 		
-	_engine->Update(_elapsedTimeSinceClick/10, _flappy, screenPressed);
+	_engine->Update(_elapsedTimeSinceClick, _flappy, screenPressed);
 }	
 
 bool GameController::IsPlaying()

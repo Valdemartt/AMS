@@ -36,9 +36,9 @@ class CollisionDetection
 			
 			return (collisionLower || collisionUpper);
 		};
-		static bool  CheckEarthCollision(FlappyObject * flappy, int earth)
+		static bool CheckEarthCollision(FlappyObject * flappy, int earth)
 		{
-			bool groundCollision = flappy->GetStartX()+flappy->getFlappyHeight() > earth;
+			bool groundCollision = flappy->GetStartY()+flappy->getFlappyHeight() > earth;
 			return groundCollision;
 		}
 };

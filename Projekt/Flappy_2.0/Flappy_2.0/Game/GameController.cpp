@@ -139,7 +139,7 @@ bool GameController::IsPlaying()
 
 bool GameController::DetectCollision()
 {
-	if(CollisionDetection::CheckEarthCollision(_flappy,_tftDriver->GetHeight()-_earthHeight))
+	if(CollisionDetection::CheckEarthCollision(_flappy, _tftDriver->GetHeight() - _earthHeight ))
 		return true;
 	for(int i = 0; i < _numPipePairs; i++)
 	{

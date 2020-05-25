@@ -99,7 +99,7 @@ TFTDriver::~TFTDriver()
 }
 
 // Initializes (resets) the display
-void TFTDriver::DisplayInit()
+void TFTDriver::Init()
 {
 	//Set DC pin as output
 	DDRD |= (1<<DC_BIT);

@@ -36,7 +36,7 @@ public:
 	TFTDriver(int height, int width, FontGenerator * fontGenerator);
 	TFTDriver();
 	~TFTDriver();
-	void DisplayInit();
+	void Init();
 	void Reset();
 	void DisplayOff();
 	void DisplayOn();

@@ -35,18 +35,16 @@ int main(void)
     //Main loop, skal håndtere hele spillet.
 	//freeRTOS bør nok benyttes.
 	InitUART(9600,8,'N');
-	touchDriver.InitTouch();
-
+	touchDriver.Init();
+	tftDriver.Init();
 	game.StartGame();
-	tftDriver.DisplayInit();
-	InterruptSetup::InitFrameTimer();
+	InterruptSetup::Init();
 	screenTouched = false;
 	drawNewFrame = false;
-	updating = false;
     while(true)
     {
 		screenTouched = touchDriver.ScreenTouched();
-		if(screenTouched)
+		if(screenTouched && !game.IsPlaying())
 		{
 			touchDriver.Read();
 			Position * pos = touchDriver.GetPosition();
@@ -56,9 +54,7 @@ int main(void)
 		{
 			if(drawNewFrame)
 			{
-				updating = true;
 				game.NextFrame(screenTouched);
-				updating = false;
 				screenTouched = false;
 				drawNewFrame = false;
 			}
@@ -76,6 +72,4 @@ int main(void)
 ISR(TIMER3_COMPA_vect)
 {
 	drawNewFrame = true;
-	if(updating)
-		SendString("X");
 }

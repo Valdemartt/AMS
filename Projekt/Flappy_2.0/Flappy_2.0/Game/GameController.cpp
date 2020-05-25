@@ -87,7 +87,7 @@ void GameController::NextFrame(bool screenPressed)
 		GameOver();
 		return;
 	}
-	_tftDriver->EraseObjects(_pipes, GameController::_numPipePairs, &_flappy, Blue.getEncodedColor(), _engine->GetSpeed());
+	_tftDriver->EraseObjects(_pipes, _numPipePairs, &_flappy, Blue.getEncodedColor(), _engine->GetSpeed());
 	UpdatePipes();
 	UpdateFlappy(screenPressed);
 

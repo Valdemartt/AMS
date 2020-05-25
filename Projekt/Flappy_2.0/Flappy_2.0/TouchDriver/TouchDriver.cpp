@@ -31,7 +31,7 @@ TouchDriver::TouchDriver()
 	_xOffset = 0;
 	_yOffset = 0;
 }
-void TouchDriver::InitTouch()
+void TouchDriver::Init()
 {
 	//P Directions
 	sbi(CLK_DDR, CLK_PIN);
@@ -62,21 +62,19 @@ void TouchDriver::InitTouch()
 	sbi(CS_PORT,CS_PIN);
 }
 
-void TouchDriver::Read()
+void TouchDriver::ReadPosition()
 {
 	unsigned int temp_x=0, temp_y=0;
 	//int datacounter = 0;
 	
 	cbi(CS_PORT,CS_PIN);
 	
-	//enables interrupt
-	//cbi(IRQ_DDR, IRQ_PIN);
-	if(!rbi(IRQ_PORT,IRQ_PIN))
+	if(ScreenTouched())
 	{
 		WriteData(0x90);
 		temp_y = ReadData();
 		
-		if(!rbi(IRQ_PORT,IRQ_PIN))
+		if(ScreenTouched())
 		{
 			WriteData(0xD0);
 			temp_x = ReadData();
@@ -85,11 +83,10 @@ void TouchDriver::Read()
 			{
 				
 			}*/
+			position.setX(temp_x);
+			position.setY(temp_y);
 		}
 	}
-	position.setX(temp_x);
-	position.setY(temp_y);
-	//sbi(IRQ_DDR, IRQ_PIN);
 	sbi(CS_PORT,CS_PIN);
 	_NOP();
 	ClockPulse();

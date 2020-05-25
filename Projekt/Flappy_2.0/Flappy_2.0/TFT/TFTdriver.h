@@ -18,6 +18,8 @@
 
   Henning Hargaard, February 15, 2018
 ************************************************************/  
+#ifndef __TFTDriver_H__
+#define __TFTDriver_H__
 #include "../UIObjects/UIObject.h"
 #include "Color.h"
 #include "../UIObjects/PipePair.h"
@@ -40,19 +42,20 @@ public:
 	void DisplayOn();
 	void FillRectangle(int StartX, int StartY, unsigned int Width,
 	unsigned int Height, unsigned int color);
-	void DrawGame(PipePair *pillars, int numPillars, FlappyObject *flappy);
+	void DrawGame(PipePair *pillars, int numPillars, FlappyObject *flappy, int speed);
 	void DrawBackground(Color *backgroundColor, Color *earthColor, int earthHeight);
 	void DisplayInversionOn();
 	void DisplayInversionOff();
 	int GetHeight();
 	int GetWidth();
 	void DrawFlappy(FlappyObject * flappy);
-	void EraseObjects(PipePair * pipes, int numPairs, FlappyObject * flappy, unsigned int color);
+	void EraseObjects(PipePair * pipes, int numPairs, FlappyObject * flappy, unsigned int color, int speed);
 	void DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor);
 	void WriteText(char* text, int startX, int startY, unsigned int textColor, unsigned int backgroundColor);
 	void UpdateScore(int score, Color * textColor, Color * backgroundColor);
 	void DrawScore(int score, Color * textColor, Color * backgroundColor);
-	void UpdateDisplay();
+	void DrawTextButton(UIObject * button, bool clicked, const unsigned char * data, long int dataLength, int width, int height, unsigned int backgroundColor, unsigned int textColor, int padding);
+	//void UpdateDisplay();
 private:
 	void SleepOut();
 	void MemoryAccessControl(unsigned char parameter);
@@ -65,7 +68,7 @@ private:
 	void WriteData(unsigned int data);
 	
 };
-
+#endif
 
 
 

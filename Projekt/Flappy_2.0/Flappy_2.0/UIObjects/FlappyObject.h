@@ -48,6 +48,11 @@ public:
 	{
 		_startY = y;
 	}
+	FlappyObject& operator=( const FlappyObject &c ) 
+	{
+		_startX = c._startX;
+		_startY = c._startY;
+	}
 };
 
 #endif /* FLAPPYOBJECT_H_ */

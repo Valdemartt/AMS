@@ -44,11 +44,12 @@ public:
 	int getX();
 	int getY();
 	void Read();
+	bool ScreenTouched();
 	void SetTimer1_EnableInterrupt();
+	Position * GetPosition() { return &position; };
 private:
 	void WriteData(unsigned char data);
 	int16_t ReadData();
-	bool ScreenTouched();
 	void ClockPulse();
 	void ClearClock();
 	Position position;

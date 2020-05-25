@@ -54,11 +54,11 @@ void TFTDriver::WriteCommand(unsigned int command)
 	//Set write to 0 (active)
 	WR_PORT &= ~(1<<WR_BIT);
 	//Wait for cycle 
-	//_NOP();
+	_NOP();
 	//Set to 1 - triggers on rising edge
 	WR_PORT |= (1<<WR_BIT);
 	//Wait for cycle
-	//_NOP();
+	_NOP();
 	
 }
 
@@ -72,11 +72,11 @@ void TFTDriver::WriteData(unsigned int data)
 	//Enable write port
 	WR_PORT &= ~(1<<WR_BIT);
 	//Cycle
-	//_NOP();
+	_NOP();
 	//Disable write port
 	WR_PORT |= (1<<WR_BIT);
 	//Cycle
-	//_NOP();
+	_NOP();
 }
 
 // PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////
@@ -174,11 +174,7 @@ void TFTDriver::MemoryWrite()
 // Red 0-31, Green 0-63, Blue 0-31
 void TFTDriver::WritePixel(int encodedColor)
 {
-	#ifdef DEBUG
-	
-	#else
 	WriteData(encodedColor);
-	#endif
 }
 
 // Set Column Address (0-239), Start > End
@@ -217,7 +213,7 @@ int TFTDriver::GetWidth()
 // R-G-B = 5-6-5 bits.
 void TFTDriver::FillRectangle(int StartX, int StartY, unsigned int Width, unsigned int Height, unsigned int color)
 {
-	int endX, endY;
+	int endX;
 	if(StartX > _width || StartX + Width < 0) //Out of screen
 	{
 		return;
@@ -235,27 +231,23 @@ void TFTDriver::FillRectangle(int StartX, int StartY, unsigned int Width, unsign
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
 	long int numPixels = (long int)Width * Height;
-	
-#ifdef DEBUG
-	
-#else
+
 	for(long int i = 0; i < numPixels; ++i)
 	{
 		WritePixel(color);
 	}
-#endif
 	
 	//Dummy command
 	//DisplayInversionOff();
 }
 
-void TFTDriver::UpdateDisplay()
-{
-	//Dummy command
-	DisplayInversionOff();
-}
+//void TFTDriver::UpdateDisplay()
+//{
+	////Dummy command
+	//DisplayInversionOff();
+//}
 
-void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flappy)
+void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flappy, int speed)
 {
 	for(int i = 0; i < numPairs; i++)
 	{
@@ -263,14 +255,14 @@ void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flapp
 		UIObject * upper = pipePairs[i].GetUpper();
 		
 		int startX = upper->GetStartX();
-		int width = upper->GetWidth();
+		int width = speed;
 		int startY = upper->GetStartY();
 		int height = upper->GetHeight();
 		unsigned int color = upper->GetColor();
 		FillRectangle(startX, startY, width, height, color);
 		
 		startX = lower->GetStartX();
-		width = lower->GetWidth();
+		width = speed;
 		startY = lower->GetStartY();
 		height = lower->GetHeight();
 		color = lower->GetColor();
@@ -282,21 +274,27 @@ void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flapp
 	//DisplayInversionOff();
 }
 
-void TFTDriver::EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color)
+void TFTDriver::DrawTextButton(UIObject * button, bool clicked, const unsigned char * data, long int dataLength, int width, int height, unsigned int backgroundColor, unsigned int textColor, int padding)
+{
+	FillRectangle(button->GetStartX() - padding, button->GetStartY() - padding, button->GetWidth() + 2*padding, button->GetHeight() + 2*padding, backgroundColor);
+	DrawText(data, dataLength, width, height, button->GetStartX() + width/2, button->GetStartY() + height/2, backgroundColor, textColor);
+}
+
+void TFTDriver::EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color, int speed)
 {
 	for(int i = 0; i < numPairs; i++)
 	{
 		UIObject * lower = pipePairs[i].GetLower();
 		UIObject * upper = pipePairs[i].GetUpper();
 		
-		int startX = upper->GetStartX();
-		int width = upper->GetWidth();
+		int startX = upper->GetStartX() + upper->GetWidth() - speed;
+		int width = speed;
 		int startY = upper->GetStartY();
 		int height = upper->GetHeight();
 		FillRectangle(startX, startY, width, height, color);
 		
-		startX = lower->GetStartX();
-		width = lower->GetWidth();
+		startX = lower->GetStartX() + lower->GetWidth() - speed;
+		width = speed;
 		startY = lower->GetStartY();
 		height = lower->GetHeight();
 		FillRectangle(startX, startY, width, height, color);
@@ -333,33 +331,29 @@ void TFTDriver::DrawFlappy(FlappyObject * flappy)
 
 void TFTDriver::DrawBackground(Color *backgroundColor, Color *earthColor, int earthHeight)
 {
-	#ifdef DEBUG
-	
-	#else
-		int encodedBackgroundColor = backgroundColor->getEncodedColor();
-		int encodedearthColor = earthColor->getEncodedColor();
-		SetPageAddress(0, _width - 1);
-		SetColumnAddress(0, _height - earthHeight - 1);
-		MemoryWrite();
-		long int numPixels = (long int)_width * _height-earthHeight;
-		for(long int i = 0; i < numPixels; ++i)
-		{
-			WritePixel(encodedBackgroundColor);
-		}
-		//Dummy command
-		DisplayInversionOff();
+	int encodedBackgroundColor = backgroundColor->getEncodedColor();
+	int encodedearthColor = earthColor->getEncodedColor();
+	SetPageAddress(0, _width - 1);
+	SetColumnAddress(0, _height - earthHeight - 1);
+	MemoryWrite();
+	long int numPixels = (long int)_width * _height-earthHeight;
+	for(long int i = 0; i < numPixels; ++i)
+	{
+		WritePixel(encodedBackgroundColor);
+	}
+	//Dummy command
+	//DisplayInversionOff();
 		
-		SetPageAddress(0, _width - 1);
-		SetColumnAddress(_height-earthHeight, _height - 1);
-		MemoryWrite();
-		numPixels = (long int)_width * earthHeight;
-		for(long int i = 0; i < numPixels; ++i)
-		{
-			WritePixel(encodedearthColor);
-		}
-		//Dummy command
-		DisplayInversionOff();
-	#endif
+	SetPageAddress(0, _width - 1);
+	SetColumnAddress(_height-earthHeight, _height - 1);
+	MemoryWrite();
+	numPixels = (long int)_width * earthHeight;
+	for(long int i = 0; i < numPixels; ++i)
+	{
+		WritePixel(encodedearthColor);
+	}
+	//Dummy command
+	//DisplayInversionOff();
 }
 
 void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
@@ -388,8 +382,8 @@ void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int wi
 		}
 	}
 	//Dummy command
-	DisplayInversionOff();
-	MemoryAccessControl(0b00001000);
+	//DisplayInversionOff();
+	//MemoryAccessControl(0b00001000);
 }
 
 void TFTDriver::WriteText(char* text, int startX, int startY, unsigned int textColor, unsigned int backgroundColor)

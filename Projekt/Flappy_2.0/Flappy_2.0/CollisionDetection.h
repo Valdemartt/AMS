@@ -19,20 +19,39 @@ class CollisionDetection
 	public:
 		static bool CheckCollision(FlappyObject * flappy, PipePair * pipes)
 		{
-			UIObject lowerPipe = *pipes->GetLower();
-			UIObject upperPipe = *pipes->GetUpper();
+			int flappyStartX, flappyEndX, flappyStartY, flappyEndY;
+			flappyStartX = flappy->GetStartX();
+			flappyEndX = flappyStartX + flappy->getFlappyLength();
+			flappyStartY = flappy->GetStartY();
+			flappyEndY = flappyStartY + flappy->getFlappyHeight();
+
+			int lowerPipeStartX = pipes->GetLower()->GetStartX();
+			int lowerPipeEndX = lowerPipeStartX + pipes->GetLower()->GetWidth();
+			int lowerPipeStartY = pipes->GetLower()->GetStartY();
+			int lowerPipeEndY = lowerPipeStartY + pipes->GetLower()->GetHeight();
 			
 			bool collisionLower = 
-			flappy->GetStartX() < lowerPipe.GetStartX() + lowerPipe.GetWidth() && 
-			flappy->GetStartX() + flappy->getFlappyLength() > lowerPipe.GetStartX() &&
-			flappy->GetStartY() < lowerPipe.GetStartY() + lowerPipe.GetHeight() &&
-			flappy->GetStartY() + flappy->getFlappyHeight() > lowerPipe.GetStartY();
+			flappyStartX < lowerPipeEndX &&
+			flappyEndX > lowerPipeStartX &&
+			flappyStartY < lowerPipeEndY &&
+			flappyEndY > lowerPipeStartY;
+			 
+			bool collisionUpper = false;
 			
-			bool collisionUpper = 
-			flappy->GetStartX() < upperPipe.GetStartX() + upperPipe.GetWidth() &&
-			flappy->GetStartX() + flappy->getFlappyLength() > upperPipe.GetStartX() &&
-			flappy->GetStartY() < upperPipe.GetStartY() + upperPipe.GetHeight() &&
-			flappy->GetStartY() + flappy->getFlappyHeight() > upperPipe.GetStartY();
+			int upperPipeStartX = pipes->GetUpper()->GetStartX();
+			int upperPipeEndX = upperPipeStartX + pipes->GetUpper()->GetWidth();
+			int upperPipeStartY = pipes->GetUpper()->GetStartY();
+			int upperPipeEndY = upperPipeStartY + pipes->GetUpper()->GetHeight();
+			
+			if(!collisionLower)
+			{
+				collisionUpper = 
+				flappyStartX < upperPipeEndX &&
+				flappyEndX > upperPipeStartX &&
+				flappyStartY < upperPipeEndY &&
+				flappyEndY > upperPipeStartY;
+			}
+			
 			return (collisionLower || collisionUpper);
 		};
 		static bool CheckEarthCollision(FlappyObject * flappy, int earth)
@@ -40,6 +59,14 @@ class CollisionDetection
 			bool groundCollision = flappy->GetStartY() + flappy->getFlappyHeight() > earth;
 				
 			return groundCollision;
+		}
+		
+		static bool CheckButtonClicked(UIObject * button, Position * clickPosition)
+		{
+			return (clickPosition->getX() > button->GetStartX() && 
+				clickPosition->getX() < button->GetStartX() + button->GetWidth() &&
+				clickPosition->getY() > button->GetStartY() &&
+				clickPosition->getY() < button->GetStartY() + button->GetHeight());
 		}
 };
 

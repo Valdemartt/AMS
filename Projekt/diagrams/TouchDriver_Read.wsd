@@ -1,0 +1,18 @@
+@startuml
+(*) --> "Chip select low"
+if "Screen Touched" then
+    -->[true] "Write Data (y)"
+    --> "Read Data (y)"
+    if "Screen touched" then
+        -->[true] "Write Data (x)"
+        --> "Read Data (x)"
+        --> "Update Position"
+        --> "Chip select high"
+    else
+        -->[false] "Chip select high"
+        --> "Cycle"
+    endif
+else
+    -->[false] "Chip select high"   
+endif
+@enduml

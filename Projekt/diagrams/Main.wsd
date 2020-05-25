@@ -1,0 +1,40 @@
+@startuml
+actor player
+control main
+participant GameController
+participant TouchDriver
+participant TFTDriver
+participant FrameTimer
+main -> TouchDriver : Init()
+main -> TFTDriver : Init()
+main -> FrameTimer : Init()
+main -> GameController : Menu()
+loop while true
+    main -> TouchDriver : ScreenTouched()
+    TouchDriver --> main : Returns bool
+    main -> GameController : IsPlaying()
+    GameController --> main : Returns bool
+    opt Screen touched && not playing
+        main -> TouchDriver : ReadPosition()
+        TouchDriver --> main : Return bool
+        opt "Position read"
+            main -> TouchDriver : GetPosition()
+            TouchDriver --> main : return Position *
+            main -> GameController : DetectClick(Position *)
+        end
+    end
+    main -> GameController : IsPlaying()
+    GameController --> main : Returns bool
+    alt Is playing
+        opt If DrawNewFrame == true
+            main -> GameController : NextFrame(screenTouched)
+            main -> main : screenTouched = false;
+            main -> main : drawNewFrame = false;
+        end
+    else Not playing
+        alt If screen touched
+            main -> GameController : StartGame()
+        end
+    end
+end
+@enduml

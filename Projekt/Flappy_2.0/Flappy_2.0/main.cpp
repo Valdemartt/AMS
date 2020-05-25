@@ -12,7 +12,6 @@
 #include <avr/interrupt.h>
 #include "UARTDriver/uart.c"
 #include "TouchDriver/Position.h"
-#include "UIObjects/UIObjectFactory.h"
 #include "TFT/Color.h"
 #include "Game/GameController.h"
 #include "Game/InterruptSetup.h"

@@ -52,8 +52,7 @@ C_SRCS +=  \
 ../TouchDriver/TouchDriver.cpp \
 ../UART/uart.c \
 ../UIObjects/PipePair.cpp \
-../UIObjects/UIObject.cpp \
-../UIObjects/UIObjectFactory.cpp
+../UIObjects/UIObject.cpp
 
 
 PREPROCESSING_SRCS += 
@@ -71,8 +70,7 @@ TFT/TFTdriver.o \
 TouchDriver/TouchDriver.o \
 UART/uart.o \
 UIObjects/PipePair.o \
-UIObjects/UIObject.o \
-UIObjects/UIObjectFactory.o
+UIObjects/UIObject.o
 
 OBJS_AS_ARGS +=  \
 Game/GameController.o \
@@ -83,8 +81,7 @@ TFT/TFTdriver.o \
 TouchDriver/TouchDriver.o \
 UART/uart.o \
 UIObjects/PipePair.o \
-UIObjects/UIObject.o \
-UIObjects/UIObjectFactory.o
+UIObjects/UIObject.o
 
 C_DEPS +=  \
 Game/GameController.d \
@@ -95,8 +92,7 @@ TFT/TFTdriver.d \
 TouchDriver/TouchDriver.d \
 UART/uart.d \
 UIObjects/PipePair.d \
-UIObjects/UIObject.d \
-UIObjects/UIObjectFactory.d
+UIObjects/UIObject.d
 
 C_DEPS_AS_ARGS +=  \
 Game/GameController.d \
@@ -107,8 +103,7 @@ TFT/TFTdriver.d \
 TouchDriver/TouchDriver.d \
 UART/uart.d \
 UIObjects/PipePair.d \
-UIObjects/UIObject.d \
-UIObjects/UIObjectFactory.d
+UIObjects/UIObject.d
 
 OUTPUT_FILE_PATH +=Flappy_2.0.elf
 
@@ -181,13 +176,6 @@ UIObjects/PipePair.o: ../UIObjects/PipePair.cpp
 	
 
 UIObjects/UIObject.o: ../UIObjects/UIObject.cpp
-	@echo Building file: $<
-	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=c++11 -lstdc++ -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-UIObjects/UIObjectFactory.o: ../UIObjects/UIObjectFactory.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560" -c -std=c++11 -lstdc++ -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

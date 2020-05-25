@@ -20,5 +20,3 @@ UIObjects\PipePair.cpp
 
 UIObjects\UIObject.cpp
 
-UIObjects\UIObjectFactory.cpp
-

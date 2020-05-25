@@ -33,10 +33,13 @@ int main(void)
 	touchDriver.InitTouch();
 	FontGenerator fontGenerator;
 	TFTDriver tftDriver(320, 240, &fontGenerator);
-	tftDriver.DisplayInit();
-	PhysicsEngine engine;
+	//tftDriver.DisplayInit();
+	PhysicsEngine engine(9.82/2);
 	GameController game(&tftDriver, &touchDriver, &engine, 42, 30, 100);
 	InterruptSetup::InitFrameTimer();
+	game.StartGame();
+	screenTouched = false;
+	drawNewFrame = true;
     while(true)
     {
 		if(game.IsPlaying())

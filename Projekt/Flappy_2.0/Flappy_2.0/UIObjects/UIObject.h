@@ -31,7 +31,6 @@ class UIObject
 		unsigned int GetColor();
 
 	private:
-		int* flappy;
 		int startX;
 		int startY;
 		int height;

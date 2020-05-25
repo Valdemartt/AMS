@@ -50,6 +50,9 @@ public:
 	void EraseObjects(PipePair * pipes, int numPairs, FlappyObject * flappy, unsigned int color);
 	void DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor);
 	void WriteText(char* text, int startX, int startY, unsigned int textColor, unsigned int backgroundColor);
+	void UpdateScore(int score, Color * textColor, Color * backgroundColor);
+	void DrawScore(int score, Color * textColor, Color * backgroundColor);
+	void UpdateDisplay();
 private:
 	void SleepOut();
 	void MemoryAccessControl(unsigned char parameter);

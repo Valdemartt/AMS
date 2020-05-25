@@ -12,15 +12,15 @@
 #include "UIObjects/FlappyObject.h"
 #include "UIObjects/PipePair.h"
 #include "UIObjects/UIObject.h"
+#include "UART/uart.h"
 
 class CheckScore
 {
 public:
-	static bool CheckIncrementScore(int xScore, PipePair * pipes)
+	static bool CheckIncrementScore(FlappyObject * flappy, PipePair * pipes)
 	{
 		UIObject lowerPipe = *pipes->GetLower();
-		
-		if ((xScore > (lowerPipe.GetStartX() + lowerPipe.GetWidth())) && !pipes->GetIsPassed())
+		if (flappy->GetStartX() > (lowerPipe.GetStartX() + lowerPipe.GetWidth()) && (pipes->GetIsPassed() == false))
 		{
 			pipes->SetIsPassed(true);
 			return true;

@@ -11,6 +11,7 @@
 // default constructor
 PipePair::PipePair()
 {
+	_passed = false;
 } //PipePair
 
 // default destructor
@@ -22,6 +23,7 @@ PipePair::PipePair(UIObject upper, UIObject lower)
 {
 	_upper = upper;
 	_lower = lower;
+	_passed = false;
 }
 
 UIObject * PipePair::GetLower()
@@ -36,6 +38,7 @@ PipePair& PipePair::operator=( const PipePair &c )
 {
 	_upper = c._upper;
 	_lower = c._lower;
+	_passed = false;
 }
 
 bool PipePair::GetIsPassed()
@@ -43,7 +46,7 @@ bool PipePair::GetIsPassed()
 	return _passed;
 }
 
-bool PipePair::SetIsPassed(bool passed)
+void PipePair::SetIsPassed(bool passed)
 {
 	_passed = passed;
 }

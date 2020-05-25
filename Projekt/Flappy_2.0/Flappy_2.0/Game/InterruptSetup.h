@@ -23,7 +23,7 @@ public:
 		TCCR3A &= 0b11111100; //Set CTC mode
 		TCCR3B &= 0b11101111; //Set CTC mode
 		TCCR3B |= 0b00001000; //Set CTC mode
-		OCR3A = 6250; //Compare on when timer reaches 6250 - every 100 ms;
+		OCR3A = 6250; //Compare on when timer reaches 3125 - every 50 ms;
 		TCCR3B |= 0b00000100; //Set 256 clock prescaler and start timer
 	};
 private:

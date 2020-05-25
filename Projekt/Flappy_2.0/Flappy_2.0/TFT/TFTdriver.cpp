@@ -23,7 +23,10 @@
 #define F_CPU 16000000
 #include <util/delay.h>
 #include "TFTdriver.h"
+#include "Text.h"
+#include "../UART/uart.h"
 #include <string.h>
+#include <stdlib.h>
 
 // Data port definitions:
 #define DATA_PORT_HIGH PORTA
@@ -51,11 +54,11 @@ void TFTDriver::WriteCommand(unsigned int command)
 	//Set write to 0 (active)
 	WR_PORT &= ~(1<<WR_BIT);
 	//Wait for cycle 
-	_NOP();
+	//_NOP();
 	//Set to 1 - triggers on rising edge
 	WR_PORT |= (1<<WR_BIT);
 	//Wait for cycle
-	_NOP();
+	//_NOP();
 	
 }
 
@@ -69,11 +72,11 @@ void TFTDriver::WriteData(unsigned int data)
 	//Enable write port
 	WR_PORT &= ~(1<<WR_BIT);
 	//Cycle
-	_NOP();
+	//_NOP();
 	//Disable write port
 	WR_PORT |= (1<<WR_BIT);
 	//Cycle
-	_NOP();
+	//_NOP();
 }
 
 // PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////
@@ -171,7 +174,11 @@ void TFTDriver::MemoryWrite()
 // Red 0-31, Green 0-63, Blue 0-31
 void TFTDriver::WritePixel(int encodedColor)
 {
+	#ifdef DEBUG
+	
+	#else
 	WriteData(encodedColor);
+	#endif
 }
 
 // Set Column Address (0-239), Start > End
@@ -228,14 +235,25 @@ void TFTDriver::FillRectangle(int StartX, int StartY, unsigned int Width, unsign
 	SetColumnAddress(StartY, (StartY + Height) - 1);
 	MemoryWrite();
 	long int numPixels = (long int)Width * Height;
+	
+#ifdef DEBUG
+	
+#else
 	for(long int i = 0; i < numPixels; ++i)
 	{
 		WritePixel(color);
 	}
+#endif
+	
+	//Dummy command
+	//DisplayInversionOff();
+}
+
+void TFTDriver::UpdateDisplay()
+{
 	//Dummy command
 	DisplayInversionOff();
 }
-
 
 void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flappy)
 {
@@ -257,12 +275,11 @@ void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flapp
 		height = lower->GetHeight();
 		color = lower->GetColor();
 		FillRectangle(startX, startY, width, height, color);
-		
-		//Dummy command
-		//DisplayInversionOff();
 	}
 	//Draw flappy
 	DrawFlappy(flappy);
+	//Dummy command
+	//DisplayInversionOff();
 }
 
 void TFTDriver::EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color)
@@ -284,11 +301,11 @@ void TFTDriver::EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * 
 		height = lower->GetHeight();
 		FillRectangle(startX, startY, width, height, color);
 	}
-	int startX = flappy->GetStartX();
-	int startY = flappy->GetStartY();
-	int width = flappy->getFlappyLength();
-	int height = flappy->getFlappyHeight();
-	FillRectangle(startX, startY, width, height, color);
+	int x = flappy->GetStartX();
+	int y = flappy->GetStartY();
+	int w = flappy->getFlappyLength() + 5;
+	int h = flappy->getFlappyHeight();
+	FillRectangle(x, y, w, h, color);
 }
 
 void TFTDriver::DrawFlappy(FlappyObject * flappy)
@@ -297,49 +314,52 @@ void TFTDriver::DrawFlappy(FlappyObject * flappy)
 	int startY = flappy->GetStartY();
 	int height = flappy->getFlappyHeight();
 	int width = flappy->getFlappyLength();
-	Color Yellow(0,255,255);
-	//FillRectangle(startX, startY, width, height, Yellow.getEncodedColor());
+	//Draw body
+	Color Yellow(255,255,0);
+	FillRectangle(startX, startY, width, height, Yellow.getEncodedColor());
+	//Draw beak
+	Color Red(255, 0, 0);
+	FillRectangle(flappy->GetStartX() + flappy->getFlappyLength() - 10,
+		flappy->GetStartY() + flappy->getFlappyHeight()/2 + 2, 
+		15, 5, 
+		Red.getEncodedColor());
 	
-	SetPageAddress(startX, (startX + width) - 1);
-	SetColumnAddress(startY, (startY + height) - 1);
-	MemoryWrite();
-	for(int i = 0; i < height; i++)
-	{
-		int * flappyData = flappy->getFlappy(i);
-		for(int j = 0; j < width; j++)
-		{
-			int color = flappyData[j];
-			WritePixel(color);
-		}
-	}	
-	//Dummy command
-	DisplayInversionOff();
+	//Draw eye
+	Color Black(0,0,0);
+	FillRectangle(flappy->GetStartX() + flappy->getFlappyLength() - 6,
+	flappy->GetStartY() + flappy->getFlappyHeight()/2 - 7,
+	3, 7, Black.getEncodedColor());
 }
+
 void TFTDriver::DrawBackground(Color *backgroundColor, Color *earthColor, int earthHeight)
 {
-	int encodedBackgroundColor = backgroundColor->getEncodedColor();
-	int encodedearthColor = earthColor->getEncodedColor();
-	SetPageAddress(0, _width - 1);
-	SetColumnAddress(0, _height - earthHeight - 1);
-	MemoryWrite();
-	long int numPixels = (long int)_width * _height-earthHeight;
-	for(long int i = 0; i < numPixels; ++i)
-	{
-		WritePixel(encodedBackgroundColor);
-	}
-	//Dummy command
-	DisplayInversionOff();
+	#ifdef DEBUG
 	
-	SetPageAddress(0, _width - 1);
-	SetColumnAddress(_height-earthHeight, _height - 1);
-	MemoryWrite();
-	numPixels = (long int)_width * earthHeight;
-	for(long int i = 0; i < numPixels; ++i)
-	{
-		WritePixel(encodedearthColor);
-	}
-	//Dummy command
-	DisplayInversionOff();
+	#else
+		int encodedBackgroundColor = backgroundColor->getEncodedColor();
+		int encodedearthColor = earthColor->getEncodedColor();
+		SetPageAddress(0, _width - 1);
+		SetColumnAddress(0, _height - earthHeight - 1);
+		MemoryWrite();
+		long int numPixels = (long int)_width * _height-earthHeight;
+		for(long int i = 0; i < numPixels; ++i)
+		{
+			WritePixel(encodedBackgroundColor);
+		}
+		//Dummy command
+		DisplayInversionOff();
+		
+		SetPageAddress(0, _width - 1);
+		SetColumnAddress(_height-earthHeight, _height - 1);
+		MemoryWrite();
+		numPixels = (long int)_width * earthHeight;
+		for(long int i = 0; i < numPixels; ++i)
+		{
+			WritePixel(encodedearthColor);
+		}
+		//Dummy command
+		DisplayInversionOff();
+	#endif
 }
 
 void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
@@ -402,6 +422,19 @@ void TFTDriver::WriteText(char* text, int startX, int startY, unsigned int textC
 			}
 		}
 	}
+}
+
+void TFTDriver::UpdateScore(int score, Color * textColor, Color * backgroundColor)
+{
+	char scoreString [(sizeof(int)*8+1)];
+	WriteText(itoa(score, scoreString, 10), _scoreWidth + 10 + 10, _height - _scoreHeight - 2, textColor->getEncodedColor(), backgroundColor->getEncodedColor());
+}
+
+void TFTDriver::DrawScore(int score, Color * textColor, Color * backgroundColor)
+{
+	DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, (_scoreWidth/2) + 10, _height - (_scoreHeight/2) - 2, backgroundColor->getEncodedColor(), textColor->getEncodedColor());
+	char scoreString [(sizeof(int)*8+1)];
+	WriteText(itoa(score, scoreString, 10), _scoreWidth + 10 + 10, _height - _scoreHeight - 2, textColor->getEncodedColor(), backgroundColor->getEncodedColor());
 }
 
 void TFTDriver::DisplayInversionOn()

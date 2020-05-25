@@ -20,11 +20,11 @@ FontGenerator::~FontGenerator()
 
 unsigned char* FontGenerator::GetCharacter(char c)
 {
-	if(c == 4 || c == 32)
-	{
-		unsigned char* data = code_space;
-		return data;
-	}
+	//if(c == 4 || c == 32)
+	//{
+		//unsigned char* data = code_space;
+		//return data;
+	//}
 	
 	if(c > 47 && c < 59)
 	{
@@ -32,6 +32,5 @@ unsigned char* FontGenerator::GetCharacter(char c)
 		return data;
 	}
 	
-	unsigned char* data = Characters[c-97];
-	return data;
+	//unsigned char* data = Characters[c-97];
 }

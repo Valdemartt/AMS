@@ -51,7 +51,6 @@ public:
 	void NextFrame(bool screenPressed);
 	void Pause();
 	bool DetectCollision();
-	void Reset();
 	bool CheckIncrementScore();
 protected:
 private:
@@ -59,7 +58,6 @@ private:
 	GameController& operator=( const GameController &c );
 	void UpdatePipes();
 	void UpdateFlappy(bool screenPressed);
-	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
-}; //GameController
+	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);}; //GameController
 
 #endif //__GAMECONTROLLER_H__

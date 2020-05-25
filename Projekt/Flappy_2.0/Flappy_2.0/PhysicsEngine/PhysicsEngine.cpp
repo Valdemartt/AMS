@@ -16,11 +16,12 @@ PhysicsEngine::PhysicsEngine()
 	Acceleration = 0;
 }
 
-PhysicsEngine::PhysicsEngine(double gravity)
+PhysicsEngine::PhysicsEngine(double gravity, double speed)
 {
 	_gravity = gravity;
 	Velocity = 0;
 	Acceleration = 0;
+	_speed = speed;
 } 
 
 // default destructor
@@ -55,8 +56,7 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 		{
 			Acceleration = 0;
 			Velocity = 0;
-			Acceleration += _gravity/5;
-			posY -= 7;
+			Acceleration += _gravity;
 		}
 		//Gravity
 		Acceleration -= _gravity/20;
@@ -70,7 +70,7 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 		//Increase velocity
 		Velocity += Acceleration;
 		//Invert 
-		posY -= (int)Velocity;
+		posY -= (int)Velocity * _speed;
 		
 		flappy->SetStartY(posY);
 	}

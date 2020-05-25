@@ -16,6 +16,7 @@
 #include "../UIObjects/UIObject.h"
 #include "../PhysicsEngine/PhysicsEngine.h"
 #include "../TFT/Text.h"
+#include "../TouchDriver/Position.h"
 class GameController
 {
 //variables
@@ -24,15 +25,15 @@ protected:
 private:
 	TFTDriver * _tftDriver;
 	TouchDriver * _touchDriver;
-	PipePair* _pipes;
-	FlappyObject* _flappy;
-	PhysicsEngine* _engine;
+	PipePair * _pipes;
+	UIObject * _buttons;
+	FlappyObject _flappy;
+	PhysicsEngine * _engine;
 	bool _isPlaying;
 	unsigned long _rngState;
 	unsigned int _lastPipeOffset;
 	int _pipeGap;
 	int _pipeWidth;
-	int _speed;
 	int _score;
 	int _highscore;
 	int _pipeDistance;
@@ -51,12 +52,16 @@ public:
 	void NextFrame(bool screenPressed);
 	void Pause();
 	bool DetectCollision();
-	void Reset();	bool CheckIncrementScore();protected:
+	void Reset();	
+	bool CheckIncrementScore();
+	void Menu();
+	void DetectClick(Position * position);
 private:
 	GameController( const GameController &c );
 	GameController& operator=( const GameController &c );
 	void UpdatePipes();
 	void UpdateFlappy(bool screenPressed);
 	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
+	
 }; //GameController
 #endif //__GAMECONTROLLER_H__

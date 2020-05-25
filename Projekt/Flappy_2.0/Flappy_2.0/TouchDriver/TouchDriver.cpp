@@ -41,9 +41,9 @@ void TouchDriver::InitTouch()
 	cbi(IRQ_DDR, IRQ_PIN);
 	
 	//INT setup for INT4
-	sbi(EIMSK, 4);
-	sbi(EICRB, 2);
-	sei();
+	//sbi(EIMSK, 4);
+	//sbi(EICRB, 2);
+	//sei();
 	
 	position = Position(0,0);
 	

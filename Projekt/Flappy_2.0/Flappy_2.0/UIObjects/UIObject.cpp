@@ -77,4 +77,14 @@ unsigned int UIObject::GetColor()
 	return this->color;
 }
 
+UIObject& UIObject::operator=( const UIObject &c )
+{
+	color = c.color;
+	width = c.width;
+	height = c.height;
+	startX = c.startX;
+	startY = c.startY;
+	_callback = c._callback;
+}
+
 

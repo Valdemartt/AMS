@@ -202,4 +202,12 @@ class PipePair
     -_lower: UIObject
     -_passed: bool
 }
+
+class FontGenerator
+{
+    +FontGenerator()
+    +GetCharacter(c: char): unsigned char*
+    
+}
+
 @enduml

@@ -1,0 +1,21 @@
+@startuml
+start
+if (out of screen) then (yes)
+    stop
+else if(on right edge of screen) then (yes)
+    :set endX to be width;
+else if(on left edge of screen) then (yes)
+    :set endX to be StartX + width;
+    :set StartX to 0;
+endif
+:SetPageAddress();
+:SetColumnAddress();
+:MemoryWrite();
+:Calculate number of pixels;
+repeat
+ :WritePixel;
+ repeat while (number of times < number of pixels) is (yes)
+ -> no;
+
+stop
+@enduml

@@ -1,3 +1,10 @@
 @startuml
-
+control GameController
+boundary TFTdriver
+GameController-->TFTdriver : DrawGame(Pipepair* pipes, int numPillars, FlappyObject* flappy, int speed)
+loop numPillars
+    TFTdriver-->TFTdriver : FillRectangle(upperPipe coordinates, color)
+    TFTdriver-->TFTdriver : FillRectangle(lowerPipe coordinates, color)
+end
+TFTdriver-->TFTdriver : DrawFlappy(Flappy coordinates, color)
 @enduml

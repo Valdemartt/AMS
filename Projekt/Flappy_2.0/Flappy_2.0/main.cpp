@@ -19,10 +19,10 @@
 
 #include <util/delay.h>
 
-TouchDriver touchDriver(400, 400, 4095, 320, 240);
+TouchDriver touchDriver(300 , 1200, 350, 450, 4095, 320, 240, 3);
 FontGenerator fontGenerator;
 TFTDriver tftDriver(320, 240, &fontGenerator);
-PhysicsEngine engine(9.82/3, 10);
+PhysicsEngine engine(9.82/10, 5);
 GameController game(&tftDriver, &touchDriver, &engine, 42, 30, 100);
 bool drawNewFrame;
 bool gamePaused;
@@ -37,7 +37,7 @@ int main(void)
 	InitUART(9600,8,'N');
 	touchDriver.Init();
 	tftDriver.Init();
-	game.StartGame();
+	game.Menu();
 	InterruptSetup::Init();
 	screenTouched = false;
 	drawNewFrame = false;
@@ -46,9 +46,11 @@ int main(void)
 		screenTouched = touchDriver.ScreenTouched();
 		if(screenTouched && !game.IsPlaying())
 		{
-			touchDriver.Read();
-			Position * pos = touchDriver.GetPosition();
-			game.DetectClick(pos);
+			if(touchDriver.ReadPosition());
+			{
+				Position * pos = touchDriver.GetPosition();
+				game.DetectClick(pos);
+			}
 		}
 		if(game.IsPlaying())
 		{
@@ -59,13 +61,6 @@ int main(void)
 				drawNewFrame = false;
 			}
 		}
-		else 
-		{
-			if(screenTouched)
-			{
-				game.StartGame();
-			}
-		}	
     }
 }
 

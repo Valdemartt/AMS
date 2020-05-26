@@ -31,10 +31,6 @@ loop while true
             main -> main : screenTouched = false;
             main -> main : drawNewFrame = false;
         end
-    else Not playing
-        alt If screen touched
-            main -> GameController : StartGame()
-        end
     end
 end
 @enduml

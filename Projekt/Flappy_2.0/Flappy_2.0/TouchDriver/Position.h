@@ -24,10 +24,14 @@ public:
 
 	void setX(int x)
 	{
+		if (x < 0)
+			x = 0;
 		x_value=x;
 	}
 	void setY(int y)
 	{
+		if(y < 0)
+			y = 0;
 		y_value = y;
 	}
 	int getX()

@@ -17,7 +17,7 @@ class InterruptSetup
 public:
 	InterruptSetup();
 	~InterruptSetup();
-	static void InitFrameTimer() 
+	static void Init() 
 	{
 		TIMSK3 = 2; //Enable interrupt on compare A for timer 3
 		TCCR3A &= 0b11111100; //Set CTC mode

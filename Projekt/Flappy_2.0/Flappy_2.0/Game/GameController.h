@@ -11,12 +11,9 @@
 #include "../TFT/Color.h"
 #include "../TFT/TFTdriver.h"
 #include "../TouchDriver/TouchDriver.h"
-#include "../UIObjects/PipePair.h"
-#include "../UIObjects/FlappyObject.h"
-#include "../UIObjects/UIObject.h"
 #include "../PhysicsEngine/PhysicsEngine.h"
 #include "../TFT/Text.h"
-#include "../TouchDriver/Position.h"
+
 class GameController
 {
 //variables
@@ -64,4 +61,6 @@ private:
 	unsigned int GenerateRandomNumber(unsigned int min, unsigned int max);
 	
 }; //GameController
+
+
 #endif //__GAMECONTROLLER_H__

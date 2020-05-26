@@ -39,11 +39,11 @@ class TouchDriver
 {
 public:
 	TouchDriver();
-	TouchDriver(int x_offset, int y_offset, int conversion_resolution, int x_pixels, int y_pixels);
-	void InitTouch();
+	TouchDriver(int xRightOffset, int xLeftOffset, int yTopOffset, int yBottomOffset, int conversion_resolution, int x_pixels, int y_pixels, int precision);
+	void Init();
 	int getX();
 	int getY();
-	void Read();
+	bool ReadPosition();
 	bool ScreenTouched();
 	void SetTimer1_EnableInterrupt();
 	Position * GetPosition() { return &position; };
@@ -53,13 +53,16 @@ private:
 	void ClockPulse();
 	void ClearClock();
 	Position position;
-	int _xOffset;
-	int _yOffset;
+	int _xRightOffset;
+	int _xLeftOffset;
+	int _yTopOffset;
+	int _yBottomOffset;
 	int _timer0_duration;
 	int _conversionResolution;
 	int _xPixels;
 	int _yPixels;
 	int _xResPerPixel;
 	int _yResPerPixel;
+	int _precision;
 };
 #endif /* TOUCHDRIVER_H_ */

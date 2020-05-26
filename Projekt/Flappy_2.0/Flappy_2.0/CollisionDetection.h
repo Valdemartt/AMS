@@ -63,6 +63,10 @@ class CollisionDetection
 		
 		static bool CheckButtonClicked(UIObject * button, Position * clickPosition)
 		{
+			//SendString("Y: ");
+			//SendInteger(clickPosition->getY());
+			//SendString("X: ");
+			//SendInteger(clickPosition->getX());
 			return (clickPosition->getX() > button->GetStartX() && 
 				clickPosition->getX() < button->GetStartX() + button->GetWidth() &&
 				clickPosition->getY() > button->GetStartY() &&

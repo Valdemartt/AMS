@@ -1,19 +1,22 @@
 @startuml
-control GameController
+control main
+participant GameController
 boundary TFTDriver
---> GameController : NextFrame(bool screenPressed)
+main -> GameController : NextFrame(bool screenPressed)
 GameController -> GameController : DetectCollision()
-opt Collision detected
+alt Collision detected
     GameController -> GameController : GameOver()
-    <-- GameController: Return 
+    main <-- GameController: Return 
+else
+    GameController -> TFTDriver : EraseObjects(PipePair * pipes,\n int numPipePairs, \n FlappyObject * flappy,\n unsigned int BackgroundColor, \n int speed)
+    GameController -> GameController : UpdatePipes()
+    GameController -> GameController : UpdateFlappy(screenPressed);
+    GameController -> GameController : CheckIncrementScore()
+    opt Increment score
+    GameController -> GameController : score++
+    GameController -> TFTDriver : UpdateScore(score)
+    end
+    GameController -> TFTDriver : DrawGame(PipePair * pipes, \n int numPipePairs,\n FlappyObject * flappy,\n int speed)
+    main <-- GameController : Return
 end
-GameController -> TFTDriver : EraseObjects(PipePair * pipes,\n int numPipePairs, \n FlappyObject * flappy,\n unsigned int BackgroundColor, \n int speed)
-GameController -> GameController : UpdatePipes()
-GameController -> GameController : UpdateFlappy(screenPressed);
-GameController -> GameController : CheckIncrementScore()
-opt Increment score
-GameController -> GameController : score++
-GameController -> TFTDriver : UpdateScore(score)
-end
-GameController -> TFTDriver : DrawGame(PipePair * pipes, \n int numPipePairs,\n FlappyObject * flappy,\n int speed)
 @enduml

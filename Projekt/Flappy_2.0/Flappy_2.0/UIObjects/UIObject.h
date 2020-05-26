@@ -10,9 +10,10 @@
 #define UIOBJECT_H_
 
 #include "../TFT/Color.h"
-#include "../Game/GameController.h"
 
 #define PIPE_SPAWN_LENGTH 50
+class GameController;
+typedef void (GameController::* gameControllerCallback)();
 
 class UIObject
 {
@@ -28,7 +29,7 @@ class UIObject
 		void SetHeight(int height);
 		void SetWidth(int width);
 		void SetColor(Color * color);
-		void SetCallback(void (GameController::* callback)()) { _callback = callback; };
+		void SetCallback(gameControllerCallback callback) { _callback = callback; };
 		void Callback(GameController * game) { (game->*_callback)(); };
 		unsigned int GetColor();
 		UIObject& operator=( const UIObject &c );
@@ -38,7 +39,7 @@ class UIObject
 		int height;
 		int width;
 		unsigned int color;
-		void * _callback;
+		gameControllerCallback _callback;
 };
 
 #endif /* UIOBJECT_H_ */

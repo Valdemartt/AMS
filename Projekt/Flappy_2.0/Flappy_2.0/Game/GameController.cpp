@@ -113,14 +113,14 @@ void GameController::Menu()
 	Color textColor(0,0,0);
 	
 	UIObject buttons [1];
-	int buttonPadding = 5;
-	UIObject startGameButton(_tftDriver->GetWidth()/2 - _startGameWidth + 2*buttonPadding, 180, _startGameHeight + 2*buttonPadding, _startGameWidth + 2*buttonPadding, &buttonColor);
+	int buttonPadding = 20;
+	UIObject startGameButton(_tftDriver->GetWidth()/2 - (_startGameWidth + 2*buttonPadding)/2, _tftDriver->GetHeight()/2, _startGameHeight + 2*buttonPadding, _startGameWidth + 2*buttonPadding, &buttonColor);
 	buttons[0] = startGameButton;
-	void (GameController::* callback)() = &GameController::StartGame;
+	gameControllerCallback callback = &GameController::StartGame;
 	buttons[0].SetCallback(callback);
 	_buttons = buttons;
 	_tftDriver->DrawBackground(&backgroundColor, &earthColor, 20);
-	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, backgroundColor.getEncodedColor(), textColor.getEncodedColor(), buttonPadding);
+	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, buttonColor.getEncodedColor(), textColor.getEncodedColor(), buttonPadding);
 }
 //Taken from https://en.wikipedia.org/wiki/Xorshift
 unsigned int GameController::GenerateRandomNumber(unsigned int min, unsigned int max)
@@ -190,6 +190,7 @@ void GameController::DetectClick(Position * position)
 	{
 		if(CollisionDetection::CheckButtonClicked(&_buttons[i], position))
 		{
+			SendString("Clicked button");
 			_buttons[i].Callback(this);
 		}
 	}
@@ -227,6 +228,8 @@ void GameController::GameOver()
 	_tftDriver->DrawText(_highText, sizeof(_highText), _highWidth, _highHeight, 90, 160, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
 	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 170, 164, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
 	_tftDriver->WriteText(itoa(_highscore, scoreString, 10), 220, 152, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
+	int buttonPadding = 5;
+	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, white.getEncodedColor(), textColor.getEncodedColor(), buttonPadding);
 	if(_score > _highscore)
 	{
 		_highscore = _score;

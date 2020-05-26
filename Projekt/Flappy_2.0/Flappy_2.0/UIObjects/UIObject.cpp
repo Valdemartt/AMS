@@ -85,6 +85,7 @@ UIObject& UIObject::operator=( const UIObject &c )
 	startX = c.startX;
 	startY = c.startY;
 	_callback = c._callback;
+	//return *this;
 }
 
 

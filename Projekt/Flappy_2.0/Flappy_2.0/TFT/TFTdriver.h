@@ -20,7 +20,6 @@
 ************************************************************/  
 #ifndef __TFTDriver_H__
 #define __TFTDriver_H__
-#include "../UIObjects/UIObject.h"
 #include "Color.h"
 #include "../UIObjects/PipePair.h"
 #include "../UIObjects/FlappyObject.h"

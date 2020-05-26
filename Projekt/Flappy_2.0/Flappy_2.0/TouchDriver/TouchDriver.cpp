@@ -15,21 +15,22 @@
 #define CAL_Y 0x03C34155UL
 #define CAL_S 0x000EF13FUL
 
-TouchDriver::TouchDriver(int xOffset, int yOffset, int conversionResolution, int xPixels, int yPixels)
+TouchDriver::TouchDriver(int xLeftOffset, int xRightOffset, int yTopOffset, int yBottomOffset, int conversionResolution, int xPixels, int yPixels, int precision)
 {
-	_xOffset = xOffset;
-	_yOffset = yOffset;
+	_xRightOffset = xRightOffset;
+	_xLeftOffset = xLeftOffset;
+	_yTopOffset = yTopOffset;
+	_yBottomOffset = yBottomOffset;
 	_timer0_duration = 0;
 	_xPixels = xPixels;
 	_yPixels = yPixels;
 	_conversionResolution = conversionResolution;
-	_xResPerPixel = (_conversionResolution - xOffset) / _xPixels;
-	_yResPerPixel = (_conversionResolution - yOffset) / _yPixels;
+	_xResPerPixel = (_conversionResolution - _xLeftOffset - _xRightOffset) / _xPixels;
+	_yResPerPixel = (_conversionResolution - _yTopOffset - _yBottomOffset) / _yPixels;
+	_precision = precision;
 }
 TouchDriver::TouchDriver()
 {
-	_xOffset = 0;
-	_yOffset = 0;
 }
 void TouchDriver::Init()
 {
@@ -62,43 +63,50 @@ void TouchDriver::Init()
 	sbi(CS_PORT,CS_PIN);
 }
 
-void TouchDriver::ReadPosition()
+bool TouchDriver::ReadPosition()
 {
 	unsigned int temp_x=0, temp_y=0;
-	//int datacounter = 0;
-	
+	bool positionRead = false;
+	int xRead, yRead = 0;
 	cbi(CS_PORT,CS_PIN);
-	
-	if(ScreenTouched())
+	for(int i = 0; i < _precision; i++)
 	{
-		WriteData(0x90);
-		temp_y = ReadData();
-		
 		if(ScreenTouched())
 		{
-			WriteData(0xD0);
-			temp_x = ReadData();
-			
-			/*if((temp_x>ADC_RES_MIN) && (temp_x<ADC_RES_MAX) && (temp_y>ADC_RES_MIN) && (temp_y<ADC_RES_MAX))
+			WriteData(0x90);
+			temp_x += ReadData();
+			xRead++;
+			if(ScreenTouched())
 			{
-				
-			}*/
-			position.setX(temp_x);
-			position.setY(temp_y);
+				WriteData(0xD0);
+				temp_y += ReadData();
+				yRead++;
+				positionRead = true;
+			}
 		}
+		_NOP();
+		ClockPulse();
+	}
+	if(positionRead)
+	{
+		position.setX(_xPixels - (((temp_x/xRead) - _xLeftOffset) / _xResPerPixel));
+		position.setY(_yPixels - (((temp_y/yRead) - _yTopOffset) / _yResPerPixel));
+		//SendString("X: ");
+		//SendInteger(temp_x/xRead);
+		//SendString("y: ");
+		//SendInteger(temp_y/yRead);
 	}
 	sbi(CS_PORT,CS_PIN);
-	_NOP();
-	ClockPulse();
+	return positionRead;
 }
 
 int TouchDriver::getX()
 {
-	return (position.getX() - _xOffset) / _xResPerPixel;
+	return position.getX();
 }
 int TouchDriver::getY()
 {
-	return (position.getY() - _yOffset) / _yResPerPixel;
+	return position.getY();
 }
 
 

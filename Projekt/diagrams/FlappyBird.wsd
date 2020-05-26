@@ -80,11 +80,12 @@ class CollisionDetection
 {
     +CheckCollision(flappy: FlappyObject*, pipes: PipePair*): static bool
     +CheckEarthCollision(flappy: FlappyObject*, earth: int): static bool
+    +CheckButtonClicked(button: UIObject*, clickPosition: Position*): static bool
 }
 
 class CheckScore
 {
-    +CheckIncrementScore(xScore: int, pipes: PipePair*): static bool
+    +CheckIncrementScore(flappy: FlappyObject*, pipes: PipePair*): static bool
 }
 
 class PhysicsEngine
@@ -149,6 +150,8 @@ class Color
 
 class UIObject
 {
+    +(GameController::* gameControllerCallback): typedef void
+
     +UIObject()
     +UIObject(startX: int, startY: int, height: int, width: int, color: Color*)
     +GetStartX(): int
@@ -161,12 +164,15 @@ class UIObject
     +SetWidth(width: int): void
     +SetColor(color: Color*): void
     +GetColor(): unsigned int
+    +SetCallback(callback: gameControllerCallback): void
+    +Callback(game: GameController*)
     -flappy*: int
     -startX: int
     -startY: int
     -height: int
     -width: int
     -color: unsigned int
+    -_callback :gameControllerCallback
 }
 
 class FlappyObject
@@ -182,5 +188,18 @@ class FlappyObject
     -_startX: int
     -_startY: int
     -_flappy[]: int
+}
+
+class PipePair
+{
+    +PipePair()
+    +PipePair(upper: UIObject, lower: UIObject)
+    +GetUpper(): UIObject*
+    +GetLower(): UIObject*
+    +GetIsPassed(): bool
+    +SetIsPassed(isPassed: bool): void
+    -_upper: UIObject
+    -_lower: UIObject
+    -_passed: bool
 }
 @enduml

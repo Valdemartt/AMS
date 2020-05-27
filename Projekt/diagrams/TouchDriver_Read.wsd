@@ -1,4 +1,18 @@
 @startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam activity {
+    BorderColor Black
+    BackgroundColor White
+}
 (*) --> "Chip select low"
 if "Screen Touched" then
     -->[true] "Write Data (y)"

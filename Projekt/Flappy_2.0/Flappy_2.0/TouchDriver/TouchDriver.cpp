@@ -11,9 +11,6 @@
 #include "../UART/uart.h"
 #include <avr/io.h>
 
-#define CAL_X 0x00378F66UL
-#define CAL_Y 0x03C34155UL
-#define CAL_S 0x000EF13FUL
 
 TouchDriver::TouchDriver(int xLeftOffset, int xRightOffset, int yTopOffset, int yBottomOffset, int conversionResolution, int xPixels, int yPixels, int precision)
 {
@@ -42,8 +39,8 @@ void TouchDriver::Init()
 	cbi(IRQ_DDR, IRQ_PIN);
 	
 	//INT setup for INT4
-	//sbi(EIMSK, 4);
-	//sbi(EICRB, 2);
+	sbi(EIMSK, 4);
+	sbi(EICRB, 2);
 	//sei();
 	
 	position = Position(0,0);
@@ -67,7 +64,7 @@ bool TouchDriver::ReadPosition()
 {
 	unsigned int temp_x=0, temp_y=0;
 	bool positionRead = false;
-	int xRead, yRead = 0;
+	int xRead = 0, yRead = 0;
 	cbi(CS_PORT,CS_PIN);
 	for(int i = 0; i < _precision; i++)
 	{
@@ -91,10 +88,6 @@ bool TouchDriver::ReadPosition()
 	{
 		position.setX(_xPixels - (((temp_x/xRead) - _xLeftOffset) / _xResPerPixel));
 		position.setY(_yPixels - (((temp_y/yRead) - _yTopOffset) / _yResPerPixel));
-		//SendString("X: ");
-		//SendInteger(temp_x/xRead);
-		//SendString("y: ");
-		//SendInteger(temp_y/yRead);
 	}
 	sbi(CS_PORT,CS_PIN);
 	return positionRead;
@@ -187,7 +180,7 @@ void TouchDriver::SetTimer1_EnableInterrupt()
 	TCCR1A &= 0b11111100; //Set CTC mode
 	TCCR1B &= 0b11101111; //Set CTC mode
 	TCCR1B |= 0b00001000; //Set CTC mode
-	OCR1A = 12500; //Compare on when timer reaches 25000 - every 100 ms;
+	OCR1A = 10000; //Compare on when timer reaches 10000
 	TCCR1B |= 0b00000011; //Set 64 clock prescaler and start timer
 }
 void TouchDriver::ClearClock()

@@ -21,7 +21,6 @@ public:
 protected:
 private:
 	TFTDriver * _tftDriver;
-	TouchDriver * _touchDriver;
 	PipePair * _pipes;
 	UIObject * _buttons;
 	FlappyObject _flappy;
@@ -37,10 +36,11 @@ private:
 	int _numPipePairs;
 	int _elapsedTimeSinceClick;
 	int _earthHeight;
+	int _numButtons;
 //functions
 public:
 	GameController();
-	GameController(TFTDriver* tftDriver, TouchDriver* touchDriver, PhysicsEngine* engine, long seed, int pipeWidth, int pipeGap);
+	GameController(TFTDriver* tftDriver, PhysicsEngine* engine, long seed, int pipeWidth, int pipeGap, int pipeDistance);
 	~GameController();
 	void StartGame();
 	void StopGame();
@@ -53,6 +53,10 @@ public:
 	bool CheckIncrementScore();
 	void Menu();
 	void DetectClick(Position * position);
+	int GetNumPipes();
+	int GetNumButtons();
+	void SetPipes(PipePair * pipes);
+	void SetButtons(UIObject * pipes);
 private:
 	GameController( const GameController &c );
 	GameController& operator=( const GameController &c );

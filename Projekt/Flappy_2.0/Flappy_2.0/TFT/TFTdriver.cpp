@@ -59,7 +59,6 @@ void TFTDriver::WriteCommand(unsigned int command)
 	WR_PORT |= (1<<WR_BIT);
 	//Wait for cycle
 	_NOP();
-	
 }
 
 // ILI 9341 data sheet, page 238
@@ -211,24 +210,49 @@ int TFTDriver::GetWidth()
 // (StartX,StartY) = Upper left corner. X horizontal (0-319) , Y vertical (0-239).
 // Height (1-240) is vertical. Width (1-320) is horizontal.
 // R-G-B = 5-6-5 bits.
-void TFTDriver::FillRectangle(int StartX, int StartY, unsigned int Width, unsigned int Height, unsigned int color)
+void TFTDriver::FillRectangle(int StartX, int StartY, int Width, int Height, unsigned int color)
 {
-	int endX;
-	if(StartX > _width || StartX + Width < 0) //Out of screen
+	int endX = StartX + Width;
+	int endY = StartY + Height;
+	if(StartX > _width || endX < 0) //Out of screen
 	{
 		return;
 	}
-	else if(StartX + Width > _width) //On right edge of screen
+	else if(endX > _width && StartX < _width) //On right edge of screen
 	{
 		endX = _width;
+		Width = endX - StartX;
+		if(Width < 0)
+			Width = 0;
 	}
-	else if(StartX + Width > 0 && StartX < 0) //On left edge of screen
+	else if(endX > 0 && StartX < 0) //On left edge of screen
 	{
-		endX = StartX + Width;
 		StartX = 0;
+		Width = endX - StartX;
+		if(Width < 0)
+			Width = 0;
 	}
+	if(StartY > _height || endY < 0) //Out of screen
+	{
+		return;
+	}
+	else if(endY > _height && StartY < _height) //On bottom of screen
+	{
+		endY = _height;
+		Height = endY - StartY;
+		if(Height < 0)
+			Height = 0;
+	}
+	else if(endY > 0 && StartY < 0) //On top of screen
+	{
+		StartY = 0;
+		Height = endY - StartY;
+		if(Height < 0)
+			Height = 0;
+	}
+	
 	SetPageAddress(StartX, endX - 1);
-	SetColumnAddress(StartY, (StartY + Height) - 1);
+	SetColumnAddress(StartY, endY - 1);
 	MemoryWrite();
 	long int numPixels = (long int)Width * Height;
 
@@ -277,7 +301,9 @@ void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flapp
 void TFTDriver::DrawTextButton(UIObject * button, bool clicked, const unsigned char * data, long int dataLength, int width, int height, unsigned int backgroundColor, unsigned int textColor, int padding)
 {
 	FillRectangle(button->GetStartX() - padding, button->GetStartY() - padding, button->GetWidth() + 2*padding, button->GetHeight() + 2*padding, backgroundColor);
-	DrawText(data, dataLength, width, height, button->GetStartX() + width/2, button->GetStartY() + height/2, backgroundColor, textColor);
+	int buttonCenterX = button->GetStartX() + button->GetWidth()/2;
+	int buttonCenterY = button->GetStartY() + button->GetHeight()/2;
+	DrawText(data, dataLength, width, height, buttonCenterX, buttonCenterY, backgroundColor, textColor);
 }
 
 void TFTDriver::EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color, int speed)

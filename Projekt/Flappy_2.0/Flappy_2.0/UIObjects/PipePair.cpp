@@ -41,6 +41,13 @@ PipePair& PipePair::operator=( const PipePair &c )
 	_passed = false;
 }
 
+PipePair::PipePair( const PipePair &c )
+{
+	_upper = c._upper;
+	_lower = c._lower;
+	_passed = c._passed;
+}
+
 bool PipePair::GetIsPassed()
 {
 	return _passed;

@@ -1,0 +1,38 @@
+@startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam Collections {
+    BorderColor Black
+    BackgroundColor White
+}
+
+actor player
+participant XPT2046
+participant ISR_INT4
+participant ISR_TIMER1_COMPA
+participant TouchDriver
+player -> XPT2046 : Presses screen
+activate XPT2046
+XPT2046 -> ISR_INT4 : Activates
+deactivate XPT2046
+activate ISR_INT4
+ISR_INT4 -> ISR_INT4 : screenPressed = true
+ISR_INT4 -> TouchDriver : SetTimer1_EnableInterrupt()
+activate TouchDriver
+TouchDriver --> ISR_INT4
+deactivate TouchDriver
+deactivate ISR_INT4
+... 40 ms ...
+ISR_TIMER1_COMPA -> ISR_TIMER1_COMPA : Is triggered
+activate ISR_TIMER1_COMPA
+ISR_TIMER1_COMPA -> ISR_TIMER1_COMPA : Disable timer,\nclear INTF4 flag and \nenable INT4
+deactivate ISR_TIMER1_COMPA
+@enduml

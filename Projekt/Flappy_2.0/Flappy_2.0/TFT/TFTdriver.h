@@ -39,8 +39,8 @@ public:
 	void Reset();
 	void DisplayOff();
 	void DisplayOn();
-	void FillRectangle(int StartX, int StartY, unsigned int Width,
-	unsigned int Height, unsigned int color);
+	void FillRectangle(int StartX, int StartY, int Width,
+	 int Height, unsigned int color);
 	void DrawGame(PipePair *pillars, int numPillars, FlappyObject *flappy, int speed);
 	void DrawBackground(Color *backgroundColor, Color *earthColor, int earthHeight);
 	void DisplayInversionOn();

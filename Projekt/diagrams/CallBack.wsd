@@ -1,0 +1,45 @@
+@startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam Collections {
+    BorderColor Black
+    BackgroundColor White
+}
+
+skinparam control{
+    BorderColor Black
+    BackgroundColor White
+}
+
+control main
+participant GameController
+participant CollisionDetection
+participant UIObject
+main -> GameController : DetectClick(Position * position)
+activate GameController
+loop button in buttons
+    GameController -> CollisionDetection : CheckButtonClicked(UIObject * button, Position * position)
+    CollisionDetection --> GameController : Returns bool
+    opt Button clicked
+        GameController -> UIObject : Callback(GameController * game)
+        activate UIObject
+        UIObject -> GameController : _callback()
+        activate GameController
+        GameController --> UIObject 
+        deactivate GameController
+        UIObject --> GameController
+        deactivate UIObject
+    end
+end
+GameController --> main : Returns
+deactivate GameController
+
+@enduml

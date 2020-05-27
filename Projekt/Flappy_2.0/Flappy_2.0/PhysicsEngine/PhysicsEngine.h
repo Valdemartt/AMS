@@ -21,11 +21,13 @@ private:
 public:
 	PhysicsEngine();
 	~PhysicsEngine();
-	PhysicsEngine(double gravity, double speed);
+	PhysicsEngine(double gravity, double fps, int speed);
 	void Update(int elapsedTime, FlappyObject * flappy, bool keyPressed);
 	void Reset();
-	double GetSpeed() { return _speed; };
-	void SetSpeed(double speed) { _speed = speed; };
+	double GetFps() { return _fps; };
+	void SetFps(double fps) { _fps = fps; };
+	int GetSpeed() { return _speed; };
+	void SetSpeed(int speed) { _speed = speed; };
 protected:
 private:
 	PhysicsEngine( const PhysicsEngine &c );
@@ -33,7 +35,9 @@ private:
 	double Velocity = 0;
 	double Acceleration = 0; 
 	double _gravity = 0;
-	double _speed = 0;
+	double _fps = 0;
+	int _speed = 0;
+	int _startSpeed = 0;
 
 }; //PhysicsEngine
 

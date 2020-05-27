@@ -1,23 +1,9 @@
-/************************************************************
-  File name: "TFTdriver.c"
-
-  Driver for "ITDB02 320 x 240 TFT display module, Version 2"
-  mounted at "ITDB02 Arduino Mega2560 Shield".
-  Display controller = ILI 9341.
-  
-  Max. uC clock frequency = 16 MHz (Tclk = 62,5 ns)
-
-  Connections:
-  DB15-DB8:   PORT A
-  DB7-DB0:    PORT C
-
-  RESETx:     PORT G, bit 0
-  CSx:        PORT G, bit 1
-  WRx:        PORT G, bit 2
-  RS (=D/Cx): PORT D, bit 7
-
-  Henning Hargaard, February 14, 2019
-************************************************************/  
+/*
+ * TFTdriver.cpp
+ *
+ * Created: 26-03-2020 09:40:24
+ *  Author: math0
+ */  
 #include <avr/io.h> 
 #include <avr/cpufunc.h>
 #define F_CPU 16000000

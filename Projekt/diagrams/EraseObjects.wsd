@@ -1,3 +1,10 @@
 @startuml
-    
+control GameController
+boundary TFTdriver
+GameController-->TFTdriver : EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color, int speed)
+loop numPairs
+    TFTdriver-->TFTdriver : FillRectangle(upperPipe coordinates, color)
+    TFTdriver-->TFTdriver : FillRectangle(lowerPipe coordinates, color)
+end
+TFTdriver-->TFTdriver : FillRectangle(flappy coordinates, color)
 @enduml

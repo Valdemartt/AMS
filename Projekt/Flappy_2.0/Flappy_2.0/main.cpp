@@ -46,6 +46,10 @@ int main(void)
 	game.SetPipes(pipes);
 	game.SetButtons(buttons);
 	
+	//Set PORTF pin 7 as output, used for testing fps
+	//sbi(DDRF, 7);
+	//cbi(PORTF, 7);
+	
 	sei();
 	gamePaused = false;
     //Main loop, skal håndtere hele spillet.
@@ -72,9 +76,11 @@ int main(void)
 		{
 			if(drawNewFrame)
 			{
+				//sbi(PORTF, 7);
 				game.NextFrame(screenTouched);
 				screenTouched = false;
 				drawNewFrame = false;
+				//cbi(PORTF, 7);
 			}
 		}
     }

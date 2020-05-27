@@ -50,7 +50,7 @@ void TFTDriver::WriteCommand(unsigned int command)
 // ILI 9341 data sheet, page 238
 void TFTDriver::WriteData(unsigned int data)
 {
-	DC_PORT |= (1<<DC_BIT);
+	DC_PORT |= (1<<DC_BIT); //Ensure DC high
 	//Setup data
 	DATA_PORT_HIGH = ((data & 0xFF00)>>8);
 	DATA_PORT_LOW = (data & 0xFF);

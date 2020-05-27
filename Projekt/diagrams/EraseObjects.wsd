@@ -1,10 +1,25 @@
 @startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam ControlBorderColor black
+skinparam ControlBackgroundColor white
+
 control GameController
-boundary TFTdriver
-GameController-->TFTdriver : EraseObjects(PipePair * pipePairs, int numPairs, FlappyObject * flappy, unsigned int color, int speed)
+participant TFTdriver
+GameController-->TFTdriver : EraseObjects(PipePair* pipePairs, int numPairs, FlappyObject* flappy, unsigned int color, int speed)
+activate TFTdriver
 loop numPairs
     TFTdriver-->TFTdriver : FillRectangle(upperPipe coordinates, color)
     TFTdriver-->TFTdriver : FillRectangle(lowerPipe coordinates, color)
 end
 TFTdriver-->TFTdriver : FillRectangle(flappy coordinates, color)
+deactivate TFTdriver
 @enduml

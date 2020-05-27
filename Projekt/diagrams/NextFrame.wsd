@@ -25,7 +25,10 @@ skinparam boundary {
 control main
 participant GameController
 boundary TFTDriver
+
+activate main
 main -> GameController : NextFrame(bool screenPressed)
+activate GameController
 GameController -> GameController : DetectCollision()
 alt Collision detected
     GameController -> GameController : GameOver()
@@ -42,4 +45,6 @@ else
     GameController -> TFTDriver : DrawGame(PipePair * pipes, \n int numPipePairs,\n FlappyObject * flappy,\n int speed)
     main <-- GameController : Return
 end
+deactivate GameController
+deactivate main
 @enduml

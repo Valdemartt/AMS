@@ -56,7 +56,7 @@ public:
 	int GetNumPipes();
 	int GetNumButtons();
 	void SetPipes(PipePair * pipes);
-	void SetButtons(UIObject * pipes);
+	void SetButtons(UIObject * buttons);
 private:
 	GameController( const GameController &c );
 	GameController& operator=( const GameController &c );

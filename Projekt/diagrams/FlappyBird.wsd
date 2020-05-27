@@ -6,25 +6,29 @@ skinparam class {
 class TFTDriver
 {
     +TFTDriver()
-    +TFTDriver(height: int, width: int)
+    +TFTDriver(height: int, width: int, fontGenerator: FontGenerator*)
     +~TFTDriver()
-    +DisplayInit(): void
+    +Init(): void
     +Reset(): void
     +DisplayOff(): void
     +DisplayOn(): void
-    +FillRectangle(StartX: int, int StartY: int, Width: unsigned int,
-	+Height: unsigned int, color: unsigned int): void
-    +DrawGame(pillars: PipePair*, numPillars: int, flappy: FlappyObject*): void
+    +FillRectangle(StartX: int, int StartY: int, Width: unsigned int, Height: unsigned int, color: unsigned int): void
+    +DrawGame(pillars: PipePair*, numPillars: int, flappy: FlappyObject*, speed: int): void
     +DrawBackground(): void
     +DisplayInversionOn(): void
     +DisplayInversionOff(): void
     +GetWidth(): int
     +GetHeight(): int
     +DrawFlappy(flappy: FlappyObject*)
-    +EraseObjects(pipes: PipePair*, numPairs: int, flappy: FlappyObject*, color: unsigned int): void
+    +EraseObjects(pipes: PipePair*, numPairs: int, flappy: FlappyObject*, color: unsigned int, speed: int): void
     +DrawText(data: const unsigned char*, dataLength: long int, width: int, height: int, xCenter: int, yCenter: int, backgroundColor: unsigned int, textColor: unsigned int): void
+    +WriteText(text: char*, startX: int, startY: int, textColor: unsigned int, backgroundColor: unsigned int): void
+    +UpdateScore(score: int, textColor: Color*, backgroundColor: Color*): void
+    +DrawScore(score: int, textColor: Color*, backgroundColor: Color*): void
+    +DrawTextButton(button: UIObject*, clicked: bool, data: const unsigned char*, dataLength: long int, width: int, height: int, backgroundColor: unsigned int, textColor: unsigned int, padding: int): void
     -_height: int
     -_width: int
+    -_fontGenerator: FontGenerator
     -SleepOut(): void
     -MemoryAccessControl(parameter: unsigned char): void
     -InterfacePixelFormat(parameter: unsigned char): void

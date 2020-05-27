@@ -43,26 +43,30 @@ class TFTDriver
 class TouchDriver
 {
     +TouchDriver()
-    +TouchDriver(x_offset: int, y_offset: int, conversion_resolution: int, x_pixels: int, y_pixels: int)
-    +InitTouch(): void
+    +TouchDriver(x_Rightoffset: int, x_Leftoffset: int, y_TopOffset: int, y_BottomOffset: int, conversion_resolution: int, x_pixels: int, y_pixels: int, precision: int)
+    +Init(): void
     +getX(): int
     +getY(): int
-    +Read(): void
+    +ReadPosition(): bool
+    +ScreenTouched(): bool
     +SetTimer1_EnableInterrupt(): void
+    +GetPosition(): Position*
     -WriteData(data: unsigned char): void
     -ReadData(): int16_t
-    -ScreenTouched(): bool
     -ClockPulse(): void
     -ClearClock(): void
     -position: Position
-    -_xOffset: int
-    -_yOffset: int
+    -_xRightOffset: int
+	-_xLeftOffset: int
+	-_yTopOffset: int
+	-_yBottomOffset: int
     -_timer0_duration: int
     -_conversionResolution: int
     -_xPixels: int
     -_yPixels: int
     -_xResPerPixel: int
     -_yResPerPixel: int
+    -_precision: int
 }
 
 class Position
@@ -114,7 +118,7 @@ class InterruptSetup
 class GameController
 {
     +GameController()
-    +GameController(tftDriver: TFTDriver*, touchDriver: TouchDriver*, engine: PhysicsEngine*, seed: long, pipeWidth: int, pipeGap: int)
+    +GameController(tftDriver: TFTDriver*, touchDriver: TouchDriver*, engine: PhysicsEngine*, seed: long, pipeWidth: int, pipeGap: int, pipeDistance: int)
     +StartGame(): void
     +StopGame(): void
     +GameOver(): void
@@ -122,22 +126,34 @@ class GameController
     +NextFrame(screenPressed: bool): void
     +Pause(): void
     +DetectCollision(): bool
-    -CheckIncrementScore(): bool
+    +Reset(): void
+    +CheckIncrementScore(): bool
+    +Menu(): void
+    +DetectClick(position: Position*): void
+    +GetNumPipes(): int
+    +GetNumButtons(): int
+    +SetPipes(pipes: PipePair*)
+    +SetButtons(buttons: UIObject*)
     -GenerateRandomNumber(min: unsigned int, max: unsigned int): unsigned int
     -UpdatePipes(): void
     -UpdateFlappy(screenPressed: bool): void
-    -_pipeGap: int
-    -_isPlaying: bool
-    -_rngState: unsigned long
-    -_lastPipeOffset: unsigned int
-    -_pipeWidth: int
-    -_speed: int
-    -_score: int
-    -_highsacore: int
-    -_pipeDistance: int
-    -_numPipePairs: int
-    -_elapsedTimeSinceClick: int
-    -_earthHight: int
+    -_tftDriver: TFTDriver *
+	-_pipes: PipePair *
+	-_buttons: UIObject *
+	-_flappy: FlappyObject
+	-_engine: PhysicsEngine *
+	-_isPlaying: bool
+	-_rngState: unsigned long
+	-_lastPipeOffset: unsigned int
+	-_pipeGap: int
+	-_pipeWidth: int
+	-_score: int
+	-_highscore: int 
+	-_pipeDistance: int
+	-_numPipePairs: int
+	-_elapsedTimeSinceClick: int
+	-_earthHeight: int
+	-_numButtons: int
 }
 
 class Color

@@ -1,4 +1,8 @@
 @startuml
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
 class TFTDriver
 {
     +TFTDriver()

@@ -22,14 +22,30 @@
 TouchDriver touchDriver(300 , 1200, 350, 450, 4095, 320, 240, 3);
 FontGenerator fontGenerator;
 TFTDriver tftDriver(320, 240, &fontGenerator);
-PhysicsEngine engine(9.82/10, 5);
-GameController game(&tftDriver, &touchDriver, &engine, 42, 30, 100);
+int fps = 30;
+PhysicsEngine engine(9.82, 10, 90/fps);
+
+int pipeDistance = 100;
+int pipeWidth = 30;
+int pipeGap = 100;
+GameController game(&tftDriver, &engine, 42, pipeWidth, pipeGap, pipeDistance);
+
 bool drawNewFrame;
 bool gamePaused;
 bool screenTouched;
 bool updating;
+
 int main(void)
 {	 
+	//Allocate memory for objects
+	int numPipes = tftDriver.GetWidth()/(pipeWidth + pipeDistance) + 1;
+	PipePair pipes[numPipes];
+	int numButtons = game.GetNumButtons();
+	UIObject buttons[numButtons];
+	
+	game.SetPipes(pipes);
+	game.SetButtons(buttons);
+	
 	sei();
 	gamePaused = false;
     //Main loop, skal håndtere hele spillet.
@@ -43,7 +59,7 @@ int main(void)
 	drawNewFrame = false;
     while(true)
     {
-		screenTouched = touchDriver.ScreenTouched();
+		//screenTouched = touchDriver.ScreenTouched();
 		if(screenTouched && !game.IsPlaying())
 		{
 			if(touchDriver.ReadPosition());
@@ -67,4 +83,19 @@ int main(void)
 ISR(TIMER3_COMPA_vect)
 {
 	drawNewFrame = true;
+}
+
+ISR(INT4_vect)
+{
+	screenTouched = true;
+	cbi(EIMSK, 4);
+	touchDriver.SetTimer1_EnableInterrupt();
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+	sbi(EIFR, 4); //Set flag to 0
+	sbi(EIMSK, 4); //Enable interrupt
+	TIMSK1 = 0; //Disable timer interrupt
+	TCCR1B = 0; //Set timer clock to 0
 }

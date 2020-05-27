@@ -1,36 +1,96 @@
 @startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam Collections {
+    BorderColor Black
+    BackgroundColor White
+}
+skinparam control{
+    BorderColor Black
+    BackgroundColor White
+}
 actor player
 control main
 participant GameController
 participant TouchDriver
 participant TFTDriver
 participant FrameTimer
+
+activate main
 main -> TouchDriver : Init()
+activate TouchDriver
+TouchDriver --> main : 
+deactivate TouchDriver
+
 main -> TFTDriver : Init()
+activate TFTDriver
+TFTDriver --> main 
+deactivate TFTDriver
+
 main -> FrameTimer : Init()
+activate FrameTimer 
+FrameTimer --> main 
+deactivate FrameTimer
+
 main -> GameController : Menu()
-loop while true
-    main -> TouchDriver : ScreenTouched()
-    TouchDriver --> main : Returns bool
+activate GameController
+GameController --> main
+deactivate GameController
+
+loop forever
+
     main -> GameController : IsPlaying()
+    activate GameController
     GameController --> main : Returns bool
+    deactivate GameController
+
     opt Screen touched && not playing
+
         main -> TouchDriver : ReadPosition()
+        activate TouchDriver
         TouchDriver --> main : Return bool
+        deactivate TouchDriver
+
         opt "Position read"
+
             main -> TouchDriver : GetPosition()
+            activate TouchDriver
             TouchDriver --> main : return Position *
+            deactivate TouchDriver
+
             main -> GameController : DetectClick(Position *)
+            activate GameController
+            GameController --> main 
+            deactivate GameController
+
         end
     end
-    main -> GameController : IsPlaying()
-    GameController --> main : Returns bool
+
+    main -> TouchDriver : ReadPosition()
+    activate TouchDriver
+    TouchDriver --> main : Return bool
+    deactivate TouchDriver
+
     alt Is playing
         opt If DrawNewFrame == true
+
             main -> GameController : NextFrame(screenTouched)
+            activate GameController
+            GameController --> main 
+            deactivate GameController
+            
             main -> main : screenTouched = false;
             main -> main : drawNewFrame = false;
         end
     end
 end
+deactivate main
 @enduml

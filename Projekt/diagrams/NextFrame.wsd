@@ -1,4 +1,27 @@
 @startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam Collections {
+    BorderColor Black
+    BackgroundColor White
+}
+skinparam control{
+    BorderColor Black
+    BackgroundColor White
+}
+skinparam boundary {
+    BorderColor Black
+    BackgroundColor White
+}
+
 control main
 participant GameController
 boundary TFTDriver

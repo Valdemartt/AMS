@@ -30,9 +30,10 @@ public:
 	PipePair& operator=( const PipePair &c );
 	bool GetIsPassed();
 	void SetIsPassed(bool isPassed);
+	PipePair( const PipePair &c );
 protected:
 private:
-	PipePair( const PipePair &c );
+
 }; //PipePair
 
 #endif //__PIPEPAIR_H__

@@ -17,7 +17,6 @@
 GameController::GameController()
 {
 	_tftDriver = 0;
-	_touchDriver = 0;
 	_rngState = 42;
 	_lastPipeOffset = 0;
 	_pipeWidth = 30;
@@ -33,20 +32,30 @@ GameController::~GameController()
 {
 } //~GameController
 
-GameController::GameController(TFTDriver *tftDriver, TouchDriver *touchDriver, PhysicsEngine * engine, long seed, int pipeWidth, int pipeGap)
+GameController::GameController(TFTDriver *tftDriver, PhysicsEngine * engine, long seed, int pipeWidth, int pipeGap, int pipeDistance)
 {
 	_tftDriver = tftDriver;
-	_touchDriver = touchDriver;
 	_engine = engine;
 	_rngState = seed;
 	_lastPipeOffset = 0;
 	_pipeWidth = pipeWidth;
-	_pipeDistance = 100;
+	_pipeDistance = pipeDistance;
 	_pipeGap = pipeGap;
 	_numPipePairs = _tftDriver->GetWidth()/(_pipeWidth + _pipeDistance) + 1;
 	_score = 0;
 	_highscore = 0;
 	_earthHeight = 20;
+	_numButtons = 1;
+}
+
+void GameController::SetPipes(PipePair * pipes)
+{
+	_pipes = pipes;
+}
+
+void GameController::SetButtons(UIObject * buttons)
+{
+	_buttons = buttons;
 }
 
 void GameController::StartGame()
@@ -58,7 +67,6 @@ void GameController::StartGame()
 	_score = 0;
 	_elapsedTimeSinceClick = 0;
 	
-	PipePair pipes[_numPipePairs];
 	for (int i = 0; i < _numPipePairs; i++)
 	{
 		unsigned int temp = GenerateRandomNumber(75,175);
@@ -66,15 +74,24 @@ void GameController::StartGame()
 		UIObject lowerPipe(_tftDriver->GetWidth() + (i * (_pipeDistance + _pipeWidth)) , _lastPipeOffset + _pipeGap/2, _tftDriver->GetHeight() - _lastPipeOffset - _pipeGap/2 - _earthHeight, _pipeWidth, &Green);
 		UIObject upperPipe(_tftDriver->GetWidth() + (i * (_pipeDistance + _pipeWidth)), 0, _lastPipeOffset - _pipeGap/2, _pipeWidth, &Green);
 		PipePair pair(upperPipe, lowerPipe);
-		pipes[i] = pair;
+		_pipes[i] = pair;
 	}
-	_pipes = pipes;
 	FlappyObject flappy(70, 108);
 	_flappy = flappy;
 	
 	_tftDriver->DrawBackground(&Blue, &Brown, _earthHeight);
 	_tftDriver->DrawGame(_pipes, _numPipePairs, &_flappy, _engine->GetSpeed());
 	_tftDriver->DrawScore(_score, &Green, &Brown);
+}
+
+int GameController::GetNumPipes()
+{
+	return _numPipePairs;
+}
+
+int GameController::GetNumButtons() 
+{
+	return _numButtons;
 }
 
 void GameController::NextFrame(bool screenPressed)
@@ -95,6 +112,10 @@ void GameController::NextFrame(bool screenPressed)
 	{
 		_score++;
 		_tftDriver->UpdateScore(_score, &Green, &Brown);
+		if((_score % 7) == 0 && _score != 0)
+		{
+			_engine->SetSpeed(_engine->GetSpeed() + 1);
+		}
 	}
 	_tftDriver->DrawGame(_pipes, _numPipePairs, &_flappy, _engine->GetSpeed());
 	//_tftDriver->UpdateDisplay();
@@ -107,20 +128,18 @@ void GameController::Pause()
 
 void GameController::Menu()
 {
-	Color buttonColor(255,255,255);
+	Color buttonColor(255,255,0);
 	Color backgroundColor(0,0,255);
 	Color earthColor(42,42,165);
 	Color textColor(0,0,0);
 	
-	UIObject buttons [1];
 	int buttonPadding = 20;
 	UIObject startGameButton(_tftDriver->GetWidth()/2 - (_startGameWidth + 2*buttonPadding)/2, _tftDriver->GetHeight()/2, _startGameHeight + 2*buttonPadding, _startGameWidth + 2*buttonPadding, &buttonColor);
-	buttons[0] = startGameButton;
 	gameControllerCallback callback = &GameController::StartGame;
-	buttons[0].SetCallback(callback);
-	_buttons = buttons;
+	startGameButton.SetCallback(callback);
+	_buttons[0] = startGameButton;
 	_tftDriver->DrawBackground(&backgroundColor, &earthColor, 20);
-	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, buttonColor.getEncodedColor(), textColor.getEncodedColor(), buttonPadding);
+	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, startGameButton.GetColor(), textColor.getEncodedColor(), buttonPadding);
 }
 //Taken from https://en.wikipedia.org/wiki/Xorshift
 unsigned int GameController::GenerateRandomNumber(unsigned int min, unsigned int max)
@@ -150,6 +169,7 @@ void GameController::UpdatePipes()
 			upper->SetHeight(_lastPipeOffset - _pipeGap/2);
 			lower->SetStartY(_lastPipeOffset + _pipeGap/2);
 			lower->SetHeight(_tftDriver->GetHeight() - (_lastPipeOffset + _pipeGap/2) - _earthHeight);
+			_pipes[i].SetIsPassed(false);
 		}
 	}
 }
@@ -185,12 +205,10 @@ bool GameController::DetectCollision()
 
 void GameController::DetectClick(Position * position)
 {
-	int numButtons = sizeof(_buttons);
-	for(int i = 0; i < numButtons; i++)
+	for(int i = 0; i < _numButtons; i++)
 	{
 		if(CollisionDetection::CheckButtonClicked(&_buttons[i], position))
 		{
-			SendString("Clicked button");
 			_buttons[i].Callback(this);
 		}
 	}
@@ -209,8 +227,8 @@ bool GameController::CheckIncrementScore()
 void GameController::Reset()
 {
 	_engine->Reset();
-	PipePair pipes[_numPipePairs];
-	_pipes = pipes; //reset pipes
+	//for(int i = 0; i < num)
+	//_pipes = pipes; //reset pipes
 	_score = 0;
 }
 
@@ -219,17 +237,20 @@ void GameController::GameOver()
 	Color backgroundColor(0,0,255);
 	Color textColor(0,0,0);
 	Color earthColor(42,42,165);
-	Color white(255, 255, 255);
 	_tftDriver->DrawBackground(&backgroundColor, &earthColor, _earthHeight);
-	_tftDriver->DrawText(_gameOverText, sizeof(_gameOverText), _gameOverWidth, _gameOverHeight, 160, 60, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
-	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 140, 120, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->DrawText(_gameOverText, sizeof(_gameOverText), _gameOverWidth, _gameOverHeight, 160, 40, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 140, 100, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
 	char scoreString [(sizeof(int)*8+1)];
-	_tftDriver->WriteText(itoa(_score, scoreString, 10), 200, 112, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
-	_tftDriver->DrawText(_highText, sizeof(_highText), _highWidth, _highHeight, 90, 160, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
-	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 170, 164, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
-	_tftDriver->WriteText(itoa(_highscore, scoreString, 10), 220, 152, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
+	
+	_tftDriver->WriteText(itoa(_score, scoreString, 10), 170, 92, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
+	_tftDriver->DrawText(_highText, sizeof(_highText), _highWidth, _highHeight, 90, 140, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->DrawText(_scoreText, sizeof(_scoreText), _scoreWidth, _scoreHeight, 160, 144, backgroundColor.getEncodedColor(), textColor.getEncodedColor());
+	_tftDriver->WriteText(itoa(_highscore, scoreString, 10), 190, 132, textColor.getEncodedColor(), backgroundColor.getEncodedColor());
+	
+	_buttons[0].SetStartY(165);
+	_buttons[0].SetHeight(40);
 	int buttonPadding = 5;
-	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, white.getEncodedColor(), textColor.getEncodedColor(), buttonPadding);
+	_tftDriver->DrawTextButton(&_buttons[0], false, startGameText, sizeof(startGameText), _startGameWidth, _startGameHeight, _buttons[0].GetColor(), textColor.getEncodedColor(), buttonPadding);
 	if(_score > _highscore)
 	{
 		_highscore = _score;

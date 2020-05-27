@@ -16,12 +16,14 @@ PhysicsEngine::PhysicsEngine()
 	Acceleration = 0;
 }
 
-PhysicsEngine::PhysicsEngine(double gravity, double speed)
+PhysicsEngine::PhysicsEngine(double gravity, double fps, int speed)
 {
 	_gravity = gravity;
 	Velocity = 0;
 	Acceleration = 0;
+	_fps = fps;
 	_speed = speed;
+	_startSpeed = speed;
 } 
 
 // default destructor
@@ -34,35 +36,19 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 	int posY = flappy->GetStartY();
 	if(posY > 0)
 	{
-		//if(keyPressed && Velocity >= _gravity / 10)
-		//{
-			//Acceleration = 0;
-			//Velocity = Velocity - _gravity;
-		//}
-		//else
-		//{
-			//Acceleration = Acceleration + _gravity * elapsedTime/20;
-		//}
-		//
-		//if(Acceleration>=_gravity)
-		//Acceleration = _gravity;
-		//
-		//Velocity = Velocity + Acceleration * elapsedTime/20;
-		//posY = posY + Velocity;
-		//
-		//flappy->SetStartY(posY);
-		
 		if(keyPressed) //If screen pressed - increase acceleration
 		{
-			Acceleration = 0;
-			Velocity = 0;
-			Acceleration += _gravity;
+			if(Acceleration < 0)
+				Acceleration = 0;
+			if(Velocity < 0)
+				Velocity = 0;
+			Acceleration += _gravity/4;
 		}
 		//Gravity
-		Acceleration -= _gravity/20;
+		Acceleration -= _gravity/(_fps*2);
 		
-		if(Acceleration > _gravity * 2)
-			Acceleration = _gravity * 2;
+		if(Acceleration > (_gravity/2))
+			Acceleration = (_gravity/2);
 			
 		if(Acceleration < - _gravity)
 			Acceleration = - _gravity;
@@ -70,7 +56,7 @@ void PhysicsEngine::Update(int elapsedTime, FlappyObject * flappy, bool keyPress
 		//Increase velocity
 		Velocity += Acceleration;
 		//Invert 
-		posY -= (int)Velocity * _speed;
+		posY -= (int)Velocity/_fps;
 		
 		flappy->SetStartY(posY);
 	}
@@ -86,4 +72,5 @@ void PhysicsEngine::Reset()
 {
 	Acceleration = 0;
 	Velocity = 0;
+	_speed = _startSpeed;
 }

@@ -1,0 +1,51 @@
+@startuml
+skinparam sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    LifeLineBorderColor Black
+    ArrowMessageAlignment center
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+    BoxBorderColor Black
+}
+
+skinparam Collections {
+    BorderColor Black
+    BackgroundColor White
+}
+skinparam rectangle {
+    BorderColor Black
+    BackgroundColor White
+}
+rectangle MAIN
+
+rectangle TFTDriver
+rectangle TouchDriver
+rectangle CollisionDetection
+rectangle CheckScore
+rectangle PhysicsEngine
+rectangle InterruptSetup
+rectangle GameController
+
+rectangle FontGenerator
+
+MAIN -- TFTDriver
+MAIN -- TouchDriver
+MAIN -- PhysicsEngine
+MAIN -- InterruptSetup
+MAIN -- GameController
+
+GameController -- CollisionDetection
+GameController -- CheckScore
+GameController -- TFTDriver
+GameController -- PhysicsEngine
+
+TFTDriver -- FontGenerator
+
+folder Objects {
+    rectangle Position
+    rectangle Color
+    rectangle UIObject
+    rectangle FlappyObject
+}
+@enduml

@@ -164,6 +164,7 @@ class Color
     +getRed(): char
     +getBlue(): char
     +getGreen(): char
+    +getName(): char *
     +getEncodedColor(): unsigned int
     -_red: char
     -_green: char

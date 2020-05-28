@@ -1,0 +1,28 @@
+@startuml
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+' main *-- TFTDriver
+' main *-- TouchDriver
+' main *-- PhysicsEngine
+' main *-- GameController
+' main --> InterruptSetup
+' main *-- FontGenerator
+' main "1" *-- "..*" PipePair : Allocates
+' main "1" *-- "..*" UIObject : Allocates
+GameController "1" *-- "1" FlappyObject: Flappy 
+GameController --> PhysicsEngine
+GameController --> TFTDriver
+GameController "1" o-- "..*" PipePair : Pipes
+GameController "1" o-- "..*" UIObject : Buttons
+GameController --> CollisionDetection
+GameController --> CheckScore
+PipePair "1" *-left- "2" UIObject
+TFTDriver --> FontGenerator
+class TouchDriver
+class InterruptSetup
+
+@enduml

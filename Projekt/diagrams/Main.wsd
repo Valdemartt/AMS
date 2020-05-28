@@ -17,7 +17,6 @@ skinparam control{
     BorderColor Black
     BackgroundColor White
 }
-actor player
 control main
 participant GameController
 participant TouchDriver

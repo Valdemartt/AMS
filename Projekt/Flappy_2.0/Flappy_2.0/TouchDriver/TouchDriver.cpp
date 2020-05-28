@@ -46,9 +46,6 @@ void TouchDriver::Init()
 	position = Position(0,0);
 	
 	sbi(CS_PORT,CS_PIN);
-	//sbi(CLK_PORT,CLK_PIN);
-	//sbi(DIN_PORT,DIN_PIN);
-	//sbi(IRQ_PORT,IRQ_PIN);
 	_NOP();
 	_NOP();
 	cbi(CS_PORT,CS_PIN);
@@ -106,9 +103,7 @@ int TouchDriver::getY()
 bool TouchDriver::ScreenTouched()
 {
 	bool dataAvailable;
-	//cbi(IRQ_DDR, IRQ_PIN);
 	dataAvailable = !rbi(IRQ_PORT,IRQ_PIN);
-	//sbi(IRQ_DDR, IRQ_PIN);
 	return dataAvailable;
 }
 
@@ -162,15 +157,9 @@ void TouchDriver::ClockPulse()
 	//needs to be at least 500 to achieve 1.5 micro sec pr. 3 clockpulses
 	_NOP();
 	_NOP();
-	//_NOP();
-	//_NOP();
-	//_NOP();
 	sbi(CLK_PORT,CLK_PIN);
 	_NOP();
 	_NOP();
-	//_NOP();
-	//_NOP();
-	//_NOP();
 	cbi(CLK_PORT,CLK_PIN);
 }
 

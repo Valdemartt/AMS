@@ -28,9 +28,8 @@
 #define RST_PORT PORTG
 #define RST_BIT 0
 
-// LOCAL FUNCTIONS /////////////////////////////////////////////////////////////
 
-// ILI 9341 data sheet, page 238
+
 void TFTDriver::WriteCommand(unsigned int command)
 {
 	//Set command mode
@@ -47,7 +46,6 @@ void TFTDriver::WriteCommand(unsigned int command)
 	_NOP();
 }
 
-// ILI 9341 data sheet, page 238
 void TFTDriver::WriteData(unsigned int data)
 {
 	DC_PORT |= (1<<DC_BIT); //Ensure DC high
@@ -64,7 +62,6 @@ void TFTDriver::WriteData(unsigned int data)
 	_NOP();
 }
 
-// PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////
 
 TFTDriver::TFTDriver(int width, int height, FontGenerator * fontGenerator)
 {
@@ -83,7 +80,6 @@ TFTDriver::~TFTDriver()
 {
 }
 
-// Initializes (resets) the display
 void TFTDriver::Init()
 {
 	//Set DC pin as output
@@ -103,7 +99,6 @@ void TFTDriver::Init()
 	CS_PORT &= ~(1<<CS_BIT);
 	RST_PORT |= (1<<RST_BIT);
 	//Set CS to 0 (enable)
-	//CS_PORT &= ~(1<<CS_BIT);
 
 	//Reset and init
 	Reset();
@@ -156,13 +151,11 @@ void TFTDriver::MemoryWrite()
 	WriteCommand(0b00101100);
 }
 
-// Red 0-31, Green 0-63, Blue 0-31
 void TFTDriver::WritePixel(int encodedColor)
 {
 	WriteData(encodedColor);
 }
 
-// Set Column Address (0-239), Start > End
 void TFTDriver::SetColumnAddress(unsigned int Start, unsigned int End)
 {
 	WriteCommand(0b00101010);
@@ -172,7 +165,6 @@ void TFTDriver::SetColumnAddress(unsigned int Start, unsigned int End)
 	WriteData(End);
 }
 
-// Set Page Address (0-319), Start > End
 void TFTDriver::SetPageAddress(unsigned int Start, unsigned int End)
 {
 	WriteCommand(0b00101011);
@@ -192,10 +184,7 @@ int TFTDriver::GetWidth()
 	return _width;
 }
 
-// Fills rectangle with specified color
-// (StartX,StartY) = Upper left corner. X horizontal (0-319) , Y vertical (0-239).
-// Height (1-240) is vertical. Width (1-320) is horizontal.
-// R-G-B = 5-6-5 bits.
+
 void TFTDriver::FillRectangle(int StartX, int StartY, int Width, int Height, unsigned int color)
 {
 	int endX = StartX + Width;
@@ -247,15 +236,8 @@ void TFTDriver::FillRectangle(int StartX, int StartY, int Width, int Height, uns
 		WritePixel(color);
 	}
 	
-	//Dummy command
-	//DisplayInversionOff();
 }
 
-//void TFTDriver::UpdateDisplay()
-//{
-	////Dummy command
-	//DisplayInversionOff();
-//}
 
 void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flappy, int speed)
 {
@@ -280,8 +262,6 @@ void TFTDriver::DrawGame(PipePair * pipePairs, int numPairs, FlappyObject *flapp
 	}
 	//Draw flappy
 	DrawFlappy(flappy);
-	//Dummy command
-	//DisplayInversionOff();
 }
 
 void TFTDriver::DrawTextButton(UIObject * button, bool clicked, const unsigned char * data, long int dataLength, int width, int height, unsigned int backgroundColor, unsigned int textColor, int padding)
@@ -364,8 +344,6 @@ void TFTDriver::DrawBackground(Color *backgroundColor, Color *earthColor, int ea
 	{
 		WritePixel(encodedearthColor);
 	}
-	//Dummy command
-	//DisplayInversionOff();
 }
 
 void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int width, int height, int xCenter, int yCenter, unsigned int backgroundColor, unsigned int textColor)
@@ -393,9 +371,6 @@ void TFTDriver::DrawText(const unsigned char * data, long int dataLength, int wi
 			}
 		}
 	}
-	//Dummy command
-	//DisplayInversionOff();
-	//MemoryAccessControl(0b00001000);
 }
 
 void TFTDriver::WriteText(char* text, int startX, int startY, unsigned int textColor, unsigned int backgroundColor)

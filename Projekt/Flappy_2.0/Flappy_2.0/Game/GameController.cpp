@@ -118,7 +118,7 @@ void GameController::NextFrame(bool screenPressed)
 		}
 	}
 	_tftDriver->DrawGame(_pipes, _numPipePairs, &_flappy, _engine->GetSpeed());
-	//_tftDriver->UpdateDisplay();
+	
 }
 
 void GameController::Pause()
@@ -227,8 +227,6 @@ bool GameController::CheckIncrementScore()
 void GameController::Reset()
 {
 	_engine->Reset();
-	//for(int i = 0; i < num)
-	//_pipes = pipes; //reset pipes
 	_score = 0;
 }
 
